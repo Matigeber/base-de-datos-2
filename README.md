@@ -1,1 +1,1 @@
-# base-de-datos-2
+﻿Trabajo de referencia UNLP – BBDD2 Cursada 2021
