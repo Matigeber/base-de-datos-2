@@ -45,7 +45,7 @@ public class MLServiceTestCase {
         assertNotNull(cat.getId());
         assertEquals("Hogar",cat.getName());
     }
-    /*
+    
     @Test
     public void testCreateUser() throws MLException{
         Calendar cal = Calendar.getInstance();
@@ -63,13 +63,13 @@ public class MLServiceTestCase {
         User user = us.get();
         assertNotNull (user.getId());
         assertEquals("Federico Orlando",user.getFullname());
-        assertEquals(dob, user.getDayOfBirth());
+        assertEquals(dob, user.getBirth_date());
         assertEquals("pas$w0rd", user.getPassword());
         MLException ex = assertThrows(MLException.class, () -> this.service.createUser("federico.orlando@info.unlp.edu.ar", "Federico Orlando", "pas$w0rd", dob));
         assertEquals("Constraint Violation",ex.getMessage());
     }
     
-
+    
     @Test
     public void testCreateProvider() throws MLException {
         Provider p = this.service.createProvider("Philips",30715589634L);
@@ -85,7 +85,7 @@ public class MLServiceTestCase {
         MLException ex = assertThrows(MLException.class, () -> this.service.createProvider("Philips",30715589634L));
         assertEquals("Constraint Violation",ex.getMessage());
     }
-    
+    /*
     @Test
     public void testCreateProduct() throws MLException {
         Category cat = this.service.createCategory("Hogar");
@@ -104,7 +104,7 @@ public class MLServiceTestCase {
         MLException ex = assertThrows(MLException.class, () -> this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), cat));
         assertEquals("Constraint Violation",ex.getMessage());
     }
-    
+    */
     @Test
     public void testCreateDeliveryMethod() throws MLException {
         DeliveryMethod dm = this.service.createDeliveryMethod("Moto menos 1kg", 250.0F, 0.01F, 0.9999F);
@@ -120,7 +120,7 @@ public class MLServiceTestCase {
         assertEquals(Float.valueOf(250.0F),d.getCost());
         assertEquals(Float.valueOf(0.01F),d.getStartWeight());
     }
-    
+    /*
     @Test
     public void testCreateCreditCardPayment() throws MLException {
         Calendar cal = Calendar.getInstance();

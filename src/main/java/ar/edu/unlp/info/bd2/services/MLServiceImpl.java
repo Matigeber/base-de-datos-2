@@ -51,28 +51,38 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public User createUser(String email, String fullname, String password, Date dayOfBirth) throws MLException {
 		User user = repository.getUserByEmail(email);
-		if (user.equals(null)) {
-			throw new MLException("ya existe un usuario con el email: %".format(email));
-		}else {
+		if (user == null) {
 			User usr = new User(email,password,fullname,dayOfBirth);
-			repository.createUser(usr);
 			/* al crear al usuario pero no retornarlo desde el repositorio, ya tiene id? cuando se le establece el id? */
-			return usr;
+			return repository.createUser(usr);
+		}else {
+			throw new MLException("Constraint Violation");
 		}
 		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public Provider createProvider(String name, Long cuit) throws MLException {
+		Provider provider = repository.getProviderByCuit(cuit);
+		if (provider == null) {
+			Provider prov = new Provider(name,cuit);
+			return repository.createProvider(prov);
+		}else {
+			throw new MLException("Constraint Violation");
+		}
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public DeliveryMethod createDeliveryMethod(String name, Float cost, Float startWeight, Float endWeight)
 			throws MLException {
-		// TODO Auto-generated method stub
-		return null;
+		DeliveryMethod dm = repository.getDeliveryMethodByName(name);
+		if (dm == null) {
+			DeliveryMethod method = new DeliveryMethod(name, cost, startWeight, endWeight);
+			return repository.createDeliveryMethod(method);
+		}else {
+			throw new MLException("Constraint Violation");
+		}
 	}
 
 	@Override
@@ -106,13 +116,14 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public Optional<User> getUserByEmail(String email) {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<User> user = Optional.ofNullable(this.repository.getUserByEmail(email));
+		return user;
 	}
 
 	@Override
 	public Optional<Provider> getProviderByCuit(long cuit) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Provider> provider = Optional.ofNullable(this.repository.getProviderByCuit(cuit));
+		return provider;
 	}
 
 	@Override
@@ -135,8 +146,10 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Optional<DeliveryMethod> getDeliveryMethodByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Optional<DeliveryMethod> dm = Optional.ofNullable(this.repository.getDeliveryMethodByName(name));
+		
+		return dm;
 	}
 
 	@Override

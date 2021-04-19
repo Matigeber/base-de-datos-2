@@ -74,5 +74,13 @@ public class User {
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
 	
 }

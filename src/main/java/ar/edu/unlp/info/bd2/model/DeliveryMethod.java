@@ -81,5 +81,9 @@ public class DeliveryMethod {
 	public void setPurchases(Set<Purchase> purchases) {
 		this.purchases = purchases;
 	}
+
+	public long getId() {
+		return id;
+	}
 	
 }

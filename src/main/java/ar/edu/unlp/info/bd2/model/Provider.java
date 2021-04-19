@@ -58,6 +58,10 @@ public class Provider {
 	public void setProductsOnSale(Set<ProductOnSale> productsOnSale) {
 		this.productsOnSale = productsOnSale;
 	}
+
+	public long getId() {
+		return id;
+	}
 	
 	
 }
