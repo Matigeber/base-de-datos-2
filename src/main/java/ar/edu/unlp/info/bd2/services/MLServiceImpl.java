@@ -28,10 +28,8 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public Category createCategory(String name) throws MLException {
 		/*throw new MLException("ya existe la categoria con el nombre pepito"); */
-		System.out.println("PUTOOOOOOOOOOOOOOOOOOOOOOOO");
 		System.out.println(this.repository);
 		Category cat = this.repository.getCategoryByName(name);
-		System.out.println("PUTOOOOOOOOOOOOOOOOOOOOOOOO");
 		if (cat == null){
 			Category category = new Category(name);
 			Category category2 = repository.createCategory(category);
