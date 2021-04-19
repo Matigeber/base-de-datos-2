@@ -1,5 +1,8 @@
 package ar.edu.unlp.info.bd2.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -21,7 +24,7 @@ public class Category {
 	@Column(nullable = false, unique = true)
 	private String name;
 	@OneToMany(mappedBy= "category", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
-	private Set<Product> products;
+	private List<Product> products = new ArrayList<Product>();
 	
 	
 	/* aca va la relacion a producto? o se define en el producto */
@@ -38,17 +41,23 @@ public class Category {
 		this.name = name;
 	}
 
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Set<Product> products) {
+	public void setProducts(ArrayList<Product> products) {
 		this.products = products;
 	}
 
 	public long getId() {
 		return id;
 	}
+	
+	public void addProduct (Product product) {
+		this.products.add(product);
+	}
+
+
 	
 	
 }

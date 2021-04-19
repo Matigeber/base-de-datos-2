@@ -85,26 +85,26 @@ public class MLServiceTestCase {
         MLException ex = assertThrows(MLException.class, () -> this.service.createProvider("Philips",30715589634L));
         assertEquals("Constraint Violation",ex.getMessage());
     }
-    /*
+   
     @Test
     public void testCreateProduct() throws MLException {
         Category cat = this.service.createCategory("Hogar");
         assertNotNull(cat.getId());
         Product prod = this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), cat);
         assertNotNull(prod.getId());
-        assertEquals(40.5F, (float) prod.getWeigth());
+        assertEquals(40.5F, (float) prod.getWeight());
         Optional<Product> p = this.service.getProductByName("Lamparita led 7w fria");
         if (!p.isPresent()) {
             throw new MLException("Product doesn't exists");
         }
         Product product = p.get();
         assertNotNull(product.getId());
-        assertEquals(Float.valueOf(40.5F), product.getWeigth());
+        assertEquals(Float.valueOf(40.5F), product.getWeight());
         assertEquals("Hogar",product.getCategory().getName());
         MLException ex = assertThrows(MLException.class, () -> this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), cat));
         assertEquals("Constraint Violation",ex.getMessage());
     }
-    */
+    
     @Test
     public void testCreateDeliveryMethod() throws MLException {
         DeliveryMethod dm = this.service.createDeliveryMethod("Moto menos 1kg", 250.0F, 0.01F, 0.9999F);
@@ -120,7 +120,7 @@ public class MLServiceTestCase {
         assertEquals(Float.valueOf(250.0F),d.getCost());
         assertEquals(Float.valueOf(0.01F),d.getStartWeight());
     }
-    /*
+    
     @Test
     public void testCreateCreditCardPayment() throws MLException {
         Calendar cal = Calendar.getInstance();
@@ -161,7 +161,7 @@ public class MLServiceTestCase {
         assertNotNull(dp.getId());
         assertEquals(Float.valueOf(100F),dp.getPromisedAmount());
     }
-    
+    /*
     @Test
     public void testCreateProductOnSale() throws MLException {
         Provider p = this.service.createProvider("Philips",30715589634L);

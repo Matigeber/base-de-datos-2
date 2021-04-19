@@ -23,7 +23,7 @@ public class Product {
 	private long id;
 	
 	@Column(nullable = false)
-	private float weight;
+	private Float weight;
 	
 	@Column(nullable = false)
 	private String name;
@@ -35,13 +35,13 @@ public class Product {
 	@OneToMany(mappedBy= "product", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
 	private Set<ProductOnSale> productsOnSale;
 	
-	public Product(float weight, String name, Category category) {
+	public Product(Float weight, String name, Category category) {
 		this.weight = weight;
 		this.name = name;
 		this.category = category;
 	}
 
-	public float getWeight() {
+	public Float getWeight() {
 		return weight;
 	}
 
@@ -71,6 +71,10 @@ public class Product {
 
 	public void setProductsOnSale(Set<ProductOnSale> productsOnSale) {
 		this.productsOnSale = productsOnSale;
+	}
+
+	public long getId() {
+		return id;
 	}
 	
 	

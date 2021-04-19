@@ -2,6 +2,8 @@ package ar.edu.unlp.info.bd2.model;
 
 import javax.persistence.Id;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,7 +27,7 @@ public abstract class PaymentMethod {
 	private String name;
 	
 	@OneToMany(mappedBy= "paymentMethod", cascade = CascadeType.ALL )
-	private Set<Purchase> purchases;
+	private List<Purchase> purchases = new ArrayList<Purchase>();
 	
 	public PaymentMethod(String name) {
 		this.name = name;
@@ -37,5 +39,21 @@ public abstract class PaymentMethod {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+	
+	public void addPurchase (Purchase purchase) {
+		this.purchases.add(purchase);
+	}
+
+	public long getId() {
+		return id;
 	}
 }

@@ -19,14 +19,14 @@ public class OnDeliveryPayment extends PaymentMethod {
 
 
 	@Column(nullable = false)
-	private float promisedAmount;
+	private Float promisedAmount;
 	
-	public OnDeliveryPayment(String name, float promisedAmount) {
+	public OnDeliveryPayment(String name, Float promisedAmount) {
 		super(name);
 		this.promisedAmount = promisedAmount;
 	}
 
-	public float getPromisedAmount() {
+	public Float getPromisedAmount() {
 		return promisedAmount;
 	}
 

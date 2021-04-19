@@ -28,8 +28,7 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public Category createCategory(String name) throws MLException {
 		/*throw new MLException("ya existe la categoria con el nombre pepito"); */
-		System.out.println(this.repository);
-		Category cat = this.repository.getCategoryByName(name);
+		Category cat = repository.getCategoryByName(name);
 		if (cat == null){
 			Category category = new Category(name);
 			Category category2 = repository.createCategory(category);
@@ -43,7 +42,19 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public Product createProduct(String name, Float weight, Category category) throws MLException {
 		// TODO Auto-generated method stub
-		return null;
+		Product prod = repository.getProductByName(name);
+		if (prod == null) {
+			Product p = new Product(weight, name, category);
+			Product product = repository.createProduct(p);
+			System.out.println(product);
+			System.out.println("llegueeeeeeeeeeeee");
+			category.addProduct(product);
+			repository.updateCategory(category);
+			/*System.out.println(category);*/
+			return product;
+		}else {
+			throw new MLException("Constraint Violation");
+		}
 	}
 
 	@Override
@@ -86,14 +97,25 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public CreditCardPayment createCreditCardPayment(String name, String brand, Long number, Date expiry, Integer cvv,
 			String owner) throws MLException {
-		// TODO Auto-generated method stub
-		return null;
+		CreditCardPayment cp = repository.getCreditCardPayment(name);
+		if (cp == null) {
+			CreditCardPayment creditCard = new CreditCardPayment(name, brand, number, expiry, cvv, owner);
+			return repository.createCreditCardPayment(creditCard);
+		}else {
+			throw new MLException("Constraint Violation");
+		}
 	}
 
 	@Override
 	public OnDeliveryPayment createOnDeliveryPayment(String name, Float promisedAmount) throws MLException {
-		// TODO Auto-generated method stub
-		return null;
+		OnDeliveryPayment dp = repository.getOnDeliveryPayment(name);
+		if (dp == null) {
+			OnDeliveryPayment deliveryPayment = new OnDeliveryPayment(name, promisedAmount);
+			return repository.createOnDeliveryPayment(deliveryPayment);
+		}else {
+			throw new MLException("Constraint Violation");
+		}
+		
 	}
 
 	@Override
@@ -132,8 +154,9 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Optional<Product> getProductByName(String name) {
+		Optional<Product> prod = Optional.ofNullable(this.repository.getProductByName(name));
 		// TODO Auto-generated method stub
-		return null;
+		return prod;
 	}
 
 	@Override
@@ -152,14 +175,14 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Optional<CreditCardPayment> getCreditCardPaymentByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<CreditCardPayment> cp = Optional.ofNullable(this.repository.getCreditCardPayment(name));
+		return cp;
 	}
 
 	@Override
 	public Optional<OnDeliveryPayment> getOnDeliveryPaymentByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<OnDeliveryPayment> dp = Optional.ofNullable(this.repository.getOnDeliveryPayment(name));
+		return dp;
 	}
 
 	@Override
