@@ -1,6 +1,8 @@
 package ar.edu.unlp.info.bd2.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
 @Table(name="product_on_sale")
@@ -19,11 +23,9 @@ import javax.persistence.FetchType;
 public class ProductOnSale {
 	
 	
-
-	/* falta implementar esto si el producto ya tiene un precio para el proveedor se actualiza la fecha de fin en un día antes a la initialDate
-	 *  y se el crea el nuevo precio */
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -35,15 +37,18 @@ public class ProductOnSale {
 	private Product product;
 	
 	@OneToMany(mappedBy= "productOnSale", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
-	private Set<Purchase> purchases;
+	private List<Purchase> purchases = new ArrayList<Purchase>();
 	
 	@Column(nullable = false)
-	private float price;
+	private Float price;
 	
 	@Column(nullable = false)
 	private Date initialDate;
 	
-	public ProductOnSale(Provider provider, Product product, float price, Date initialDate) {
+	@Column
+	private Date finalDate;
+	
+	public ProductOnSale(Provider provider, Product product, Float price, Date initialDate) {
 		this.provider = provider;
 		this.product = product;
 		this.price = price;
@@ -66,7 +71,7 @@ public class ProductOnSale {
 		this.product = product;
 	}
 
-	public float getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 
@@ -80,6 +85,34 @@ public class ProductOnSale {
 
 	public void setInitialDate(Date initialDate) {
 		this.initialDate = initialDate;
+	}
+
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+
+	public long getId() {
+		return id;
+	}
+	
+	public void addPurchase(Purchase purchase) {
+		this.purchases.add(purchase);
+	}
+
+	public Date getFinalDate() {
+		return finalDate;
+	}
+
+	public void setFinalDate(Date finalDate) {
+		this.finalDate = finalDate;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
 	}
 	
 	

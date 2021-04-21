@@ -161,7 +161,7 @@ public class MLServiceTestCase {
         assertNotNull(dp.getId());
         assertEquals(Float.valueOf(100F),dp.getPromisedAmount());
     }
-    /*
+    
     @Test
     public void testCreateProductOnSale() throws MLException {
         Provider p = this.service.createProvider("Philips",30715589634L);
@@ -174,7 +174,7 @@ public class MLServiceTestCase {
         Date id = cal.getTime();
         ProductOnSale pos = this.service.createProductOnSale(prod, p, 158.52F, id);
         assertNotNull(pos.getId());
-        assertEquals(Float.valueOf(40.5F),pos.getProduct().getWeigth());
+        assertEquals(Float.valueOf(40.5F),pos.getProduct().getWeight());
         assertEquals(1,pos.getProduct().getProductsOnSale().size());
         assertEquals(Float.valueOf(158.52F),pos.getPrice());
         assertEquals(null,pos.getFinalDate());
@@ -248,6 +248,6 @@ public class MLServiceTestCase {
         DeliveryMethod d2 = this.service.createDeliveryMethod("Moto menos 1kg", 250.0F, 0.01F, 200F);
         MLException ex = assertThrows(MLException.class, () -> this.service.createPurchase(pos, 5, u, d2, dp,"Calle 12 432",Float.valueOf(-54.45F), Float.valueOf(-62.22F), dop));
         assertEquals("método de delivery no válido",ex.getMessage());
-    } */
+    } 
 
 }

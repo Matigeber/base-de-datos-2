@@ -1,5 +1,6 @@
 package ar.edu.unlp.info.bd2.services;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -47,7 +48,6 @@ public class MLServiceImpl implements MLService{
 			Product p = new Product(weight, name, category);
 			Product product = repository.createProduct(p);
 			System.out.println(product);
-			System.out.println("llegueeeeeeeeeeeee");
 			category.addProduct(product);
 			repository.updateCategory(category);
 			/*System.out.println(category);*/
@@ -85,13 +85,8 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public DeliveryMethod createDeliveryMethod(String name, Float cost, Float startWeight, Float endWeight)
 			throws MLException {
-		DeliveryMethod dm = repository.getDeliveryMethodByName(name);
-		if (dm == null) {
-			DeliveryMethod method = new DeliveryMethod(name, cost, startWeight, endWeight);
-			return repository.createDeliveryMethod(method);
-		}else {
-			throw new MLException("Constraint Violation");
-		}
+		DeliveryMethod method = new DeliveryMethod(name, cost, startWeight, endWeight);
+		return repository.createDeliveryMethod(method);
 	}
 
 	@Override
@@ -119,18 +114,56 @@ public class MLServiceImpl implements MLService{
 	}
 
 	@Override
-	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate)
-			throws MLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate) throws MLException {
+		/* ESTO SE PODRIA FACTORIZAR */
+		ProductOnSale ps = repository.getProductOnSale(product, provider);
+		if (ps == null) {
+			ProductOnSale prodSale = new ProductOnSale(provider, product, price, initialDate);
+			ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
+			product.addProductOnsale(prodSalecreated);
+			repository.updateProduct(product);
+			provider.addProductOnSale(prodSalecreated);
+			repository.updateProvider(provider);
+			return prodSalecreated;
+		}else {
+			if (ps.getInitialDate().before(initialDate)) {
+				ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
+				repository.updateProductOnSale(ps);
+				ProductOnSale prodSale = new ProductOnSale(provider, product, price, initialDate);
+				ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
+				product.addProductOnsale(prodSalecreated);
+				repository.updateProduct(product);
+				provider.addProductOnSale(prodSalecreated);
+				repository.updateProvider(provider);
+				return prodSalecreated;
+			}else {
+				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
+			}
+			
+		}
+		
 	}
 
 	@Override
 	public Purchase createPurchase(ProductOnSale productOnSale, Integer quantity, User client,
 			DeliveryMethod deliveryMethod, PaymentMethod paymentMethod, String address, Float coordX, Float coordY,
 			Date dateOfPurchase) throws MLException {
-		// TODO Auto-generated method stub
-		return null;
+		if (deliveryMethod.checkShipping(productOnSale.getProduct().getWeight() * quantity)) {
+			Purchase p = new Purchase(productOnSale, quantity, client, deliveryMethod, paymentMethod, address, coordX, coordY, dateOfPurchase);
+			Purchase purchase = repository.createPurchase(p);
+			productOnSale.addPurchase(purchase);
+			repository.updateProductOnSale(productOnSale);
+			client.addPurchase(purchase);
+			repository.updateUser(client);
+			deliveryMethod.addPurchase(purchase);
+			repository.updateDeliveryMethod(deliveryMethod);
+			paymentMethod.addPurchase(purchase);
+			repository.updatePaymentMethod(paymentMethod);
+			return purchase;
+		}else {
+			throw new MLException("método de delivery no válido");
+		}
+		
 	}
 
 	@Override
@@ -161,8 +194,8 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public ProductOnSale getProductOnSaleById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.repository.getProductOnSaleById(id);
 	}
 
 	@Override
@@ -189,6 +222,13 @@ public class MLServiceImpl implements MLService{
 	public Optional<Purchase> getPurchaseById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private Date addOrSubtractDays (Date date, int days) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_YEAR, days);
+		return calendar.getTime();
 	}
 
 }

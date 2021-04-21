@@ -1,10 +1,14 @@
 package ar.edu.unlp.info.bd2.model;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -18,6 +22,7 @@ import javax.persistence.CascadeType;
 public class DeliveryMethod {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@Column(nullable = false)
@@ -33,7 +38,7 @@ public class DeliveryMethod {
 	private Float endWeight;
 	
 	@OneToMany(mappedBy= "deliveryMethod", cascade = CascadeType.ALL ) 
-	private Set<Purchase> purchases;
+	private List<Purchase> purchases = new ArrayList<Purchase>();
 	
 	public DeliveryMethod(String name, Float cost, Float startWeight, Float endWeight) {
 		this.name = name;
@@ -74,16 +79,24 @@ public class DeliveryMethod {
 		this.endWeight = endWeight;
 	}
 
-	public Set<Purchase> getPurchases() {
+	public long getId() {
+		return id;
+	}
+	
+	public boolean checkShipping (Float weight) {
+		return (this.getStartWeight() <= weight && this.getEndWeight() >= weight );
+	}
+
+	public List<Purchase> getPurchases() {
 		return purchases;
 	}
 
-	public void setPurchases(Set<Purchase> purchases) {
+	public void setPurchases(List<Purchase> purchases) {
 		this.purchases = purchases;
 	}
-
-	public long getId() {
-		return id;
+	
+	public void addPurchase (Purchase purchase) {
+		this.purchases.add(purchase);
 	}
 	
 }

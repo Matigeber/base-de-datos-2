@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -21,12 +23,13 @@ public abstract class PaymentMethod {
 
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToMany(mappedBy= "paymentMethod", cascade = CascadeType.ALL )
+	@OneToMany(mappedBy= "paymentMethod", cascade = CascadeType.ALL) /*por defecto Fetch lazy */
 	private List<Purchase> purchases = new ArrayList<Purchase>();
 	
 	public PaymentMethod(String name) {
@@ -56,4 +59,5 @@ public abstract class PaymentMethod {
 	public long getId() {
 		return id;
 	}
+	
 }

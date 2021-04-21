@@ -1,9 +1,13 @@
 package ar.edu.unlp.info.bd2.model;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
@@ -18,6 +22,7 @@ public class Provider {
 	
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@Column(nullable = false)
@@ -27,7 +32,7 @@ public class Provider {
 	private long cuit;
 	
 	@OneToMany(mappedBy= "provider", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
-	private Set<ProductOnSale> productsOnSale;
+	private List<ProductOnSale> productsOnSale = new ArrayList<ProductOnSale>();
 
 	public Provider(String name, long cuit) {
 		
@@ -51,16 +56,20 @@ public class Provider {
 		this.cuit = cuit;
 	}
 
-	public Set<ProductOnSale> getProductsOnSale() {
+	public long getId() {
+		return id;
+	}
+
+	public List<ProductOnSale> getProductsOnSale() {
 		return productsOnSale;
 	}
 
-	public void setProductsOnSale(Set<ProductOnSale> productsOnSale) {
+	public void setProductsOnSale(List<ProductOnSale> productsOnSale) {
 		this.productsOnSale = productsOnSale;
 	}
-
-	public long getId() {
-		return id;
+	
+	public void addProductOnSale (ProductOnSale ps) {
+		this.productsOnSale.add(ps);
 	}
 	
 	

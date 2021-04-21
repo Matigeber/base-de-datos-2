@@ -8,10 +8,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
 @Table(name="product")
@@ -20,6 +24,7 @@ public class Product {
 	
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@Column(nullable = false)
@@ -33,12 +38,16 @@ public class Product {
 	private Category category;
 	
 	@OneToMany(mappedBy= "product", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
-	private Set<ProductOnSale> productsOnSale;
+	private List<ProductOnSale> productsOnSale = new ArrayList<ProductOnSale>();
 	
 	public Product(Float weight, String name, Category category) {
 		this.weight = weight;
 		this.name = name;
 		this.category = category;
+	}
+	
+	public long getId() {
+		return id;
 	}
 
 	public Float getWeight() {
@@ -65,16 +74,20 @@ public class Product {
 		this.name = name;
 	}
 
-	public Set<ProductOnSale> getProductsOnSale() {
+	public List<ProductOnSale> getProductsOnSale() {
 		return productsOnSale;
 	}
 
-	public void setProductsOnSale(Set<ProductOnSale> productsOnSale) {
+	public void setProductsOnSale(List<ProductOnSale> productsOnSale) {
 		this.productsOnSale = productsOnSale;
 	}
 
-	public long getId() {
-		return id;
+	public void setWeight(Float weight) {
+		this.weight = weight;
+	}
+	
+	public void addProductOnsale(ProductOnSale ps) {
+		this.productsOnSale.add(ps);
 	}
 	
 	
