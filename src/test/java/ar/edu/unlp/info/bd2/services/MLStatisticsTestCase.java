@@ -39,12 +39,12 @@ public class MLStatisticsTestCase {
     MLService service;
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+/**
     @BeforeAll
     public void prepareDB() throws Exception {
         this.initializer.prepareDB();
     }
-    
+**/ 
     private <T> void assertListEquality(List<T> list1, List<T> list2) {
         if (list1.size() != list2.size()) {
           Assert.fail("Lists have different size");
@@ -57,19 +57,19 @@ public class MLStatisticsTestCase {
         }
       }
     
-    
+
     @Test
     public void testGetAllPurchasesMadeByUser() {
     	assertEquals(5,this.service.getAllPurchasesMadeByUser("silviasez428@gmail.com").size());
     }
-    
+
     @Test
     public void testGetUsersSpendingMoreThanInPurchase() {
     	List<User> users = this.service.getUsersSpendingMoreThanInPurchase(Float.valueOf(920000F));
     	assertEquals(3,users.size());
     	this.assertListEquality(users.stream().map(property -> property.getEmail()).collect(Collectors.toList()),Arrays.asList("carlospascual402@hotmail.com","matiasgarca37@hotmail.com","maracalvo55@yahoo.com"));
     }
-    
+/**    
     @Test
     public void testGetUsersSpendingMoreThan() {
     	List<User> users = this.service.getUsersSpendingMoreThan(Float.valueOf(1900000.00F));
@@ -191,4 +191,5 @@ public class MLStatisticsTestCase {
     	Category category = this.service.getCategoryWithLessProducts();
     	assertEquals("Calderas", category.getName());
     }
+**/
 }

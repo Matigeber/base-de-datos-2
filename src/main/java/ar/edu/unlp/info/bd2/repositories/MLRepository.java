@@ -1,6 +1,7 @@
 package ar.edu.unlp.info.bd2.repositories;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -50,6 +51,29 @@ public class MLRepository {
 		Session session = this.sessionFactory.getCurrentSession();
 		User user = (User) session.createQuery(query).setParameter("email", email).uniqueResult();
 		return user;
+	}
+	
+	public User getUserByUsername(String username) {
+		String query = "FROM User WHERE username = :username";
+		Session session = this.sessionFactory.getCurrentSession();
+		User user = (User) session.createQuery(query).setParameter("username", username).uniqueResult();
+		return user;
+	}
+	
+	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){
+		/**select users
+		where users natJoin purchases
+		group_by user_id 
+		having sum (purchase.amount) > amount
+		**/
+		String query = "SELECT User "
+				+ "FROM User inner join Purchase "
+				+ "GROUP_BY user.id "
+				+ "HAVING sum(Purchase.amount) > :amount";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
+		
+		return users;
 	}
 	
 	public void updateUser (User user) {
@@ -123,7 +147,6 @@ public class MLRepository {
 		return cp;
 	}
 	
-	
 	public OnDeliveryPayment createOnDeliveryPayment(OnDeliveryPayment dp) {
 		this.sessionFactory.getCurrentSession().save(dp);
 		return this.getOnDeliveryPayment(dp.getName());
@@ -135,7 +158,6 @@ public class MLRepository {
 		OnDeliveryPayment dp  = (OnDeliveryPayment) session.createQuery(query).setParameter("name", name).uniqueResult();
 		return dp;
 	}
-	
 	
 	public ProductOnSale createProductOnSale (ProductOnSale ps) {
 		this.sessionFactory.getCurrentSession().save(ps);
@@ -171,7 +193,15 @@ public class MLRepository {
 		Purchase purchase  = (Purchase) session.createQuery(query).setParameter("id", id).uniqueResult();
 		return purchase;
 	}
+
 	public void updatePaymentMethod (PaymentMethod pm) {
 		this.sessionFactory.getCurrentSession().update(pm);
+	}
+	
+	public List<Purchase> getAllPurchasesByUser(long user_id){
+		String query = "FROM Purchase WHERE user_id = :user_id";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Purchase> purchases  = session.createQuery(query).setParameter("user_id", user_id).list();
+		return purchases;
 	}
 }
