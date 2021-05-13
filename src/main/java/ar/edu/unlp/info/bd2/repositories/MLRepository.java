@@ -3,11 +3,11 @@ package ar.edu.unlp.info.bd2.repositories;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.info.bd2.model.Category;
 import ar.edu.unlp.info.bd2.model.CreditCardPayment;

@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.info.bd2.model.Category;
 import ar.edu.unlp.info.bd2.model.CreditCardPayment;
@@ -19,6 +20,8 @@ import ar.edu.unlp.info.bd2.model.Purchase;
 import ar.edu.unlp.info.bd2.model.User;
 import ar.edu.unlp.info.bd2.repositories.MLException;
 import ar.edu.unlp.info.bd2.repositories.MLRepository;
+
+@Transactional
 
 public class MLServiceImpl implements MLService{
 
@@ -120,7 +123,7 @@ public class MLServiceImpl implements MLService{
 		/* ESTO SE PODRIA FACTORIZAR */
 		ProductOnSale ps = repository.getProductOnSale(product, provider);
 		if (ps == null) {
-			ProductOnSale prodSale = new ProductOnSale(provider, product, price, initialDate);
+			ProductOnSale prodSale = new ProductOnSale(product, provider, price, initialDate);
 			ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
 			product.addProductOnsale(prodSalecreated);
 			repository.updateProduct(product);
@@ -131,7 +134,7 @@ public class MLServiceImpl implements MLService{
 			if (ps.getInitialDate().before(initialDate)) {
 				ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
 				repository.updateProductOnSale(ps);
-				ProductOnSale prodSale = new ProductOnSale(provider, product, price, initialDate);
+				ProductOnSale prodSale = new ProductOnSale(product, provider, price, initialDate);
 				ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
 				product.addProductOnsale(prodSalecreated);
 				repository.updateProduct(product);

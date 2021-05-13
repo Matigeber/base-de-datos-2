@@ -41,6 +41,7 @@ public class User {
 	
 	public User() {}
 
+	
 	public User(String email, String password, String fullname, Date birth_date) {
 		super();
 		this.email = email;
