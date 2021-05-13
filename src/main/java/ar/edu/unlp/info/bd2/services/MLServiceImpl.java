@@ -47,7 +47,6 @@ public class MLServiceImpl implements MLService{
 		if (prod == null) {
 			Product p = new Product(weight, name, category);
 			Product product = repository.createProduct(p);
-			System.out.println(product);
 			category.addProduct(product);
 			repository.updateCategory(category);
 			/*System.out.println(category);*/

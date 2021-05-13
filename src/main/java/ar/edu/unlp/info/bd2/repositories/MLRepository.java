@@ -74,7 +74,8 @@ public class MLRepository {
 	
 	public DeliveryMethod createDeliveryMethod(DeliveryMethod dm) {
 		this.sessionFactory.getCurrentSession().save(dm);
-		return this.getDeliveryMethodById(dm.getId()); /* Devolver el que me viene por parametro luego del save o volverlo a buscar en la base*/
+		return dm;
+		/*return this.getDeliveryMethodById(dm.getId())*/ /* Devolver el que me viene por parametro luego del save o volverlo a buscar en la base*/
 	}
 	
 	public DeliveryMethod getDeliveryMethodById(long id) {
