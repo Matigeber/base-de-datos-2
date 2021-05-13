@@ -22,7 +22,7 @@ import javax.persistence.GenerationType;
 
 public class ProductOnSale {
 	
-	
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +48,8 @@ public class ProductOnSale {
 	@Column
 	private Date finalDate;
 	
-	public ProductOnSale(Provider provider, Product product, Float price, Date initialDate) {
+	public ProductOnSale(){}
+	public ProductOnSale(Product product,Provider provider , Float price, Date initialDate) {
 		this.provider = provider;
 		this.product = product;
 		this.price = price;

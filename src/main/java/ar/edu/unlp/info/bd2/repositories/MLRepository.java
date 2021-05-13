@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.info.bd2.model.Category;
 import ar.edu.unlp.info.bd2.model.CreditCardPayment;
@@ -17,6 +18,8 @@ import ar.edu.unlp.info.bd2.model.ProductOnSale;
 import ar.edu.unlp.info.bd2.model.Provider;
 import ar.edu.unlp.info.bd2.model.Purchase;
 import ar.edu.unlp.info.bd2.model.User;
+
+@Transactional
 
 public class MLRepository {
 	
@@ -54,7 +57,7 @@ public class MLRepository {
 	}
 	
 	public User getUserByUsername(String username) {
-		String query = "FROM User WHERE username = :username";
+		String query = "FROM User WHERE fullname = :username";
 		Session session = this.sessionFactory.getCurrentSession();
 		User user = (User) session.createQuery(query).setParameter("username", username).uniqueResult();
 		return user;
