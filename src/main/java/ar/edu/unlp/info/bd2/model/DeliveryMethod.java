@@ -40,6 +40,8 @@ public class DeliveryMethod {
 	@OneToMany(mappedBy= "deliveryMethod", cascade = CascadeType.ALL ) 
 	private List<Purchase> purchases = new ArrayList<Purchase>();
 	
+	public DeliveryMethod() {}
+	
 	public DeliveryMethod(String name, Float cost, Float startWeight, Float endWeight) {
 		this.name = name;
 		this.cost = cost;

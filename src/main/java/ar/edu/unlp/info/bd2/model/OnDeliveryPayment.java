@@ -21,6 +21,8 @@ public class OnDeliveryPayment extends PaymentMethod {
 	@Column(nullable = false)
 	private Float promisedAmount;
 	
+	public OnDeliveryPayment() {}
+	
 	public OnDeliveryPayment(String name, Float promisedAmount) {
 		super(name);
 		this.promisedAmount = promisedAmount;

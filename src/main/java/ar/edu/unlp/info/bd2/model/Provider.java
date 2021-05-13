@@ -33,6 +33,8 @@ public class Provider {
 	
 	@OneToMany(mappedBy= "provider", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
 	private List<ProductOnSale> productsOnSale = new ArrayList<ProductOnSale>();
+	
+	public Provider() {}
 
 	public Provider(String name, long cuit) {
 		

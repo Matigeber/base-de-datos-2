@@ -38,6 +38,8 @@ public class User {
 	
 	@OneToMany(mappedBy= "client", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
 	private List<Purchase> purchases = new ArrayList<Purchase>();
+	
+	public User() {}
 
 	public User(String email, String password, String fullname, Date birth_date) {
 		super();

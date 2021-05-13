@@ -32,6 +32,9 @@ public abstract class PaymentMethod {
 	@OneToMany(mappedBy= "paymentMethod", cascade = CascadeType.ALL) /*por defecto Fetch lazy */
 	private List<Purchase> purchases = new ArrayList<Purchase>();
 	
+	public PaymentMethod() {
+		
+	}
 	public PaymentMethod(String name) {
 		this.name = name;
 	}

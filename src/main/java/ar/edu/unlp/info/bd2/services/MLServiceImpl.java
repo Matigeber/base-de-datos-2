@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import ar.edu.unlp.info.bd2.model.Category;
 import ar.edu.unlp.info.bd2.model.CreditCardPayment;
 import ar.edu.unlp.info.bd2.model.DeliveryMethod;
@@ -232,8 +234,10 @@ public class MLServiceImpl implements MLService{
 	}
 	
 	@Override
+	@Transactional
 	public List<Purchase> getAllPurchasesMadeByUser(String username){
-		User user = this.repository.getUserByUsername(username);
+		User user = this.repository.getUserByEmail(username); /* username es igual a email*/
+		System.out.println(user);
 		if (user == null){
 			System.out.println("No existe el user");
 			return null;

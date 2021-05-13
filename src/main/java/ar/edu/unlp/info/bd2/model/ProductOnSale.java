@@ -48,11 +48,14 @@ public class ProductOnSale {
 	@Column
 	private Date finalDate;
 	
+	public ProductOnSale() {}
+	
 	public ProductOnSale(Provider provider, Product product, Float price, Date initialDate) {
 		this.provider = provider;
 		this.product = product;
 		this.price = price;
 		this.initialDate = initialDate;
+		this.finalDate = null;
 	}
 
 	public Provider getProvider() {

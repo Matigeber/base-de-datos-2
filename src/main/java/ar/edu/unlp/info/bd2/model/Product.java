@@ -30,7 +30,7 @@ public class Product {
 	@Column(nullable = false)
 	private Float weight;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String name;
 	
 	@ManyToOne
@@ -39,6 +39,8 @@ public class Product {
 	
 	@OneToMany(mappedBy= "product", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
 	private List<ProductOnSale> productsOnSale = new ArrayList<ProductOnSale>();
+	
+	public Product() {}
 	
 	public Product(Float weight, String name, Category category) {
 		this.weight = weight;

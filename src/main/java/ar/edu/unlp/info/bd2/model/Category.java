@@ -32,6 +32,8 @@ public class Category {
 	
 	/* aca va la relacion a producto? o se define en el producto */
 	
+	public Category() {}
+	
 	public Category(String aName) {
 		this.name = aName;
 	}

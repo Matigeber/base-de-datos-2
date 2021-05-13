@@ -56,6 +56,8 @@ public class Purchase {
 	@Column(nullable = false)
 	private Date DateOfPurchase;
 	
+	public Purchase() {}
+	
 	public Purchase(ProductOnSale productOnSale, int quantity, User client, DeliveryMethod deliveryMethod,
 			PaymentMethod paymentMethod, String address, Float coordX, Float coordY, Date dateOfPurchase) {
 		super();

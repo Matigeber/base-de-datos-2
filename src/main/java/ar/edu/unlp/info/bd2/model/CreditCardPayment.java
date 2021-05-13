@@ -32,6 +32,10 @@ public class CreditCardPayment extends PaymentMethod {
 	
 	@Column(nullable = false)
 	private String owner;
+	
+	public CreditCardPayment() {
+		super();
+	}
 
 	public CreditCardPayment(String name,String brand, Long number, Date expiry, Integer cvv, String owner) {
 		super(name);

@@ -616,7 +616,7 @@ public class DBInitializer {
         this.service.createPurchase(pos031, 9, user075, delivery06, purchase080_payment, "Calle 51 Nº305", -34.931706F, -57.956426F, sdf.parse("25/4/2020"));
         CreditCardPayment purchase081_payment = this.service.createCreditCardPayment("MasterCard Mariana Cano", "MasterCard", 748955528135L, sdf.parse("16/5/2022"), 695, "Mariana Cano");
         this.service.createPurchase(pos058, 3, user068, delivery02, purchase081_payment, "Calle 54 Nº1146", -34.936778F, -57.932774F, sdf.parse("31/10/2020"));
-        OnDeliveryPayment purchase082_payment =  this.service.createOnDeliveryPayment("Pago Efectivo pos012", 173900.0F);
+        OnDeliveryPayment purchase082_payment =  this.service.createOnDeliveryPayment("Pago Efectivo pos012b", 173900.0F);
         this.service.createPurchase(pos012, 2, user107, delivery07, purchase082_payment, "Calle 51 Nº599", -34.916013F, -57.97187F, sdf.parse("29/11/2019"));
         OnDeliveryPayment purchase083_payment =  this.service.createOnDeliveryPayment("Pago Efectivo pos017", 224100.0F);
         this.service.createPurchase(pos017, 7, user043, delivery07, purchase083_payment, "Calle 40 Nº816", -34.939137F, -57.949361F, sdf.parse("26/2/2020"));

@@ -3,6 +3,8 @@ package ar.edu.unlp.info.bd2.repositories;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,10 @@ import ar.edu.unlp.info.bd2.model.Provider;
 import ar.edu.unlp.info.bd2.model.Purchase;
 import ar.edu.unlp.info.bd2.model.User;
 
+@Transactional
 public class MLRepository {
+	
+	
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -53,13 +58,15 @@ public class MLRepository {
 		return user;
 	}
 	
+
+
 	public User getUserByUsername(String username) {
-		String query = "FROM User WHERE username = :username";
+		String query = "FROM User WHERE fullname = :username";
 		Session session = this.sessionFactory.getCurrentSession();
 		User user = (User) session.createQuery(query).setParameter("username", username).uniqueResult();
 		return user;
 	}
-	
+
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){
 		/**select users
 		where users natJoin purchases
@@ -75,7 +82,6 @@ public class MLRepository {
 		
 		return users;
 	}
-	
 	public void updateUser (User user) {
 		this.sessionFactory.getCurrentSession().update(user);
 	}
@@ -121,8 +127,12 @@ public class MLRepository {
 	}
 	
 	public Product createProduct(Product product) {
+		/*try*/
 		this.sessionFactory.getCurrentSession().save(product);
 		return this.getProductByName(product.getName());
+		/*catch constraint violation hibernate
+		throw new MLException("Constraint Violation");*/
+		
 	}
 	
 	public Product getProductByName (String name) {
@@ -148,6 +158,7 @@ public class MLRepository {
 		return cp;
 	}
 	
+	
 	public OnDeliveryPayment createOnDeliveryPayment(OnDeliveryPayment dp) {
 		this.sessionFactory.getCurrentSession().save(dp);
 		return this.getOnDeliveryPayment(dp.getName());
@@ -160,20 +171,28 @@ public class MLRepository {
 		return dp;
 	}
 	
+	
 	public ProductOnSale createProductOnSale (ProductOnSale ps) {
 		this.sessionFactory.getCurrentSession().save(ps);
-		return this.getProductOnSale(ps.getProduct(), ps.getProvider());
+		return ps;
 	}
 	
 	public ProductOnSale getProductOnSale (Product prod, Provider prov) {
 		String query = "FROM ProductOnSale WHERE product_id = :prod_id and provider_id = :prov_id and finalDate = null";
 		Session session = this.sessionFactory.getCurrentSession();
 		ProductOnSale ps  = (ProductOnSale) session.createQuery(query).setParameter("prod_id", prod.getId()).setParameter("prov_id", prov.getId()).uniqueResult();
-		return ps;
+		/*List<ProductOnSale> lista = session.createQuery(query).setParameter("prod_id", prod.getId()).setParameter("prov_id", prov.getId()).getResultList();
+		for (int i=1 ; i<= lista.size() ; i++ ) {
+			System.out.println(lista.get(i).getFinalDate());
+		}
+		System.out.println(lista);
+		System.out.println(lista.get(0).getFinalDate());
+		System.out.println(lista.get(1).getFinalDate());
+		*/return ps;
 	}
 	
 	public void updateProductOnSale (ProductOnSale ps) {
-		this.sessionFactory.getCurrentSession().update(ps);
+		this.sessionFactory.getCurrentSession().saveOrUpdate(ps);
 	}
 	
 	public ProductOnSale getProductOnSaleById (long id) {
@@ -194,12 +213,12 @@ public class MLRepository {
 		Purchase purchase  = (Purchase) session.createQuery(query).setParameter("id", id).uniqueResult();
 		return purchase;
 	}
-
 	public void updatePaymentMethod (PaymentMethod pm) {
 		this.sessionFactory.getCurrentSession().update(pm);
 	}
 	
 	public List<Purchase> getAllPurchasesByUser(long user_id){
+		System.out.println("ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		String query = "FROM Purchase WHERE user_id = :user_id";
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Purchase> purchases  = session.createQuery(query).setParameter("user_id", user_id).list();
