@@ -1,4 +1,4 @@
-package ar.edu.unlp.info.bd2.services;
+/* package ar.edu.unlp.info.bd2.services;
 
 import ar.edu.unlp.info.bd2.config.AppConfig;
 import ar.edu.unlp.info.bd2.config.HibernateConfiguration;
@@ -24,13 +24,13 @@ import java.util.Optional;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AppConfig.class, HibernateConfiguration.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
-@Rollback(true) /*probar en false */
+@Rollback(true) probar en false
 public class MLServiceTestCase {
 
     @Autowired
     MLService service;
     
-/**    
+ 
     @Test
     public void testCreateCategory() throws MLException {
     	System.out.println(this.service);
@@ -249,5 +249,6 @@ public class MLServiceTestCase {
         MLException ex = assertThrows(MLException.class, () -> this.service.createPurchase(pos, 5, u, d2, dp,"Calle 12 432",Float.valueOf(-54.45F), Float.valueOf(-62.22F), dop));
         assertEquals("método de delivery no válido",ex.getMessage());
     } 
-**/
 }
+**/
+

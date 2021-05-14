@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
-import org.springframework.transaction.annotation.Transactional;
+import javax.transaction.Transactional;
 
 import ar.edu.unlp.info.bd2.model.Category;
 import ar.edu.unlp.info.bd2.model.CreditCardPayment;
@@ -21,8 +20,8 @@ import ar.edu.unlp.info.bd2.model.User;
 import ar.edu.unlp.info.bd2.repositories.MLException;
 import ar.edu.unlp.info.bd2.repositories.MLRepository;
 
-@Transactional
 
+@Transactional
 public class MLServiceImpl implements MLService{
 
 	private MLRepository repository;
@@ -118,29 +117,33 @@ public class MLServiceImpl implements MLService{
 		
 	}
 
-	@Override
+	
+	@Transactional
 	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate) throws MLException {
 		/* ESTO SE PODRIA FACTORIZAR */
 		ProductOnSale ps = repository.getProductOnSale(product, provider);
 		if (ps == null) {
 			ProductOnSale prodSale = new ProductOnSale(product, provider, price, initialDate);
 			ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
-			product.addProductOnsale(prodSalecreated);
+			product.addProductOnsale(prodSale);
 			repository.updateProduct(product);
-			provider.addProductOnSale(prodSalecreated);
+			provider.addProductOnSale(prodSale);
 			repository.updateProvider(provider);
-			return prodSalecreated;
+			return prodSale;
 		}else {
 			if (ps.getInitialDate().before(initialDate)) {
 				ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
 				repository.updateProductOnSale(ps);
 				ProductOnSale prodSale = new ProductOnSale(product, provider, price, initialDate);
-				ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
-				product.addProductOnsale(prodSalecreated);
-				repository.updateProduct(product);
-				provider.addProductOnSale(prodSalecreated);
+				ProductOnSale prodSaleCreated = repository.createProductOnSale(prodSale);
+				System.out.println("ENTRA AL CREATE DE PRODUCT ON SALEE--------------------------");
+				product.addProductOnsale(prodSaleCreated);
+				this.repository.updateProduct(product);
+				System.out.println("ENTRA AL UPDATE DE PRODUCT--------------------------");
+				provider.addProductOnSale(prodSaleCreated);
 				repository.updateProvider(provider);
-				return prodSalecreated;
+				System.out.println("ENTRA AL UPDATE DE PROVIDER--------------------------");
+				return prodSaleCreated;
 			}else {
 				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
 			}

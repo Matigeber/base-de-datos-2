@@ -20,7 +20,7 @@ import ar.edu.unlp.info.bd2.model.Provider;
 import ar.edu.unlp.info.bd2.model.Purchase;
 import ar.edu.unlp.info.bd2.model.User;
 
-@Transactional
+
 public class MLRepository {
 	
 	
@@ -141,7 +141,7 @@ public class MLRepository {
 		Product p = (Product) session.createQuery(query).setParameter("name", name).uniqueResult();
 		return p;
 	}
-	
+	@Transactional
 	public void updateProduct (Product product) {
 		this.sessionFactory.getCurrentSession().update(product);
 	}
@@ -171,12 +171,12 @@ public class MLRepository {
 		return dp;
 	}
 	
-	
+	@Transactional
 	public ProductOnSale createProductOnSale (ProductOnSale ps) {
 		this.sessionFactory.getCurrentSession().save(ps);
-		return ps;
+		return this.getProductOnSale(ps.getProduct(), ps.getProvider());
 	}
-	
+	@Transactional
 	public ProductOnSale getProductOnSale (Product prod, Provider prov) {
 		String query = "FROM ProductOnSale WHERE product_id = :prod_id and provider_id = :prov_id and finalDate = null";
 		Session session = this.sessionFactory.getCurrentSession();
@@ -192,8 +192,12 @@ public class MLRepository {
 	}
 	
 	public void updateProductOnSale (ProductOnSale ps) {
-		this.sessionFactory.getCurrentSession().saveOrUpdate(ps);
+		//this.sessionFactory.getCurrentSession().getTransaction().commit();
+		this.sessionFactory.getCurrentSession().update(ps);
+		//this.sessionFactory.getCurrentSession().beginTransaction();
+		
 	}
+	
 	
 	public ProductOnSale getProductOnSaleById (long id) {
 		String query = "FROM ProductOnSale WHERE id = :id";
