@@ -57,6 +57,9 @@ public class Purchase {
 	@Column(nullable = false)
 	private Date DateOfPurchase;
 	
+	@Column(nullable = false)
+	private Float amount;
+	
 	public Purchase() {}
 	
 	public Purchase(ProductOnSale productOnSale, int quantity, User client, DeliveryMethod deliveryMethod,
@@ -71,6 +74,7 @@ public class Purchase {
 		this.coordX = coordX;
 		this.coordY = coordY;
 		DateOfPurchase = dateOfPurchase;
+		this.amount = (productOnSale.getPrice() * quantity) + deliveryMethod.getCost();
 	}
 
 	public ProductOnSale getProductOnSale() {
@@ -150,7 +154,7 @@ public class Purchase {
 	}
 	
 	public Float getAmount() {
-		return (this.getProductOnSale().getPrice() * this.getQuantity()) + this.deliveryMethod.getCost();
+		return amount;
 	}
 	
 	

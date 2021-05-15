@@ -73,27 +73,21 @@ public class MLRepository {
 	}
 	@Transactional
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){ // -------------------------------Chequear
-		String query = "SELECT DISTINCT User "
-				+ "FROM User inner join Purchase pp"
-				+ "WHERE pp.amount > :amount";
+		String query = "SELECT distinct cli "
+				+ "FROM Purchase p join p.client as cli "
+				+ "WHERE p.amount > :amount";
 		Session session = this.sessionFactory.getCurrentSession();
 		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
 		return users;
 	}
 	@Transactional
 	public List<User> getUsersSpendingMoreThan(Float amount){
-		/**select users
-		where users natJoin purchases
-		group_by user_id 
-		having sum (purchase.amount) > amount
-		**/
-		String query = "SELECT User "
-				+ "FROM User inner join Purchase "
-				+ "GROUP_BY user.id "
-				+ "HAVING sum(Purchase.amount) > :amount";
+		String query = "SELECT cli "
+				+ "FROM Purchase p join p.client as cli "
+				+ "GROUP BY cli "
+				+ "HAVING sum(p.amount) > :amount";
 		Session session = this.sessionFactory.getCurrentSession();
-		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
-		
+		List<User> users  = session.createQuery(query).setParameter("amount", amount.doubleValue()).list();
 		return users;
 	}
 	@Transactional
@@ -261,7 +255,6 @@ public class MLRepository {
 	}
 	@Transactional
 	public List<Purchase> getAllPurchasesByUser(long user_id){
-		System.out.println("ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		String query = "FROM Purchase WHERE user_id = :user_id";
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Purchase> purchases  = session.createQuery(query).setParameter("user_id", user_id).list();
