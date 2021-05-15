@@ -36,8 +36,8 @@ public class User {
 	@Column(nullable = false)
 	private Date birth_date;
 	
-	@OneToMany(mappedBy= "client", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
-	private List<Purchase> purchases = new ArrayList<Purchase>();
+	/*@OneToMany(mappedBy= "client", cascade = CascadeType.ALL ) 
+	private List<Purchase> purchases = new ArrayList<Purchase>();*/
 	
 	public User() {}
 
@@ -84,7 +84,7 @@ public class User {
 		return password;
 	}
 
-	public List<Purchase> getPurchases() {
+	/*public List<Purchase> getPurchases() {
 		return purchases;
 	}
 
@@ -94,6 +94,6 @@ public class User {
 	
 	public void addPurchase (Purchase purchase) {
 		this.purchases.add(purchase);
-	}
+	}*/
 	
 }

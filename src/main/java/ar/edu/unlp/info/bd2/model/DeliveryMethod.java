@@ -37,8 +37,8 @@ public class DeliveryMethod {
 	@Column(nullable = false)
 	private Float endWeight;
 	
-	@OneToMany(mappedBy= "deliveryMethod", cascade = CascadeType.ALL ) 
-	private List<Purchase> purchases = new ArrayList<Purchase>();
+	/*@OneToMany(mappedBy= "deliveryMethod", cascade = CascadeType.ALL ) 
+	private List<Purchase> purchases = new ArrayList<Purchase>();*/
 	
 	public DeliveryMethod() {}
 	
@@ -89,7 +89,7 @@ public class DeliveryMethod {
 		return (this.getStartWeight() <= weight && this.getEndWeight() >= weight );
 	}
 
-	public List<Purchase> getPurchases() {
+	/*public List<Purchase> getPurchases() {
 		return purchases;
 	}
 
@@ -99,6 +99,6 @@ public class DeliveryMethod {
 	
 	public void addPurchase (Purchase purchase) {
 		this.purchases.add(purchase);
-	}
+	}*/
 	
 }

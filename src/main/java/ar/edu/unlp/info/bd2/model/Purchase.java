@@ -27,12 +27,13 @@ public class Purchase {
 	private long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_on_sale_id", nullable= false)
 	private ProductOnSale productOnSale;
 	
 	@Column(nullable = false)
 	private int quantity;
 	
-	@ManyToOne(fetch = FetchType.LAZY) /* agregar el nombre del campo */
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id",nullable = false)
 	private User client;
 	

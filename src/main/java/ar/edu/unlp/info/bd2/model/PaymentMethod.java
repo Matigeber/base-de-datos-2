@@ -29,8 +29,8 @@ public abstract class PaymentMethod {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToMany(mappedBy= "paymentMethod", cascade = CascadeType.ALL) /*por defecto Fetch lazy */
-	private List<Purchase> purchases = new ArrayList<Purchase>();
+	/*@OneToMany(mappedBy= "paymentMethod", cascade = CascadeType.ALL)
+	private List<Purchase> purchases = new ArrayList<Purchase>();*/
 	
 	public PaymentMethod() {
 		
@@ -47,7 +47,7 @@ public abstract class PaymentMethod {
 		this.name = name;
 	}
 
-	public List<Purchase> getPurchases() {
+	/*public List<Purchase> getPurchases() {
 		return purchases;
 	}
 
@@ -57,7 +57,7 @@ public abstract class PaymentMethod {
 	
 	public void addPurchase (Purchase purchase) {
 		this.purchases.add(purchase);
-	}
+	}*/
 
 	public long getId() {
 		return id;

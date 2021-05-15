@@ -52,9 +52,9 @@ public class MLServiceImpl implements MLService{
 		if (prod == null) {
 			Product p = new Product(weight, name, category);
 			Product product = repository.createProduct(p);
-			category.addProduct(product);
+			/*category.addProduct(product);
 			repository.updateCategory(category);
-			/*System.out.println(category);*/
+			*/
 			return product;
 		}else {
 			throw new MLException("Constraint Violation");
@@ -118,18 +118,17 @@ public class MLServiceImpl implements MLService{
 	}
 
 	
-	@Transactional
+	/*@Transactional
 	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate) throws MLException {
-		/* ESTO SE PODRIA FACTORIZAR */
 		ProductOnSale ps = repository.getProductOnSale(product, provider);
 		if (ps == null) {
 			ProductOnSale prodSale = new ProductOnSale(product, provider, price, initialDate);
 			ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
 			product.addProductOnsale(prodSale);
 			repository.updateProduct(product);
-			provider.addProductOnSale(prodSale);
+			//provider.addProductOnSale(prodSale);
 			repository.updateProvider(provider);
-			return prodSale;
+			return prodSalecreated;
 		}else {
 			if (ps.getInitialDate().before(initialDate)) {
 				ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
@@ -140,7 +139,7 @@ public class MLServiceImpl implements MLService{
 				product.addProductOnsale(prodSaleCreated);
 				this.repository.updateProduct(product);
 				System.out.println("ENTRA AL UPDATE DE PRODUCT--------------------------");
-				provider.addProductOnSale(prodSaleCreated);
+				//provider.addProductOnSale(prodSaleCreated);
 				repository.updateProvider(provider);
 				System.out.println("ENTRA AL UPDATE DE PROVIDER--------------------------");
 				return prodSaleCreated;
@@ -150,6 +149,21 @@ public class MLServiceImpl implements MLService{
 			
 		}
 		
+	}*/
+	
+	@Transactional
+	public ProductOnSale createProductOnSale (Product product, Provider provider, Float price, Date initialDate) throws MLException {
+		ProductOnSale ps = repository.getProductOnSale(product, provider);
+		if (ps != null) {
+			if (ps.getInitialDate().after(initialDate)) {
+				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
+			}
+			ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
+		}
+		ProductOnSale productOnSale = new ProductOnSale(product,provider,price,initialDate);
+		product.addProductOnsale(productOnSale);
+		this.repository.updateProduct(product);
+		return product.getProductsOnSale().get(product.getProductsOnSale().size() - 1);
 	}
 
 	@Override
@@ -159,14 +173,14 @@ public class MLServiceImpl implements MLService{
 		if (deliveryMethod.checkShipping(productOnSale.getProduct().getWeight() * quantity)) {
 			Purchase p = new Purchase(productOnSale, quantity, client, deliveryMethod, paymentMethod, address, coordX, coordY, dateOfPurchase);
 			Purchase purchase = repository.createPurchase(p);
-			productOnSale.addPurchase(purchase);
-			repository.updateProductOnSale(productOnSale);
-			client.addPurchase(purchase);
-			repository.updateUser(client);
-			deliveryMethod.addPurchase(purchase);
-			repository.updateDeliveryMethod(deliveryMethod);
-			paymentMethod.addPurchase(purchase);
-			repository.updatePaymentMethod(paymentMethod);
+			//productOnSale.addPurchase(purchase);
+			//repository.updateProductOnSale(productOnSale);
+			//client.addPurchase(purchase);
+			//repository.updateUser(client);
+			//deliveryMethod.addPurchase(purchase);
+			//repository.updateDeliveryMethod(deliveryMethod);
+			//paymentMethod.addPurchase(purchase);
+			//repository.updatePaymentMethod(paymentMethod);
 			return purchase;
 		}else {
 			throw new MLException("método de delivery no válido");
