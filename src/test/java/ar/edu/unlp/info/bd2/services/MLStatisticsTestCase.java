@@ -82,7 +82,7 @@ public class MLStatisticsTestCase {
     	List<Provider> providers = this.service.getTopNProvidersInPurchases(3);
     	assertEquals(3,providers.size());
     	this.assertListEquality(providers.stream().map(property -> property.getName()).collect(Collectors.toList()),Arrays.asList("Grupo Nucleo S.A.","Refrigeracion MG Repuestos","Seara Refrigeración S.H."));
-    }
+    }*/
     
     @Test
     public void testGetTop3MoreExpensiveProducts() {
@@ -91,6 +91,7 @@ public class MLStatisticsTestCase {
     	this.assertListEquality(products.stream().map(property -> property.getName()).collect(Collectors.toList()),Arrays.asList("Salamandra A Leña Tromen Pehuen 9500 Kcal/h 106 M2 Cuotas","Lavarropas  automático Samsung WW90J5410G inverter plata 9kg 220 V","Nebulizador a pistón Omron NE-C801 blanco 100V/240V"));
     }
     
+    /*
     @Test
     public void testGetTopNUsersMorePurchase() {
     	List<User> users = this.service.getTopNUsersMorePurchase(7);

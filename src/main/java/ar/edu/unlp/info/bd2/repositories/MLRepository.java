@@ -172,16 +172,13 @@ public class MLRepository {
 	@Transactional
 	public List<Product> getTop3MoreExpensiveProducts(){
 		// Precio en POS, pero hay que devolver Product y tienen que ser 3 diferentes.
-		String query = "SELECT prod" +
-		        "FROM ProductOnSale pos inner join Product p" +
-				" WHERE pos.price = (SELECT max(pos2.price)"
-								+ " FROM ProductOnSale pos2 inner join Product p2"
-								+ "	WHERE p.Id = p2.Id)"+ 
-		        "GROUP BY p.Id "+ 
-		        "order by pos.price desc ";
+		String query = "SELECT p " +
+		        "FROM ProductOnSale pos JOIN pos.product as p " +
+				"WHERE pos.finalDate is null " +
+		        "GROUP BY p "+ 
+		        "order by max(pos.price) desc ";
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Provider> topN  = session.createQuery(query).setMaxResults(3).list();
-		return null;
+		return session.createQuery(query).setMaxResults(3).list();
 	}
 	
 	@Transactional
