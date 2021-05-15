@@ -67,7 +67,16 @@ public class MLRepository {
 		return user;
 	}
 
-	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){
+	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){ // -------------------------------Chequear
+		String query = "SELECT DISTINCT User "
+				+ "FROM User inner join Purchase pp"
+				+ "WHERE pp.amount > :amount";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
+		return users;
+	}
+	
+	public List<User> getUsersSpendingMoreThan(Float amount){
 		/**select users
 		where users natJoin purchases
 		group_by user_id 
@@ -100,6 +109,19 @@ public class MLRepository {
 	
 	public void updateProvider (Provider provider) {
 		this.sessionFactory.getCurrentSession().update(provider);
+	}
+	
+	public List<Provider> getTopNProvidersInPurchases(int n){ 
+		/**" Esto se refiere a ProductOnSale -> Purchase -> Quantity (Sumatoria de cantidades) (HICIMOS ESTA)
+		 * 	o se refiere a ProductOnSale -> Product (Sumatoria de productos individual)
+		 */ 
+		String query = "SELECT p" +
+		        "FROM Provider p inner join ProductOnSale pos inner join Purchase ps" +
+		        "GROUP BY p.Id"+ 
+		        "order by sum(ps.quantity) desc )";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Provider> topN  = session.createQuery(query).setMaxResults(n).list();
+		return topN;
 	}
 	
 	public DeliveryMethod createDeliveryMethod(DeliveryMethod dm) {
@@ -141,6 +163,21 @@ public class MLRepository {
 		Product p = (Product) session.createQuery(query).setParameter("name", name).uniqueResult();
 		return p;
 	}
+	
+	public List<Product> getTop3MoreExpensiveProducts(){
+		// Precio en POS, pero hay que devolver Product y tienen que ser 3 diferentes.
+		String query = "SELECT prod" +
+		        "FROM ProductOnSale pos inner join Product p" +
+				" WHERE pos.price = (SELECT max(pos2.price)"
+								+ " FROM ProductOnSale pos2 inner join Product p2"
+								+ "	WHERE p.Id = p2.Id)"+ 
+		        "GROUP BY p.Id "+ 
+		        "order by pos.price desc ";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Provider> topN  = session.createQuery(query).setMaxResults(3).list();
+		return null;
+	}
+	
 	@Transactional
 	public void updateProduct (Product product) {
 		this.sessionFactory.getCurrentSession().update(product);
@@ -192,10 +229,7 @@ public class MLRepository {
 	}
 	
 	public void updateProductOnSale (ProductOnSale ps) {
-		//this.sessionFactory.getCurrentSession().getTransaction().commit();
 		this.sessionFactory.getCurrentSession().update(ps);
-		//this.sessionFactory.getCurrentSession().beginTransaction();
-		
 	}
 	
 	

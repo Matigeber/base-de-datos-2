@@ -1,5 +1,6 @@
 package ar.edu.unlp.info.bd2.services;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -133,16 +134,20 @@ public class MLServiceImpl implements MLService{
 			if (ps.getInitialDate().before(initialDate)) {
 				ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
 				repository.updateProductOnSale(ps);
+				System.out.println(" ------------------------------------------------------------ ");
+				System.out.println(ps.getId());
+				System.out.println(ps.getFinalDate());
 				ProductOnSale prodSale = new ProductOnSale(product, provider, price, initialDate);
 				ProductOnSale prodSaleCreated = repository.createProductOnSale(prodSale);
 				System.out.println("ENTRA AL CREATE DE PRODUCT ON SALEE--------------------------");
-				product.addProductOnsale(prodSaleCreated);
+				System.out.println(prodSaleCreated.getId());
+				/**product.addProductOnsale(prodSaleCreated);
 				this.repository.updateProduct(product);
 				System.out.println("ENTRA AL UPDATE DE PRODUCT--------------------------");
 				//provider.addProductOnSale(prodSaleCreated);
 				repository.updateProvider(provider);
 				System.out.println("ENTRA AL UPDATE DE PROVIDER--------------------------");
-				return prodSaleCreated;
+				return prodSale;
 			}else {
 				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
 			}
@@ -269,29 +274,25 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount) {
-		// TODO Auto-generated method stub
 		return this.repository.getUsersSpendingMoreThanInPurchase(amount);
 	}
 
 
 	@Override
 	public List<User> getUsersSpendingMoreThan(Float amount) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.repository.getUsersSpendingMoreThan(amount);
 	}
 
 
 	@Override
 	public List<Provider> getTopNProvidersInPurchases(int n) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.repository.getTopNProvidersInPurchases(n);
 	}
 
 
 	@Override
 	public List<Product> getTop3MoreExpensiveProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.repository.getTop3MoreExpensiveProducts();
 	}
 
 
