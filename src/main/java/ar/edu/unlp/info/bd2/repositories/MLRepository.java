@@ -96,6 +96,15 @@ public class MLRepository {
 		
 		return users;
 	}
+	public List<User> getTopNUsersMorePurchase(int n){
+	String query = "SELECT u " +
+	        "FROM Purchase p JOIN p.client as u " +
+	        "GROUP BY u "+ 
+	        "order by count(*) desc ";
+	Session session = this.sessionFactory.getCurrentSession();
+	return session.createQuery(query).setMaxResults(n).list();
+	}
+	
 	@Transactional
 	public void updateUser (User user) {
 		this.sessionFactory.getCurrentSession().update(user);
