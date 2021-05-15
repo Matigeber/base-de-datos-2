@@ -779,4 +779,5 @@ public class DBInitializer {
         CreditCardPayment purchase162_payment = this.service.createCreditCardPayment("Amex Eduardo Romero", "Amex", 490267075827L, sdf.parse("2/5/2022"), 918, "Eduardo Romero");
         this.service.createPurchase(pos100, 9, user089, delivery07, purchase162_payment, "Calle 46 Nº1150", -34.90718F, -57.945807F, sdf.parse("27/4/2019"));
       }
+      
 }

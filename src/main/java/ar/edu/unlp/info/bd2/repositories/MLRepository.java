@@ -71,25 +71,7 @@ public class MLRepository {
 		User user = (User) session.createQuery(query).setParameter("username", username).uniqueResult();
 		return user;
 	}
-	@Transactional
-	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){ // -------------------------------Chequear
-		String query = "SELECT distinct cli "
-				+ "FROM Purchase p join p.client as cli "
-				+ "WHERE p.amount > :amount";
-		Session session = this.sessionFactory.getCurrentSession();
-		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
-		return users;
-	}
-	@Transactional
-	public List<User> getUsersSpendingMoreThan(Float amount){
-		String query = "SELECT cli "
-				+ "FROM Purchase p join p.client as cli "
-				+ "GROUP BY cli "
-				+ "HAVING sum(p.amount) > :amount";
-		Session session = this.sessionFactory.getCurrentSession();
-		List<User> users  = session.createQuery(query).setParameter("amount", amount.doubleValue()).list();
-		return users;
-	}
+	
 	@Transactional
 	public void updateUser (User user) {
 		this.sessionFactory.getCurrentSession().update(user);
@@ -110,19 +92,7 @@ public class MLRepository {
 	public void updateProvider (Provider provider) {
 		this.sessionFactory.getCurrentSession().update(provider);
 	}
-	@Transactional
-	public List<Provider> getTopNProvidersInPurchases(int n){ 
-		/**" Esto se refiere a ProductOnSale -> Purchase -> Quantity (Sumatoria de cantidades) (HICIMOS ESTA)
-		 * 	o se refiere a ProductOnSale -> Product (Sumatoria de productos individual)
-		 */ 
-		String query = "SELECT p" +
-		        "FROM Provider p inner join ProductOnSale pos inner join Purchase ps" +
-		        "GROUP BY p.Id"+ 
-		        "order by sum(ps.quantity) desc )";
-		Session session = this.sessionFactory.getCurrentSession();
-		List<Provider> topN  = session.createQuery(query).setMaxResults(n).list();
-		return topN;
-	}
+	
 	@Transactional
 	public DeliveryMethod createDeliveryMethod(DeliveryMethod dm) {
 		this.sessionFactory.getCurrentSession().save(dm);
@@ -163,17 +133,7 @@ public class MLRepository {
 		Product p = (Product) session.createQuery(query).setParameter("name", name).uniqueResult();
 		return p;
 	}
-	@Transactional
-	public List<Product> getTop3MoreExpensiveProducts(){
-		// Precio en POS, pero hay que devolver Product y tienen que ser 3 diferentes.
-		String query = "SELECT p " +
-		        "FROM ProductOnSale pos JOIN pos.product as p " +
-				"WHERE pos.finalDate is null " +
-		        "GROUP BY p "+ 
-		        "order by max(pos.price) desc ";
-		Session session = this.sessionFactory.getCurrentSession();
-		return session.createQuery(query).setMaxResults(3).list();
-	}
+
 	
 	@Transactional
 	public void updateProduct (Product product) {
@@ -253,11 +213,69 @@ public class MLRepository {
 	public void updatePaymentMethod (PaymentMethod pm) {
 		this.sessionFactory.getCurrentSession().update(pm);
 	}
+	
+	//---------------- CONSULTAS PARTE 2 ---------------------------------------
 	@Transactional
 	public List<Purchase> getAllPurchasesByUser(long user_id){
 		String query = "FROM Purchase WHERE user_id = :user_id";
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Purchase> purchases  = session.createQuery(query).setParameter("user_id", user_id).list();
 		return purchases;
+	}
+	
+	@Transactional
+	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){ 
+		String query = "SELECT distinct cli "
+				+ "FROM Purchase p join p.client as cli "
+				+ "WHERE p.amount > :amount";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
+		return users;
+	}
+	
+	@Transactional
+	public List<User> getUsersSpendingMoreThan(Float amount){
+		String query = "SELECT cli "
+				+ "FROM Purchase p join p.client as cli "
+				+ "GROUP BY cli "
+				+ "HAVING sum(p.amount) > :amount";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> users  = session.createQuery(query).setParameter("amount", amount.doubleValue()).list();
+		return users;
+	}
+	
+	@Transactional
+	public List<Provider> getTopNProvidersInPurchases(int n){ 
+		/**" Esto se refiere a ProductOnSale -> Purchase -> Quantity (Sumatoria de cantidades) (HICIMOS ESTA)
+		 * 	o se refiere a ProductOnSale -> Product (Sumatoria de productos individual)
+		 */ 
+		String query = "SELECT p " +
+				"FROM Purchase ps join ps.productOnSale as pos join pos.provider as p "+
+		        "GROUP BY p "+ 
+		        "order by sum(ps.quantity) desc ";
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Provider> topN  = session.createQuery(query).setMaxResults(n).list();
+		return topN;
+	}
+	
+	@Transactional
+	public List<Product> getTop3MoreExpensiveProducts(){
+		String query = "SELECT p " +
+		        "FROM ProductOnSale pos JOIN pos.product as p " +
+				"WHERE pos.finalDate is null " +
+		        "GROUP BY p "+ 
+		        "order by max(pos.price) desc ";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).setMaxResults(3).list();
+	}
+	
+	@Transactional
+	public List<User> getTopNUsersMorePurchase(int n){
+	String query = "SELECT u " +
+	        "FROM Purchase p JOIN p.client as u " +
+	        "GROUP BY u "+ 
+	        "order by count(*) desc ";
+	Session session = this.sessionFactory.getCurrentSession();
+	return session.createQuery(query).setMaxResults(n).list();
 	}
 }
