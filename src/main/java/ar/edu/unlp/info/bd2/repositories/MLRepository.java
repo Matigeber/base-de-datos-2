@@ -278,4 +278,22 @@ public class MLRepository {
 	Session session = this.sessionFactory.getCurrentSession();
 	return session.createQuery(query).setMaxResults(n).list();
 	}
+	
+	@Transactional
+	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
+		String query = "SELECT pur " +
+						"FROM Purchase pur "+
+						"WHERE pur.DateOfPurchase between :startDate and :endDate";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).setParameter("startDate", startDate).setParameter("endDate", endDate).getResultList();
+	}
+	
+	@Transactional
+	public List<Product> getProductForCategory(Category category) {
+		String query = "SELECT p "+
+						"FROM Product p "+
+						"WHERE p.category = :category";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).setParameter("category", category).getResultList();
+	}
 }

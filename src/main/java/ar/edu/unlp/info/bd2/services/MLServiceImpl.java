@@ -308,15 +308,13 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getPurchasesInPeriod(startDate, endDate);
 	}
 
 
 	@Override
 	public List<Product> getProductForCategory(Category category) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getProductForCategory(category);
 	}
 
 
