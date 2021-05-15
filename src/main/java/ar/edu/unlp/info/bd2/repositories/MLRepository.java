@@ -28,11 +28,13 @@ public class MLRepository {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Transactional
 	public Category createCategory(Category category) { 
 		this.sessionFactory.getCurrentSession().save(category);
 		return this.getCategoryByName(category.getName());
 	}
 	
+	@Transactional
 	public Category getCategoryByName(String name) {
 		String query = "FROM Category WHERE name = :name"; /* esto es HQL */
 		Session session = this.sessionFactory.getCurrentSession();
@@ -41,16 +43,19 @@ public class MLRepository {
 		
 	}
 	
+	@Transactional
 	public void updateCategory(Category category) {
 		this.sessionFactory.getCurrentSession().update(category);
 		
 		}
 	
+	@Transactional
 	public User createUser(User user) { 
 		this.sessionFactory.getCurrentSession().save(user);
 		return this.getUserByEmail(user.getEmail());
 	}
 	
+	@Transactional
 	public User getUserByEmail(String email) {
 		String query = "FROM User WHERE email = :email";
 		Session session = this.sessionFactory.getCurrentSession();
@@ -59,14 +64,14 @@ public class MLRepository {
 	}
 	
 
-
+	@Transactional
 	public User getUserByUsername(String username) {
 		String query = "FROM User WHERE fullname = :username";
 		Session session = this.sessionFactory.getCurrentSession();
 		User user = (User) session.createQuery(query).setParameter("username", username).uniqueResult();
 		return user;
 	}
-
+	@Transactional
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){ // -------------------------------Chequear
 		String query = "SELECT DISTINCT User "
 				+ "FROM User inner join Purchase pp"
@@ -75,7 +80,7 @@ public class MLRepository {
 		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
 		return users;
 	}
-	
+	@Transactional
 	public List<User> getUsersSpendingMoreThan(Float amount){
 		/**select users
 		where users natJoin purchases
@@ -91,26 +96,27 @@ public class MLRepository {
 		
 		return users;
 	}
+	@Transactional
 	public void updateUser (User user) {
 		this.sessionFactory.getCurrentSession().update(user);
 	}
-
+	@Transactional
 	public Provider createProvider(Provider provider) {
 		this.sessionFactory.getCurrentSession().save(provider);
 		return this.getProviderByCuit(provider.getCuit());
 	}
-	
+	@Transactional
 	public Provider getProviderByCuit(Long cuit) {
 		String query = "FROM Provider WHERE cuit = :cuit";
 		Session session = this.sessionFactory.getCurrentSession();
 		Provider provider = (Provider) session.createQuery(query).setParameter("cuit", cuit).uniqueResult();
 		return provider;
 	}
-	
+	@Transactional
 	public void updateProvider (Provider provider) {
 		this.sessionFactory.getCurrentSession().update(provider);
 	}
-	
+	@Transactional
 	public List<Provider> getTopNProvidersInPurchases(int n){ 
 		/**" Esto se refiere a ProductOnSale -> Purchase -> Quantity (Sumatoria de cantidades) (HICIMOS ESTA)
 		 * 	o se refiere a ProductOnSale -> Product (Sumatoria de productos individual)
@@ -123,31 +129,31 @@ public class MLRepository {
 		List<Provider> topN  = session.createQuery(query).setMaxResults(n).list();
 		return topN;
 	}
-	
+	@Transactional
 	public DeliveryMethod createDeliveryMethod(DeliveryMethod dm) {
 		this.sessionFactory.getCurrentSession().save(dm);
 		return dm;
 		/*return this.getDeliveryMethodById(dm.getId())*/ /* Devolver el que me viene por parametro luego del save o volverlo a buscar en la base*/
 	}
-	
+	@Transactional
 	public DeliveryMethod getDeliveryMethodById(long id) {
 		String query = "FROM DeliveryMethod WHERE id = :id";
 		Session session = this.sessionFactory.getCurrentSession();
 		DeliveryMethod dm  = (DeliveryMethod) session.createQuery(query).setParameter("id", id).uniqueResult();
 		return dm;
 	}
-	
+	@Transactional
 	public DeliveryMethod getDeliveryMethodByName(String name) {
 		String query = "FROM DeliveryMethod WHERE name = :name";
 		Session session = this.sessionFactory.getCurrentSession();
 		DeliveryMethod dm = (DeliveryMethod) session.createQuery(query).setParameter("name", name).uniqueResult();
 		return dm;
 	}
-	
+	@Transactional
 	public void updateDeliveryMethod (DeliveryMethod dm) {
 		this.sessionFactory.getCurrentSession().update(dm);
 	}
-	
+	@Transactional
 	public Product createProduct(Product product) {
 		/*try*/
 		this.sessionFactory.getCurrentSession().save(product);
@@ -156,14 +162,14 @@ public class MLRepository {
 		throw new MLException("Constraint Violation");*/
 		
 	}
-	
+	@Transactional
 	public Product getProductByName (String name) {
 		String query = "FROM Product WHERE name = :name";
 		Session session = this.sessionFactory.getCurrentSession();
 		Product p = (Product) session.createQuery(query).setParameter("name", name).uniqueResult();
 		return p;
 	}
-	
+	@Transactional
 	public List<Product> getTop3MoreExpensiveProducts(){
 		// Precio en POS, pero hay que devolver Product y tienen que ser 3 diferentes.
 		String query = "SELECT prod" +
@@ -182,12 +188,12 @@ public class MLRepository {
 	public void updateProduct (Product product) {
 		this.sessionFactory.getCurrentSession().update(product);
 	}
-	
+	@Transactional
 	public CreditCardPayment createCreditCardPayment (CreditCardPayment cp) {
 		this.sessionFactory.getCurrentSession().save(cp);
 		return this.getCreditCardPayment(cp.getName());
 	}
-
+	@Transactional
 	public CreditCardPayment getCreditCardPayment (String name) {
 		String query = "FROM CreditCardPayment WHERE name = :name";
 		Session session = this.sessionFactory.getCurrentSession();
@@ -195,12 +201,12 @@ public class MLRepository {
 		return cp;
 	}
 	
-	
+	@Transactional
 	public OnDeliveryPayment createOnDeliveryPayment(OnDeliveryPayment dp) {
 		this.sessionFactory.getCurrentSession().save(dp);
 		return this.getOnDeliveryPayment(dp.getName());
 	}
-	
+	@Transactional
 	public OnDeliveryPayment getOnDeliveryPayment (String name) {
 		String query = "FROM OnDeliveryPayment WHERE name = :name";
 		Session session = this.sessionFactory.getCurrentSession();
@@ -228,33 +234,35 @@ public class MLRepository {
 		*/return ps;
 	}
 	
+	@Transactional
 	public void updateProductOnSale (ProductOnSale ps) {
 		this.sessionFactory.getCurrentSession().update(ps);
 	}
 	
-	
+	@Transactional
 	public ProductOnSale getProductOnSaleById (long id) {
 		String query = "FROM ProductOnSale WHERE id = :id";
 		Session session = this.sessionFactory.getCurrentSession();
 		ProductOnSale ps  = (ProductOnSale) session.createQuery(query).setParameter("id", id).uniqueResult();
 		return ps;
 	}
-	
+	@Transactional
 	public Purchase createPurchase (Purchase purchase) {
 		this.sessionFactory.getCurrentSession().save(purchase);
 		return getPurchaseById(purchase.getId());
 	}
-	
+	@Transactional
 	public Purchase getPurchaseById(long id) {
 		String query = "FROM Purchase WHERE id = :id";
 		Session session = this.sessionFactory.getCurrentSession();
 		Purchase purchase  = (Purchase) session.createQuery(query).setParameter("id", id).uniqueResult();
 		return purchase;
 	}
+	@Transactional
 	public void updatePaymentMethod (PaymentMethod pm) {
 		this.sessionFactory.getCurrentSession().update(pm);
 	}
-	
+	@Transactional
 	public List<Purchase> getAllPurchasesByUser(long user_id){
 		System.out.println("ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		String query = "FROM Purchase WHERE user_id = :user_id";

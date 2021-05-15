@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class Product {
 	private Category category;
 	
 	@OneToMany(mappedBy= "product", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
-	private List<ProductOnSale> productsOnSale = new ArrayList<ProductOnSale>();
+	private List<ProductOnSale> productsOnSale;
 	
 	public Product() {}
 	
@@ -46,6 +47,7 @@ public class Product {
 		this.weight = weight;
 		this.name = name;
 		this.category = category;
+		this.productsOnSale = new ArrayList<ProductOnSale>();
 	}
 	
 	public long getId() {
@@ -91,6 +93,10 @@ public class Product {
 	public void addProductOnsale(ProductOnSale ps) {
 		this.productsOnSale.add(ps);
 	}
+	
+	public List<ProductOnSale> getProductsOnSaleByProvider(Provider provider){
+	    return this.productsOnSale.stream().filter(pos -> pos.getProvider().getId() == provider.getId()).collect(Collectors.toList());
+	  }
 	
 	
 }

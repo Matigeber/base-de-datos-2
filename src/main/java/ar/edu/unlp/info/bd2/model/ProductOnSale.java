@@ -33,7 +33,7 @@ public class ProductOnSale {
 	private Provider provider;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id",nullable = false)
+	//@JoinColumn(name = "product_id",nullable = false)
 	private Product product;
 	
 	/*@OneToMany(mappedBy= "productOnSale", cascade = CascadeType.ALL ) 

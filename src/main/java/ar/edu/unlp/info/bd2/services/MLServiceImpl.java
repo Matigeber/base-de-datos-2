@@ -155,11 +155,13 @@ public class MLServiceImpl implements MLService{
 		}
 		
 	}*/
-	
+	@Override
 	@Transactional
 	public ProductOnSale createProductOnSale (Product product, Provider provider, Float price, Date initialDate) throws MLException {
-		ProductOnSale ps = repository.getProductOnSale(product, provider);
-		if (ps != null) {
+		//ProductOnSale ps = repository.getProductOnSale(product, provider);
+		List<ProductOnSale> productsOfProvider = product.getProductsOnSaleByProvider(provider);
+		if (productsOfProvider.size() > 0) {
+			ProductOnSale ps = productsOfProvider.get(productsOfProvider.size() - 1);
 			if (ps.getInitialDate().after(initialDate)) {
 				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
 			}
@@ -169,7 +171,9 @@ public class MLServiceImpl implements MLService{
 		product.addProductOnsale(productOnSale);
 		this.repository.updateProduct(product);
 		return product.getProductsOnSale().get(product.getProductsOnSale().size() - 1);
+		//return productOnSale;
 	}
+
 
 	@Override
 	public Purchase createPurchase(ProductOnSale productOnSale, Integer quantity, User client,
