@@ -338,55 +338,55 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Provider getProviderLessExpensiveProduct() {
-		return repository.getProviderLessExpensiveProduct();
+		//return repository.getProviderLessExpensiveProduct();
+		return null;
 	}
 
 
 	@Override
 	public List<Provider> getProvidersDoNotSellOn(Date day) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getProvidersDoNotSellOn(day);
 	}
 
 
 	@Override
 	public List<ProductOnSale> getSoldProductsOn(Date day) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repository.getSoldProductsOn(day);
 	}
 
 
 	@Override
 	public List<Product> getProductsNotSold() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repository.getProductsNotSold();
 	}
 
 
 	@Override
 	public DeliveryMethod getMostUsedDeliveryMethod() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return repository.getMostUsedDeliveryMethod();
 	}
 
 
 	@Override
 	public OnDeliveryPayment getMoreChangeOnDeliveryMethod() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repository.getMoreChangeOnDeliveryMethod();
 	}
 
 
 	@Override
 	public Product getHeaviestProduct() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repository.getHeaviestProduct();
 	}
 
 
 	@Override
 	public Category getCategoryWithLessProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repository.getCategoryWithLessProducts();
 	}
 }

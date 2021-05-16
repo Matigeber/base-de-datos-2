@@ -139,12 +139,12 @@ public class MLStatisticsTestCase {
     	List<Product> products = this.service.getProductsOnePrice();
     	assertEquals(12,products.size());
     }
-    
+    /*
     @Test
     public void testGetProviderLessExpensiveProduct() {
     	Provider provider = this.service.getProviderLessExpensiveProduct();
     	assertEquals(Long.valueOf(20535001383L),(Long) provider.getCuit());
-    }
+    }*/
     
     @Test
     public void testGetProvidersDoNotSellOn() throws ParseException {
@@ -177,11 +177,11 @@ public class MLStatisticsTestCase {
     	assertEquals("Pago Efectivo pos072",odp.getName());
     }
     
-    @Test
+    /*@Test
     public void testGetProductWithMoreThan20percentDiferenceInPrice() {
     	List<Product> products = this.service.getProductWithMoreThan20percentDiferenceInPrice();
     	assertEquals(29,products.size());
-    }
+    }*/
     
     @Test
     public void testGetHeaviestProduct() {

@@ -55,7 +55,7 @@ public class Purchase {
 	private Float coordY;
 	
 	@Column(nullable = false)
-	private Date DateOfPurchase;
+	private Date dateOfPurchase;
 	
 	@Column(nullable = false)
 	private Float amount;
@@ -73,7 +73,7 @@ public class Purchase {
 		this.address = address;
 		this.coordX = coordX;
 		this.coordY = coordY;
-		DateOfPurchase = dateOfPurchase;
+		this.dateOfPurchase = dateOfPurchase;
 		this.amount = (productOnSale.getPrice() * quantity) + deliveryMethod.getCost();
 	}
 
@@ -142,11 +142,11 @@ public class Purchase {
 	}
 
 	public Date getDateOfPurchase() {
-		return DateOfPurchase;
+		return dateOfPurchase;
 	}
 
 	public void setDateOfPurchase(Date dateOfPurchase) {
-		DateOfPurchase = dateOfPurchase;
+		dateOfPurchase = dateOfPurchase;
 	}
 
 	public long getId() {

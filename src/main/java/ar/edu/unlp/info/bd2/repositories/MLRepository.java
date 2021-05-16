@@ -344,12 +344,83 @@ public class MLRepository {
 	}
 	*/
 	
-	public Provider getProviderLessExpensiveProduct() {
+	/*public Provider getProviderLessExpensiveProduct() {
 		String query = "SELECT prov"
 					+ "FROM ProductOnSale pos JOIN p.provider as prov "
 					+ "WHERE pos.finalDate = null";
 		Session session = this.sessionFactory.getCurrentSession();
 		Purchase purchase  = (Purchase) session.createQuery(query).setParameter("id", id).uniqueResult();
 		return purchase;
+	}*/
+	
+	@Transactional
+	public List<Provider> getProvidersDoNotSellOn(Date day) {
+		String query = "select prov"
+				+ " from Provider prov"
+				+ " where prov not in ("
+					+ " select p"
+					+ " from Purchase pur JOIN pur.productOnSale as pos JOIN pos.provider as p"
+					+ " where pur.dateOfPurchase = :day)";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).setParameter("day",day).getResultList();
+	}
+	
+	@Transactional
+	public List<ProductOnSale> getSoldProductsOn(Date day) {
+		String query = "select distinct pos "
+				+ "from Purchase p JOIN p.productOnSale as pos "
+				+ "where p.dateOfPurchase = :day";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).setParameter("day",day).getResultList();
+	}
+	
+	@Transactional
+	public List<Product> getProductsNotSold() {
+		String query = "Select prod"
+				+ " From Product prod"
+				+ " where prod not in ("
+					+ " select prod"
+					+ " from Purchase p join p.productOnSale as pos join pos.product as prod )";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).getResultList();
+	}
+	
+	@Transactional
+	public DeliveryMethod getMostUsedDeliveryMethod() {
+		String query = "select dm"
+				+ " from Purchase p JOIN p.deliveryMethod as dm"
+				+ " group by dm"
+				+ " order by count(p) DESC";
+		Session session = this.sessionFactory.getCurrentSession();
+		return (DeliveryMethod) session.createQuery(query).list().get(0);
+	}
+	
+	@Transactional
+	public OnDeliveryPayment getMoreChangeOnDeliveryMethod() {
+		String query = "select pm"
+				+ " from Purchase p JOIN p.paymentMethod as pm"
+				+ " where pm.class = OnDeliveryPayment"
+				+ " order by (pm.promisedAmount - p.amount) DESC";
+		Session session = this.sessionFactory.getCurrentSession();
+		return (OnDeliveryPayment)session.createQuery(query).list().get(0);
+	}
+	
+	@Transactional
+	public Product getHeaviestProduct() {
+		String query = "select p"
+				+ " from Product p"
+				+ " order by p.weight DESC";
+		Session session = this.sessionFactory.getCurrentSession();
+		return (Product) session.createQuery(query).list().get(0);
+	}
+	
+	@Transactional
+	public Category getCategoryWithLessProducts() {
+		String query = "select c"
+				+ " from Product p JOIN p.category as c"
+				+ " group by c"
+				+ " order by count(p) ASC";
+		Session session = this.sessionFactory.getCurrentSession();
+		return (Category) session.createQuery(query).list().get(0);
 	}
 }
