@@ -325,10 +325,10 @@ public class MLRepository {
 		return session.createQuery(query).getResultList();
 	}
 	
-	/* 12
+	/*12
 	public List<Product> getProductWithMoreThan20percentDiferenceInPrice(){
 		//1.filtrar el ultimo POS de un Prov para todos Prov
-		 * "(FROM ProductOnSale.id "
+		  "(FROM ProductOnSale.id "
 		+ "WHERE product_id = :prod_id "
 		+ "and provider_id = :prov_id "
 		+ "and finalDate = null)";
@@ -337,21 +337,22 @@ public class MLRepository {
 		String query = "SELECT prod"
 						+ "FROM ProductOnSale pos JOIN p.provider as prov JOIN p.product as prod "
 						+ "WHERE pos.finalDate = null
-							GROUP BY prod
-							HAVING max(
+							+"GROUP BY prod"
+							+"HAVING max(";
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.createQuery(query).getResultList();
-	}
-	*/
-	
-	/*public Provider getProviderLessExpensiveProduct() {
-		String query = "SELECT prov"
-					+ "FROM ProductOnSale pos JOIN p.provider as prov "
-					+ "WHERE pos.finalDate = null";
-		Session session = this.sessionFactory.getCurrentSession();
-		Purchase purchase  = (Purchase) session.createQuery(query).setParameter("id", id).uniqueResult();
-		return purchase;
 	}*/
+	
+	@Transactional
+	public Provider getProviderLessExpensiveProduct() {
+		String query = "SELECT prov"
+					+ "FROM ProductOnSale pos JOIN pos.provider as prov "
+					+ "WHERE pos.finalDate = null "
+					+ "GROUP BY prov "
+					+ "ORDER BY min(pos.price)";
+		Session session = this.sessionFactory.getCurrentSession();
+		return (Provider) session.createQuery(query).list().get(0);
+	}
 	
 	@Transactional
 	public List<Provider> getProvidersDoNotSellOn(Date day) {

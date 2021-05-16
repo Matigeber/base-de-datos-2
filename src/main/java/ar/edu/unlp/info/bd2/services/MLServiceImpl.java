@@ -338,8 +338,8 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Provider getProviderLessExpensiveProduct() {
-		//return repository.getProviderLessExpensiveProduct();
-		return null;
+
+		return repository.getProviderLessExpensiveProduct();
 	}
 
 
