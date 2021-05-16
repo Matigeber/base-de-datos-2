@@ -127,26 +127,20 @@ public class MLServiceImpl implements MLService{
 			ProductOnSale prodSalecreated = repository.createProductOnSale(prodSale);
 			product.addProductOnsale(prodSale);
 			repository.updateProduct(product);
-			//provider.addProductOnSale(prodSale);
+			provider.addProductOnSale(prodSale);
 			repository.updateProvider(provider);
 			return prodSalecreated;
 		}else {
 			if (ps.getInitialDate().before(initialDate)) {
 				ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
 				repository.updateProductOnSale(ps);
-				System.out.println(" ------------------------------------------------------------ ");
-				System.out.println(ps.getId());
-				System.out.println(ps.getFinalDate());
 				ProductOnSale prodSale = new ProductOnSale(product, provider, price, initialDate);
 				ProductOnSale prodSaleCreated = repository.createProductOnSale(prodSale);
-				System.out.println("ENTRA AL CREATE DE PRODUCT ON SALEE--------------------------");
 				System.out.println(prodSaleCreated.getId());
-				/**product.addProductOnsale(prodSaleCreated);
+				product.addProductOnsale(prodSaleCreated);
 				this.repository.updateProduct(product);
-				System.out.println("ENTRA AL UPDATE DE PRODUCT--------------------------");
-				//provider.addProductOnSale(prodSaleCreated);
+				provider.addProductOnSale(prodSaleCreated);
 				repository.updateProvider(provider);
-				System.out.println("ENTRA AL UPDATE DE PROVIDER--------------------------");
 				return prodSale;
 			}else {
 				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
@@ -199,7 +193,6 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Optional<User> getUserByEmail(String email) {
-		// TODO Auto-generated method stub
 		Optional<User> user = Optional.ofNullable(this.repository.getUserByEmail(email));
 		return user;
 	}
@@ -320,36 +313,32 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public List<Purchase> getPurchasesForProvider(Long cuit) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getPurchasesForProvider(cuit);
 	}
 
 
 	@Override
 	public Product getBestSellingProduct() {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getBestSellingProduct();
 	}
 
 
 	@Override
 	public List<Product> getProductsOnePrice() {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getProductsOnePrice();
 	}
 
 
 	@Override
 	public List<Product> getProductWithMoreThan20percentDiferenceInPrice() {
-		// TODO Auto-generated method stub
+		//return repository.getProductWithMoreThan20percentDiferenceInPrice();
 		return null;
 	}
 
 
 	@Override
 	public Provider getProviderLessExpensiveProduct() {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getProviderLessExpensiveProduct();
 	}
 
 

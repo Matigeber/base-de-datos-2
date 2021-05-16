@@ -296,4 +296,60 @@ public class MLRepository {
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.createQuery(query).setParameter("category", category).getResultList();
 	}
+	
+	@Transactional
+	public List<Purchase> getPurchasesForProvider(Long cuit) {
+		String query = "SELECT pur "
+				+ "FROM Purchase pur JOIN pur.productOnSale as pos JOIN pos.provider as prov "
+				+ "WHERE prov.cuit = :cuit";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).setParameter("cuit", cuit).getResultList();
+	}
+	
+	public Product getBestSellingProduct() {
+		String query = "SELECT prod "
+				+ "FROM Purchase p JOIN p.productOnSale as pos JOIN pos.product as prod "
+				+ "GROUP BY prod "
+				+ "ORDER BY count(p) desc";
+		Session session = this.sessionFactory.getCurrentSession();
+		Product p  = (Product) session.createQuery(query).list().get(0);
+		return p;
+	}
+	
+	public List<Product> getProductsOnePrice(){
+		String query = "SELECT prod " 
+				+ "FROM ProductOnSale pos JOIN pos.product as prod "
+				+ "GROUP BY prod "
+				+ "HAVING count(pos) = 1";
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).getResultList();
+	}
+	
+	/* 12
+	public List<Product> getProductWithMoreThan20percentDiferenceInPrice(){
+		//1.filtrar el ultimo POS de un Prov para todos Prov
+		 * "(FROM ProductOnSale.id "
+		+ "WHERE product_id = :prod_id "
+		+ "and provider_id = :prov_id "
+		+ "and finalDate = null)";
+		//2.calcular diferencia max() min() entre Prov
+		//3. comparar dif > 20%
+		String query = "SELECT prod"
+						+ "FROM ProductOnSale pos JOIN p.provider as prov JOIN p.product as prod "
+						+ "WHERE pos.finalDate = null
+							GROUP BY prod
+							HAVING max(
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.createQuery(query).getResultList();
+	}
+	*/
+	
+	public Provider getProviderLessExpensiveProduct() {
+		String query = "SELECT prov"
+					+ "FROM ProductOnSale pos JOIN p.provider as prov "
+					+ "WHERE pos.finalDate = null";
+		Session session = this.sessionFactory.getCurrentSession();
+		Purchase purchase  = (Purchase) session.createQuery(query).setParameter("id", id).uniqueResult();
+		return purchase;
+	}
 }

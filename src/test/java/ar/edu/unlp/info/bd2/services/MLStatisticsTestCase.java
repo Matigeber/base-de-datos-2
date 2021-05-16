@@ -57,7 +57,7 @@ public class MLStatisticsTestCase {
         }
       }
     
-/*
+    /*
     @Test
     public void testGetAllPurchasesMadeByUser() {
     	assertEquals(5,this.service.getAllPurchasesMadeByUser("silviasez428@gmail.com").size());
@@ -84,9 +84,6 @@ public class MLStatisticsTestCase {
     	this.assertListEquality(providers.stream().map(property -> property.getName()).collect(Collectors.toList()),Arrays.asList("Grupo Nucleo S.A.","Refrigeracion MG Repuestos","Seara Refrigeración S.H."));
 
     }
-    /*
-
-    }
     
     @Test
     public void testGetTop3MoreExpensiveProducts() {
@@ -94,8 +91,8 @@ public class MLStatisticsTestCase {
     	assertEquals(3, products.size());
     	this.assertListEquality(products.stream().map(property -> property.getName()).collect(Collectors.toList()),Arrays.asList("Salamandra A Leña Tromen Pehuen 9500 Kcal/h 106 M2 Cuotas","Lavarropas  automático Samsung WW90J5410G inverter plata 9kg 220 V","Nebulizador a pistón Omron NE-C801 blanco 100V/240V"));
     }
-    */
-    /*
+
+
     @Test
     public void testGetTopNUsersMorePurchase() {
     	List<User> users = this.service.getTopNUsersMorePurchase(7);
@@ -110,7 +107,7 @@ public class MLStatisticsTestCase {
     	assertEquals(4,purchases.size());
     	this.assertListEquality(purchases.stream().map(property -> property.getAddress()).collect(Collectors.toList()),Arrays.asList("Calle 56 Nº1582","Calle 51 Nº399","Calle 44 Nº812","Calle 52 Nº816"));
     }
-    */
+
     
     @Test
     public void testGetProductForCategory() throws MLException {
@@ -123,7 +120,7 @@ public class MLStatisticsTestCase {
     	assertEquals(4,products.size());
     	this.assertListEquality(products.stream().map(property -> property.getName()).collect(Collectors.toList()),Arrays.asList("Caldera Peisa Diva Duo Ds 32000 Kcal Tiro Forzado","Caldera Mural Orbis 230cto Solo Calefaccion 29000 Kcal Tiro Natural Con Envio","Caldera Mural Orbis 230cto Calefaccion 30000 Kcal + Envio","Caldera A Gas Baxi Eco 4s 24 Doble Servicio Tiro Forzado"));
     }
-    /*
+
     @Test
     public void testGetPurchasesForProvider() {
     	List<Purchase> purchases = this.service.getPurchasesForProvider(21859773715L);
@@ -136,7 +133,7 @@ public class MLStatisticsTestCase {
     	Product product = this.service.getBestSellingProduct();
     	assertEquals(product.getName(),"Lavarropas  automático Samsung WW90J5410G inverter plata 9kg 220 V");
     }
-    
+     */   
     @Test
     public void testGetProductsOnePrice() {
     	List<Product> products = this.service.getProductsOnePrice();
@@ -146,7 +143,7 @@ public class MLStatisticsTestCase {
     @Test
     public void testGetProviderLessExpensiveProduct() {
     	Provider provider = this.service.getProviderLessExpensiveProduct();
-    	assertEquals(Long.valueOf(20535001383L),provider.getCuit());
+    	assertEquals(Long.valueOf(20535001383L),(Long) provider.getCuit());
     }
     
     @Test
@@ -196,5 +193,5 @@ public class MLStatisticsTestCase {
     public void testGetCategoryWithLessProducts() {
     	Category category = this.service.getCategoryWithLessProducts();
     	assertEquals("Calderas", category.getName());
-    }*/
+    }
 }
