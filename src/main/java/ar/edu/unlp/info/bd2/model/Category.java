@@ -26,8 +26,6 @@ public class Category {
 	private long id;
 	@Column(nullable = false, unique = true)
 	private String name;
-	//@OneToMany(mappedBy= "category", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
-	//private List<Product> products = new ArrayList<Product>();
 	
 	
 	
@@ -45,22 +43,11 @@ public class Category {
 		this.name = name;
 	}
 
-	/*public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(ArrayList<Product> products) {
-		this.products = products;
-	}*/
 
 	public long getId() {
 		return id;
 	}
 	
-	/*public void addProduct (Product product) {
-		this.products.add(product);
-	}*/
-
 
 	
 	

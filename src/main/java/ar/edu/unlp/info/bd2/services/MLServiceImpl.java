@@ -34,7 +34,6 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Category createCategory(String name) throws MLException {
-		/*throw new MLException("ya existe la categoria con el nombre pepito"); */
 		Category cat = repository.getCategoryByName(name);
 		if (cat == null){
 			Category category = new Category(name);
@@ -48,14 +47,10 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Product createProduct(String name, Float weight, Category category) throws MLException {
-		// TODO Auto-generated method stub
 		Product prod = repository.getProductByName(name);
 		if (prod == null) {
 			Product p = new Product(weight, name, category);
 			Product product = repository.createProduct(p);
-			/*category.addProduct(product);
-			repository.updateCategory(category);
-			*/
 			return product;
 		}else {
 			throw new MLException("Constraint Violation");
@@ -67,12 +62,10 @@ public class MLServiceImpl implements MLService{
 		User user = repository.getUserByEmail(email);
 		if (user == null) {
 			User usr = new User(email,password,fullname,dayOfBirth);
-			/* al crear al usuario pero no retornarlo desde el repositorio, ya tiene id? cuando se le establece el id? */
 			return repository.createUser(usr);
 		}else {
 			throw new MLException("Constraint Violation");
 		}
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -84,7 +77,6 @@ public class MLServiceImpl implements MLService{
 		}else {
 			throw new MLException("Constraint Violation");
 		}
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -149,10 +141,10 @@ public class MLServiceImpl implements MLService{
 		}
 		
 	}*/
+	
 	@Override
 	@Transactional
 	public ProductOnSale createProductOnSale (Product product, Provider provider, Float price, Date initialDate) throws MLException {
-		//ProductOnSale ps = repository.getProductOnSale(product, provider);
 		List<ProductOnSale> productsOfProvider = product.getProductsOnSaleByProvider(provider);
 		if (productsOfProvider.size() > 0) {
 			ProductOnSale ps = productsOfProvider.get(productsOfProvider.size() - 1);
@@ -165,7 +157,6 @@ public class MLServiceImpl implements MLService{
 		product.addProductOnsale(productOnSale);
 		this.repository.updateProduct(product);
 		return product.getProductsOnSale().get(product.getProductsOnSale().size() - 1);
-		//return productOnSale;
 	}
 
 
@@ -176,14 +167,6 @@ public class MLServiceImpl implements MLService{
 		if (deliveryMethod.checkShipping(productOnSale.getProduct().getWeight() * quantity)) {
 			Purchase p = new Purchase(productOnSale, quantity, client, deliveryMethod, paymentMethod, address, coordX, coordY, dateOfPurchase);
 			Purchase purchase = repository.createPurchase(p);
-			//productOnSale.addPurchase(purchase);
-			//repository.updateProductOnSale(productOnSale);
-			//client.addPurchase(purchase);
-			//repository.updateUser(client);
-			//deliveryMethod.addPurchase(purchase);
-			//repository.updateDeliveryMethod(deliveryMethod);
-			//paymentMethod.addPurchase(purchase);
-			//repository.updatePaymentMethod(paymentMethod);
 			return purchase;
 		}else {
 			throw new MLException("método de delivery no válido");
@@ -212,7 +195,6 @@ public class MLServiceImpl implements MLService{
 	@Override
 	public Optional<Product> getProductByName(String name) {
 		Optional<Product> prod = Optional.ofNullable(this.repository.getProductByName(name));
-		// TODO Auto-generated method stub
 		return prod;
 	}
 
@@ -244,8 +226,8 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public Optional<Purchase> getPurchaseById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Purchase> dp = Optional.ofNullable(this.repository.getPurchaseById(id));
+		return dp;
 	}
 	
 	private Date addOrSubtractDays (Date date, int days) {
@@ -258,7 +240,7 @@ public class MLServiceImpl implements MLService{
 	@Override
 	@Transactional
 	public List<Purchase> getAllPurchasesMadeByUser(String username){
-		User user = this.repository.getUserByEmail(username); /* username es igual a email*/
+		User user = this.repository.getUserByEmail(username);
 		System.out.println(user);
 		if (user == null){
 			System.out.println("No existe el user");
@@ -331,8 +313,8 @@ public class MLServiceImpl implements MLService{
 
 	@Override
 	public List<Product> getProductWithMoreThan20percentDiferenceInPrice() {
-		//return repository.getProductWithMoreThan20percentDiferenceInPrice();
-		return null;
+		
+		return repository.getProductWithMoreThan20percentDiferenceInPrice();
 	}
 
 

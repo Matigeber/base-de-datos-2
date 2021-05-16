@@ -29,8 +29,6 @@ public abstract class PaymentMethod {
 	@Column(nullable = false)
 	private String name;
 	
-	/*@OneToMany(mappedBy= "paymentMethod", cascade = CascadeType.ALL)
-	private List<Purchase> purchases = new ArrayList<Purchase>();*/
 	
 	public PaymentMethod() {
 		
@@ -46,18 +44,6 @@ public abstract class PaymentMethod {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	/*public List<Purchase> getPurchases() {
-		return purchases;
-	}
-
-	public void setPurchases(List<Purchase> purchases) {
-		this.purchases = purchases;
-	}
-	
-	public void addPurchase (Purchase purchase) {
-		this.purchases.add(purchase);
-	}*/
 
 	public long getId() {
 		return id;

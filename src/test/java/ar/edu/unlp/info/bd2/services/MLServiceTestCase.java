@@ -1,4 +1,4 @@
-/* package ar.edu.unlp.info.bd2.services;
+package ar.edu.unlp.info.bd2.services;
 
 import ar.edu.unlp.info.bd2.config.AppConfig;
 import ar.edu.unlp.info.bd2.config.HibernateConfiguration;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AppConfig.class, HibernateConfiguration.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
-@Rollback(true) //probar en false
+@Rollback(true) 
 public class MLServiceTestCase {
 
     @Autowired
@@ -250,5 +250,5 @@ public class MLServiceTestCase {
         assertEquals("método de delivery no válido",ex.getMessage());
     } 
 }
-**/
+
 

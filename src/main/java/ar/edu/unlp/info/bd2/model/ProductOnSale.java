@@ -33,11 +33,8 @@ public class ProductOnSale {
 	private Provider provider;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "product_id",nullable = false)
 	private Product product;
 	
-	/*@OneToMany(mappedBy= "productOnSale", cascade = CascadeType.ALL ) 
-	private List<Purchase> purchases = new ArrayList<Purchase>();*/
 	
 	@Column(nullable = false)
 	private Float price;
@@ -88,18 +85,6 @@ public class ProductOnSale {
 	public void setInitialDate(Date initialDate) {
 		this.initialDate = initialDate;
 	}
-
-	/*public List<Purchase> getPurchases() {
-		return purchases;
-	}
-
-	public void setPurchases(List<Purchase> purchases) {
-		this.purchases = purchases;
-	}
-	
-	public void addPurchase(Purchase purchase) {
-		this.purchases.add(purchase);
-	}*/
 
 	public long getId() {
 		return id;

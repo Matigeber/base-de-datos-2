@@ -36,9 +36,9 @@ public class MLRepository {
 	
 	@Transactional
 	public Category getCategoryByName(String name) {
-		String query = "FROM Category WHERE name = :name"; /* esto es HQL */
+		String query = "FROM Category WHERE name = :name"; 
 		Session session = this.sessionFactory.getCurrentSession();
-		Category cat = (Category) session.createQuery(query).setParameter("name", name).uniqueResult(); /* devuelve en formato query hay que castearlo a Category */
+		Category cat = (Category) session.createQuery(query).setParameter("name", name).uniqueResult();
 		return cat;
 		
 	}
@@ -97,7 +97,7 @@ public class MLRepository {
 	public DeliveryMethod createDeliveryMethod(DeliveryMethod dm) {
 		this.sessionFactory.getCurrentSession().save(dm);
 		return dm;
-		/*return this.getDeliveryMethodById(dm.getId())*/ /* Devolver el que me viene por parametro luego del save o volverlo a buscar en la base*/
+		/*return this.getDeliveryMethodById(dm.getId())*/
 	}
 	@Transactional
 	public DeliveryMethod getDeliveryMethodById(long id) {
@@ -175,14 +175,7 @@ public class MLRepository {
 		String query = "FROM ProductOnSale WHERE product_id = :prod_id and provider_id = :prov_id and finalDate = null";
 		Session session = this.sessionFactory.getCurrentSession();
 		ProductOnSale ps  = (ProductOnSale) session.createQuery(query).setParameter("prod_id", prod.getId()).setParameter("prov_id", prov.getId()).uniqueResult();
-		/*List<ProductOnSale> lista = session.createQuery(query).setParameter("prod_id", prod.getId()).setParameter("prov_id", prov.getId()).getResultList();
-		for (int i=1 ; i<= lista.size() ; i++ ) {
-			System.out.println(lista.get(i).getFinalDate());
-		}
-		System.out.println(lista);
-		System.out.println(lista.get(0).getFinalDate());
-		System.out.println(lista.get(1).getFinalDate());
-		*/return ps;
+		return ps;
 	}
 	
 	@Transactional
@@ -219,8 +212,7 @@ public class MLRepository {
 	public List<Purchase> getAllPurchasesByUser(long user_id){
 		String query = "FROM Purchase WHERE user_id = :user_id";
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Purchase> purchases  = session.createQuery(query).setParameter("user_id", user_id).list();
-		return purchases;
+		return session.createQuery(query).setParameter("user_id", user_id).list();
 	}
 	
 	@Transactional
@@ -229,8 +221,7 @@ public class MLRepository {
 				+ "FROM Purchase p join p.client as cli "
 				+ "WHERE p.amount > :amount";
 		Session session = this.sessionFactory.getCurrentSession();
-		List<User> users  = session.createQuery(query).setParameter("amount", amount).list();
-		return users;
+		return session.createQuery(query).setParameter("amount", amount).list();
 	}
 	
 	@Transactional
@@ -240,22 +231,17 @@ public class MLRepository {
 				+ "GROUP BY cli "
 				+ "HAVING sum(p.amount) > :amount";
 		Session session = this.sessionFactory.getCurrentSession();
-		List<User> users  = session.createQuery(query).setParameter("amount", amount.doubleValue()).list();
-		return users;
+		return session.createQuery(query).setParameter("amount", amount.doubleValue()).list();
 	}
 	
 	@Transactional
 	public List<Provider> getTopNProvidersInPurchases(int n){ 
-		/**" Esto se refiere a ProductOnSale -> Purchase -> Quantity (Sumatoria de cantidades) (HICIMOS ESTA)
-		 * 	o se refiere a ProductOnSale -> Product (Sumatoria de productos individual)
-		 */ 
 		String query = "SELECT p " +
 				"FROM Purchase ps join ps.productOnSale as pos join pos.provider as p "+
 		        "GROUP BY p "+ 
 		        "order by sum(ps.quantity) desc ";
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Provider> topN  = session.createQuery(query).setMaxResults(n).list();
-		return topN;
+		return session.createQuery(query).setMaxResults(n).list();
 	}
 	
 	@Transactional
@@ -283,7 +269,7 @@ public class MLRepository {
 	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
 		String query = "SELECT pur " +
 						"FROM Purchase pur "+
-						"WHERE pur.DateOfPurchase between :startDate and :endDate";
+						"WHERE pur.dateOfPurchase between :startDate and :endDate";
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.createQuery(query).setParameter("startDate", startDate).setParameter("endDate", endDate).getResultList();
 	}
@@ -306,6 +292,7 @@ public class MLRepository {
 		return session.createQuery(query).setParameter("cuit", cuit).getResultList();
 	}
 	
+	@Transactional
 	public Product getBestSellingProduct() {
 		String query = "SELECT prod "
 				+ "FROM Purchase p JOIN p.productOnSale as pos JOIN pos.product as prod "
@@ -316,6 +303,7 @@ public class MLRepository {
 		return p;
 	}
 	
+	@Transactional
 	public List<Product> getProductsOnePrice(){
 		String query = "SELECT prod " 
 				+ "FROM ProductOnSale pos JOIN pos.product as prod "
@@ -325,27 +313,20 @@ public class MLRepository {
 		return session.createQuery(query).getResultList();
 	}
 	
-	/*12
+	@Transactional
 	public List<Product> getProductWithMoreThan20percentDiferenceInPrice(){
-		//1.filtrar el ultimo POS de un Prov para todos Prov
-		  "(FROM ProductOnSale.id "
-		+ "WHERE product_id = :prod_id "
-		+ "and provider_id = :prov_id "
-		+ "and finalDate = null)";
-		//2.calcular diferencia max() min() entre Prov
-		//3. comparar dif > 20%
-		String query = "SELECT prod"
-						+ "FROM ProductOnSale pos JOIN p.provider as prov JOIN p.product as prod "
-						+ "WHERE pos.finalDate = null
-							+"GROUP BY prod"
-							+"HAVING max(";
+		String query = "SELECT prod "
+						+"FROM ProductOnSale pos JOIN pos.provider as prov JOIN pos.product as prod "
+						+"WHERE pos.finalDate = null "
+						+"GROUP BY prod "
+						+"HAVING ((max(pos.price) - min(pos.price)) / max(pos.price)) > 0.20";
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.createQuery(query).getResultList();
-	}*/
+	}
 	
 	@Transactional
 	public Provider getProviderLessExpensiveProduct() {
-		String query = "SELECT prov"
+		String query = "SELECT prov "
 					+ "FROM ProductOnSale pos JOIN pos.provider as prov "
 					+ "WHERE pos.finalDate = null "
 					+ "GROUP BY prov "

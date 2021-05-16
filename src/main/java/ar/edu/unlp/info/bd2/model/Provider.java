@@ -31,8 +31,6 @@ public class Provider {
 	@Column(nullable = false, unique = true)
 	private long cuit;
 	
-	/*@OneToMany(mappedBy= "provider", cascade = CascadeType.ALL ) 
-	private List<ProductOnSale> productsOnSale = new ArrayList<ProductOnSale>();*/
 	
 	public Provider() {}
 
@@ -62,17 +60,5 @@ public class Provider {
 		return id;
 	}
 
-	/*public List<ProductOnSale> getProductsOnSale() {
-		return productsOnSale;
-	}
-
-	public void setProductsOnSale(List<ProductOnSale> productsOnSale) {
-		this.productsOnSale = productsOnSale;
-	}
-	
-	public void addProductOnSale (ProductOnSale ps) {
-		this.productsOnSale.add(ps);
-	}*/
-	
 	
 }
