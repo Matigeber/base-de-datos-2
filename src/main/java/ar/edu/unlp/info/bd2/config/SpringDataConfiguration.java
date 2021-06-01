@@ -40,8 +40,8 @@ public class SpringDataConfiguration {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/grupo" + this.getGroupNumber()+"?useSSL=false");
-        dataSource.setUsername("grupo999");
-        dataSource.setPassword("pa$$word");
+        dataSource.setUsername("grupo1");
+        dataSource.setPassword("bd2");
 
         return dataSource;
     }
@@ -82,6 +82,6 @@ public class SpringDataConfiguration {
     }
 
     private Integer getGroupNumber() {
-        return 999;
+        return 1;
     }
 }
