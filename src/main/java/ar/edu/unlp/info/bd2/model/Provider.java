@@ -29,7 +29,7 @@ public class Provider {
 	private String name;
 	
 	@Column(nullable = false, unique = true)
-	private long cuit;
+	private Long cuit;
 	
 	
 	public Provider() {}
@@ -48,7 +48,7 @@ public class Provider {
 		this.name = name;
 	}
 
-	public long getCuit() {
+	public Long getCuit() {
 		return cuit;
 	}
 

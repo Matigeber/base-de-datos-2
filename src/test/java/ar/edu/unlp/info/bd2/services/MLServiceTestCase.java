@@ -70,7 +70,7 @@ public class MLServiceTestCase {
         User user = us.get();
         assertNotNull (user.getId());
         assertEquals("Federico Orlando",user.getFullname());
-        assertEquals(dob, user.getDayOfBirth());
+        assertEquals(dob, user.getBirth_date());
         assertEquals("pas$w0rd", user.getPassword());
         MLException ex = assertThrows(MLException.class, () -> this.service.createUser("federico.orlando@info.unlp.edu.ar", "Federico Orlando", "pas$w0rd", dob));
         assertEquals("Constraint Violation",ex.getMessage());
@@ -99,14 +99,14 @@ public class MLServiceTestCase {
         assertNotNull(cat.getId());
         Product prod = this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), cat);
         assertNotNull(prod.getId());
-        assertEquals(40.5F, (float) prod.getWeigth());
+        assertEquals(40.5F, (float) prod.getWeight());
         Optional<Product> p = this.service.getProductByName("Lamparita led 7w fria");
         if (!p.isPresent()) {
             throw new MLException("Product doesn't exists");
         }
         Product product = p.get();
         assertNotNull(product.getId());
-        assertEquals(Float.valueOf(40.5F), product.getWeigth());
+        assertEquals(Float.valueOf(40.5F), product.getWeight());
         assertEquals("Hogar",product.getCategory().getName());
         MLException ex = assertThrows(MLException.class, () -> this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), cat));
         assertEquals("Constraint Violation",ex.getMessage());
@@ -181,7 +181,7 @@ public class MLServiceTestCase {
         Date id = cal.getTime();
         ProductOnSale pos = this.service.createProductOnSale(prod, p, 158.52F, id);
         assertNotNull(pos.getId());
-        assertEquals(Float.valueOf(40.5F),pos.getProduct().getWeigth());
+        assertEquals(Float.valueOf(40.5F),pos.getProduct().getWeight());
         assertEquals(1,pos.getProduct().getProductsOnSale().size());
         assertEquals(Float.valueOf(158.52F),pos.getPrice());
         assertEquals(null,pos.getFinalDate());
