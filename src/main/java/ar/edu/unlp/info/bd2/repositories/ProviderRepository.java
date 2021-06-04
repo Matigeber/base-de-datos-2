@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProviderRepository extends CrudRepository<Provider, Long>{
-
+	
+	Provider findByCuit(long cuit);
+	boolean existsByCuit(long cuit);
 }

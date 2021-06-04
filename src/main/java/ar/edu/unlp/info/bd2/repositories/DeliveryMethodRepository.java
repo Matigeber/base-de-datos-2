@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeliveryMethodRepository extends CrudRepository<DeliveryMethod, Long>{
-
+	
+	DeliveryMethod findByName(String name);
 }

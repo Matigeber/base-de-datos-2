@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CreditCardPaymentRepository extends CrudRepository<CreditCardPayment, Long>{
 
+	CreditCardPayment findByName(String name);
+	boolean existsByName(String name);
 }
