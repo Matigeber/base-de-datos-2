@@ -1,4 +1,4 @@
-package ar.edu.unlp.info.bd2.services;
+/*package ar.edu.unlp.info.bd2.services;
 
 import ar.edu.unlp.info.bd2.config.*;
 import ar.edu.unlp.info.bd2.model.*;
@@ -196,3 +196,4 @@ public class MLStatisticsTestCase {
         assertEquals("Calderas", category.getName());
     }
 }
+*/
