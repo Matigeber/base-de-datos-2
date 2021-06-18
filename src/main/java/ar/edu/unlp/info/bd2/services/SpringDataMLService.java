@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -41,121 +44,125 @@ public class SpringDataMLService implements MLService{
 	
 	@Override
 	public List<Purchase> getAllPurchasesMadeByUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		User u = userR.findByEmail(username);
+		if (u != null) {
+			return userR.getAllPurchasesByUser(u.getId());
+		}else {
+			System.out.println("User does not exist.");
+			return null;
+		}
 	}
 
 	@Override
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount) {
-		// TODO Auto-generated method stub
-		return null;
+		return purchaseR.getUsersSpendingMoreThanInPurchase(amount);
+		
 	}
 
 	@Override
 	public List<User> getUsersSpendingMoreThan(Float amount) {
-		// TODO Auto-generated method stub
-		return null;
+		return purchaseR.getUsersSpendingMoreThan(amount.doubleValue());
 	}
 
 	@Override
 	public List<Provider> getTopNProvidersInPurchases(int n) {
-		// TODO Auto-generated method stub
-		return null;
+		Pageable p = PageRequest.of(0,n);
+		return purchaseR.getTopNProvidersInPurchases(p);
 	}
 
 	@Override
 	public List<Product> getTop3MoreExpensiveProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		Pageable p = PageRequest.of(0,3);
+		return productOnSaleR.getTop3MoreExpensiveProducts(p);
 	}
 
 	@Override
 	public List<User> getTopNUsersMorePurchase(int n) {
-		// TODO Auto-generated method stub
-		return null;
+		Pageable p = PageRequest.of(0,n);
+		return userR.getTopNUsersMorePurchase(p);
 	}
 
 	@Override
 	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return purchaseR.getPurchasesInPeriod(startDate, endDate);
+		
 	}
 
 	@Override
 	public List<Product> getProductForCategory(Category category) {
-		// TODO Auto-generated method stub
-		return null;
+		return productR.getProductForCategory(category);
 	}
 
 	@Override
 	public List<Purchase> getPurchasesForProvider(Long cuit) {
-		// TODO Auto-generated method stub
-		return null;
+		return purchaseR.getPurchasesForProvider(cuit);
 	}
 
 	@Override
 	public Product getBestSellingProduct() {
-		// TODO Auto-generated method stub
+		Pageable p = PageRequest.of(0, 1);
+		//return productR.getBestSellingProduct(p);
 		return null;
 	}
 
 	@Override
 	public List<Product> getProductsOnePrice() {
-		// TODO Auto-generated method stub
-		return null;
+		return productR.getProductsOnePrice();
+		
 	}
 
 	@Override
 	public List<Product> getProductWithMoreThan20percentDiferenceInPrice() {
-		// TODO Auto-generated method stub
-		return null;
+		return productR.getProductWithMoreThan20percentDiferenceInPrice();
 	}
 
 	@Override
 	public Provider getProviderLessExpensiveProduct() {
-		// TODO Auto-generated method stub
+		Pageable p = PageRequest.of(0, 1);
+		//return providerR.getProviderLessExpensiveProduct(p);
 		return null;
 	}
 
 	@Override
 	public List<Provider> getProvidersDoNotSellOn(Date day) {
-		// TODO Auto-generated method stub
-		return null;
+		return providerR.getProvidersDoNotSellOn(day);
 	}
 
 	@Override
 	public List<ProductOnSale> getSoldProductsOn(Date day) {
-		// TODO Auto-generated method stub
-		return null;
+		return productOnSaleR.getSoldProductsOn(day);
 	}
 
 	@Override
 	public List<Product> getProductsNotSold() {
-		// TODO Auto-generated method stub
-		return null;
+		return productR.getProductsNotSold();
 	}
 
 	@Override
 	public DeliveryMethod getMostUsedDeliveryMethod() {
-		// TODO Auto-generated method stub
+		Pageable p = PageRequest.of(0,1);
+		//return deliveryMethodR.getMostUsedDeliveryMethod(p);
 		return null;
 	}
 
 	@Override
 	public OnDeliveryPayment getMoreChangeOnDeliveryMethod() {
-		// TODO Auto-generated method stub
+		Pageable p = PageRequest.of(0, 1);
+		//return onDeliveryPaymentR.getMoreChangeOnDeliveryMethod(p);
 		return null;
 	}
 
 	@Override
 	public Product getHeaviestProduct() {
-		// TODO Auto-generated method stub
+		Pageable p = new PageRequest(0,1);
+		//return productR.getHeaviestProduct(p);
 		return null;
 	}
 
 	@Override
 	public Category getCategoryWithLessProducts() {
-		// TODO Auto-generated method stub
+		Pageable p = PageRequest.of(0, 1);
+		//return categoryR.getCategoryWithLessProducts(p);
 		return null;
 	}
 
@@ -238,11 +245,13 @@ public class SpringDataMLService implements MLService{
 				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
 			}
 			ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
+			productOnSaleR.save(ps);
 		}
 		ProductOnSale productOnSale = new ProductOnSale(product,provider,price,initialDate);
 		product.addProductOnsale(productOnSale);
-		productR.save(product);
-		return product.getProductsOnSale().get(product.getProductsOnSale().size() - 1);
+		/*productR.save(product);*/
+		return productOnSaleR.save(productOnSale);
+		//return product.getProductsOnSale().get(product.getProductsOnSale().size() - 1);
 	}
 
 	@Override
@@ -251,7 +260,8 @@ public class SpringDataMLService implements MLService{
 			Date dateOfPurchase) throws MLException {
 		if (deliveryMethod.checkShipping(productOnSale.getProduct().getWeight() * quantity)) {
 			Purchase p = new Purchase(productOnSale, quantity, client, deliveryMethod, paymentMethod, address, coordX, coordY, dateOfPurchase);
-			return purchaseR.save(p);
+			Purchase purchase = purchaseR.save(p);
+			return purchase;
 		}else {
 			throw new MLException("método de delivery no válido");
 		}
@@ -288,7 +298,7 @@ public class SpringDataMLService implements MLService{
 
 	@Override
 	public Optional<DeliveryMethod> getDeliveryMethodByName(String name) {
-		return Optional.ofNullable(deliveryMethodR.findByName(name));
+		return Optional.ofNullable(deliveryMethodR.findFirstByName(name));
 	}
 
 	@Override
