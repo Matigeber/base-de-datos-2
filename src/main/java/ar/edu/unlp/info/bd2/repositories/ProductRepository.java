@@ -21,13 +21,13 @@ public interface ProductRepository extends CrudRepository<Product, Long>{
 						"FROM Product p "+
 						"WHERE p.category = :category")
 	public List<Product> getProductForCategory(@Param("category") Category category);
-	/*
+	
 	@Query("SELECT prod "
 			+ "FROM Purchase p JOIN p.productOnSale as pos JOIN pos.product as prod "
 			+ "GROUP BY prod "
 			+ "ORDER BY count(p) desc")
-	public Product getBestSellingProduct(Pageable p);
-	*/
+	public List<Product> getBestSellingProduct(Pageable p);
+	
 	@Query("SELECT prod " 
 			+ "FROM ProductOnSale pos JOIN pos.product as prod "
 			+ "GROUP BY prod "
@@ -47,9 +47,9 @@ public interface ProductRepository extends CrudRepository<Product, Long>{
 				+ " select prod"
 				+ " from Purchase p join p.productOnSale as pos join pos.product as prod )")
 	public List<Product> getProductsNotSold();
-	/*
+	
 	@Query("select p"
 			+ " from Product p"
 			+ " order by p.weight DESC")
-	public Product getHeaviestProduct(Pageable p);*/
+	public List<Product> getHeaviestProduct(Pageable p);
 }

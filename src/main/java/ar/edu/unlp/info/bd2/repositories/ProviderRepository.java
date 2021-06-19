@@ -18,13 +18,13 @@ public interface ProviderRepository extends CrudRepository<Provider, Long>{
 	Provider findByCuit(long cuit);
 	boolean existsByCuit(long cuit);
 	
-	/*
+	
 	@Query("SELECT prov "
 			+ "FROM ProductOnSale pos JOIN pos.provider as prov "
 			+ "WHERE pos.finalDate = null "
 			+ "GROUP BY prov "
 			+ "ORDER BY min(pos.price)")
-	public Provider getProviderLessExpensiveProduct(Pageable p);*/
+	public List<Provider> getProviderLessExpensiveProduct(Pageable p);
 	
 	@Query("select prov"
 			+ " from Provider prov"

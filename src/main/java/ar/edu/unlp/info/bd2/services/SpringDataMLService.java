@@ -101,8 +101,8 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public Product getBestSellingProduct() {
 		Pageable p = PageRequest.of(0, 1);
-		//return productR.getBestSellingProduct(p);
-		return null;
+		return productR.getBestSellingProduct(p).get(0);
+		
 	}
 
 	@Override
@@ -119,8 +119,7 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public Provider getProviderLessExpensiveProduct() {
 		Pageable p = PageRequest.of(0, 1);
-		//return providerR.getProviderLessExpensiveProduct(p);
-		return null;
+		return providerR.getProviderLessExpensiveProduct(p).get(0);
 	}
 
 	@Override
@@ -141,29 +140,25 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public DeliveryMethod getMostUsedDeliveryMethod() {
 		Pageable p = PageRequest.of(0,1);
-		//return deliveryMethodR.getMostUsedDeliveryMethod(p);
-		return null;
+		return deliveryMethodR.getMostUsedDeliveryMethod(p).get(0);
 	}
 
 	@Override
 	public OnDeliveryPayment getMoreChangeOnDeliveryMethod() {
 		Pageable p = PageRequest.of(0, 1);
-		//return onDeliveryPaymentR.getMoreChangeOnDeliveryMethod(p);
-		return null;
+		return onDeliveryPaymentR.getMoreChangeOnDeliveryMethod(p).get(0);
 	}
 
 	@Override
 	public Product getHeaviestProduct() {
-		Pageable p = new PageRequest(0,1);
-		//return productR.getHeaviestProduct(p);
-		return null;
+		Pageable p = PageRequest.of(0,1);
+		return productR.getHeaviestProduct(p).get(0);
 	}
 
 	@Override
 	public Category getCategoryWithLessProducts() {
 		Pageable p = PageRequest.of(0, 1);
-		//return categoryR.getCategoryWithLessProducts(p);
-		return null;
+		return categoryR.getCategoryWithLessProducts(p).get(0);
 	}
 
 	@Override
@@ -212,15 +207,10 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public CreditCardPayment createCreditCardPayment(String name, String brand, Long number, Date expiry, Integer cvv,
 			String owner) throws MLException {
-		System.out.println("------------------------------------------------------------------");
-		System.out.println("***");
 		boolean cp = creditCardPaymentR.existsByName(name);
-		System.out.println("------------------------------------------------------------------");
-		System.out.println(cp);
 		if (cp == false) {
 			CreditCardPayment credCP = new CreditCardPayment(name, brand, number, expiry, cvv, owner);
 			CreditCardPayment returned = creditCardPaymentR.save(credCP);
-			System.out.println("------------------------------------------------------------------");
 			System.out.println(returned);
 			
 			return returned;}
