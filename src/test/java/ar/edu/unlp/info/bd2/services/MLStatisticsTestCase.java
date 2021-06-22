@@ -1,4 +1,4 @@
-/*package ar.edu.unlp.info.bd2.services;
+package ar.edu.unlp.info.bd2.services;
 
 import ar.edu.unlp.info.bd2.config.*;
 import ar.edu.unlp.info.bd2.model.*;
@@ -62,12 +62,11 @@ public class MLStatisticsTestCase {
         }
     }
 
-    
     @Test
     public void testGetAllPurchasesMadeByUser() {
         assertEquals(5,this.service.getAllPurchasesMadeByUser("silviasez428@gmail.com").size());
     }
-
+    
     @Test
     public void testGetUsersSpendingMoreThanInPurchase() {
         List<User> users = this.service.getUsersSpendingMoreThanInPurchase(Float.valueOf(920000F));
@@ -88,14 +87,14 @@ public class MLStatisticsTestCase {
         assertEquals(3,providers.size());
         this.assertListEquality(providers.stream().map(property -> property.getName()).collect(Collectors.toList()),Arrays.asList("Grupo Nucleo S.A.","Refrigeracion MG Repuestos","Seara Refrigeración S.H."));
     }
-
+    
     @Test
     public void testGetTop3MoreExpensiveProducts() {
         List<Product> products = this.service.getTop3MoreExpensiveProducts();
         assertEquals(3, products.size());
         this.assertListEquality(products.stream().map(property -> property.getName()).collect(Collectors.toList()),Arrays.asList("Salamandra A Leña Tromen Pehuen 9500 Kcal/h 106 M2 Cuotas","Lavarropas  automático Samsung WW90J5410G inverter plata 9kg 220 V","Nebulizador a pistón Omron NE-C801 blanco 100V/240V"));
     }
-
+    
     @Test
     public void testGetTopNUsersMorePurchase() {
         List<User> users = this.service.getTopNUsersMorePurchase(7);
@@ -103,7 +102,7 @@ public class MLStatisticsTestCase {
         this.assertListEquality(users.stream().map(property -> property.getEmail()).collect(Collectors.toList()),Arrays.asList("silviasez428@gmail.com","matiasherrero831@gmail.com","santiagoserrano157@yahoo.com","silviaromero99@me.com","florenciaalonso505@yahoo.com","paulacaballero154@yahoo.com","paulamorales955@yahoo.com"));
 
     }
-
+    
     @Test
     public void testGetPurchasesInPeriod() throws ParseException {
         List<Purchase> purchases = this.service.getPurchasesInPeriod(sdf.parse("8/1/2020"),sdf.parse("20/01/2020"));
@@ -134,66 +133,67 @@ public class MLStatisticsTestCase {
         Product product = this.service.getBestSellingProduct();
         assertEquals(product.getName(),"Lavarropas  automático Samsung WW90J5410G inverter plata 9kg 220 V");
     }
-
+    
     @Test
     public void testGetProductsOnePrice() {
         List<Product> products = this.service.getProductsOnePrice();
         assertEquals(12,products.size());
     }
-
+    
     @Test
     public void testGetProviderLessExpensiveProduct() {
         Provider provider = this.service.getProviderLessExpensiveProduct();
         assertEquals(Long.valueOf(20535001383L),provider.getCuit());
     }
-
+    
+    
     @Test
     public void testGetProvidersDoNotSellOn() throws ParseException {
         List<Provider> providers = this.service.getProvidersDoNotSellOn(sdf.parse("29/01/2020"));
         assertEquals(16,providers.size());
     }
-
+    
     @Test
     public void testGetSoldProductsOn() throws ParseException {
         List<ProductOnSale> products = this.service.getSoldProductsOn(sdf.parse("07/11/2019"));
         assertEquals(3,products.size());
         this.assertListEquality(products.stream().map(property -> property.getProduct().getName()).collect(Collectors.toList()),Arrays.asList("Anafe eléctrico Ultracomb AN-2211  negro 220V","Cocina Escorial Candor S2  multigas 4 hornallas  blanca 220V puerta  con visor","Lavavajillas Drean Dish 15.2 DT de 15 cubiertos blanco 220V"));
     }
-
+    
     @Test
     public void testGetProductsNotSold() {
         List<Product> products = this.service.getProductsNotSold();
         assertEquals(49,products.size());
     }
-
+    
     @Test
     public void testGetMostUsedDeliveryMethod() {
         DeliveryMethod dm = this.service.getMostUsedDeliveryMethod();
         assertEquals("Flete",dm.getName());
     }
-
+    
+    
     @Test
     public void testGetMoreChangeOnDeliveryMethod() {
         OnDeliveryPayment odp = this.service.getMoreChangeOnDeliveryMethod();
         assertEquals("Pago Efectivo pos072",odp.getName());
     }
-
+	
     @Test
     public void testGetProductWithMoreThan20percentDiferenceInPrice() {
         List<Product> products = this.service.getProductWithMoreThan20percentDiferenceInPrice();
         assertEquals(29,products.size());
     }
-
+    
     @Test
     public void testGetHeaviestProduct() {
         Product product = this.service.getHeaviestProduct();
         assertEquals("Lavavajillas Drean Dish 15.2 DT de 15 cubiertos blanco 220V",product.getName());
     }
-
+    
     @Test
     public void testGetCategoryWithLessProducts() {
         Category category = this.service.getCategoryWithLessProducts();
         assertEquals("Calderas", category.getName());
     }
 }
-*/

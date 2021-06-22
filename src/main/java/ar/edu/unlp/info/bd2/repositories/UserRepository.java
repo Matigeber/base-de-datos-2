@@ -2,14 +2,18 @@ package ar.edu.unlp.info.bd2.repositories;
 import ar.edu.unlp.info.bd2.model.Purchase;
 import ar.edu.unlp.info.bd2.model.User;
 
-import java.util.List;
+import ar.edu.unlp.info.bd2.model.Purchase;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 
 public interface UserRepository extends CrudRepository<User, Long>{

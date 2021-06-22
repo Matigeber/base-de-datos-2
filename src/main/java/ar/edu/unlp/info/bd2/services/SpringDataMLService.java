@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,6 +58,7 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount) {
 		return purchaseR.getUsersSpendingMoreThanInPurchase(amount);
+
 	}
 
 	@Override
@@ -64,19 +68,19 @@ public class SpringDataMLService implements MLService{
 
 	@Override
 	public List<Provider> getTopNProvidersInPurchases(int n) {
-		Pageable p = new PageRequest(0,n);
+		Pageable p = PageRequest.of(0,n);
 		return purchaseR.getTopNProvidersInPurchases(p);
 	}
 
 	@Override
 	public List<Product> getTop3MoreExpensiveProducts() {
-		Pageable p = new PageRequest(0,3);
+		Pageable p = PageRequest.of(0,3);
 		return productOnSaleR.getTop3MoreExpensiveProducts(p);
 	}
 
 	@Override
 	public List<User> getTopNUsersMorePurchase(int n) {
-		Pageable p = new PageRequest(0,n);
+		Pageable p = PageRequest.of(0,n);
 		return userR.getTopNUsersMorePurchase(p);
 	}
 
@@ -97,8 +101,8 @@ public class SpringDataMLService implements MLService{
 
 	@Override
 	public Product getBestSellingProduct() {
-		Pageable p = new PageRequest(0,1);
-		return productR.getBestSellingProduct(p);
+		Pageable p = PageRequest.of(0, 1);
+		return productR.getBestSellingProduct(p).get(0);
 	}
 
 	@Override
@@ -113,8 +117,8 @@ public class SpringDataMLService implements MLService{
 
 	@Override
 	public Provider getProviderLessExpensiveProduct() {
-		Pageable p = new PageRequest(0,1);
-		return providerR.getProviderLessExpensiveProduct(p);
+		Pageable p = PageRequest.of(0, 1);
+		return providerR.getProviderLessExpensiveProduct(p).get(0);
 	}
 
 	@Override
@@ -134,26 +138,27 @@ public class SpringDataMLService implements MLService{
 
 	@Override
 	public DeliveryMethod getMostUsedDeliveryMethod() {
-		Pageable p = new PageRequest(0,1);
-		return deliveryMethodR.getMostUsedDeliveryMethod(p);
+		Pageable p = PageRequest.of(0,1);
+		return deliveryMethodR.getMostUsedDeliveryMethod(p).get(0);
 	}
 
 	@Override
 	public OnDeliveryPayment getMoreChangeOnDeliveryMethod() {
-		Pageable p = new PageRequest(0,1);
-		return onDeliveryPaymentR.getMoreChangeOnDeliveryMethod(p);
+		Pageable p = PageRequest.of(0, 1);
+		return onDeliveryPaymentR.getMoreChangeOnDeliveryMethod(p).get(0);
 	}
 
 	@Override
 	public Product getHeaviestProduct() {
-		Pageable p = new PageRequest(0,1);
-		return productR.getHeaviestProduct(p);
+
+		Pageable p = PageRequest.of(0,1);
+		return productR.getHeaviestProduct(p).get(0);
 	}
 
 	@Override
 	public Category getCategoryWithLessProducts() {
-		Pageable p = new PageRequest(0,1);
-		return categoryR.getCategoryWithLessProducts(p);
+		Pageable p = PageRequest.of(0, 1);
+		return categoryR.getCategoryWithLessProducts(p).get(0);
 	}
 
 	@Override
@@ -202,15 +207,10 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public CreditCardPayment createCreditCardPayment(String name, String brand, Long number, Date expiry, Integer cvv,
 			String owner) throws MLException {
-		System.out.println("------------------------------------------------------------------");
-		System.out.println("***");
 		boolean cp = creditCardPaymentR.existsByName(name);
-		System.out.println("------------------------------------------------------------------");
-		System.out.println(cp);
 		if (cp == false) {
 			CreditCardPayment credCP = new CreditCardPayment(name, brand, number, expiry, cvv, owner);
 			CreditCardPayment returned = creditCardPaymentR.save(credCP);
-			System.out.println("------------------------------------------------------------------");
 			System.out.println(returned);
 			
 			return returned;}
@@ -235,12 +235,14 @@ public class SpringDataMLService implements MLService{
 				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
 			}
 			ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
+			productOnSaleR.save(ps);
 		}
 		ProductOnSale productOnSale = new ProductOnSale(product,provider,price,initialDate);
 		productOnSaleR.save(productOnSale);
 		product.addProductOnsale(productOnSale);
-		productR.save(product);
-		return product.getProductsOnSale().get(product.getProductsOnSale().size() - 1);
+		/*productR.save(product);*/
+		return productOnSaleR.save(productOnSale);
+		//return product.getProductsOnSale().get(product.getProductsOnSale().size() - 1);
 	}
 
 	@Override
@@ -249,7 +251,8 @@ public class SpringDataMLService implements MLService{
 			Date dateOfPurchase) throws MLException {
 		if (deliveryMethod.checkShipping(productOnSale.getProduct().getWeight() * quantity)) {
 			Purchase p = new Purchase(productOnSale, quantity, client, deliveryMethod, paymentMethod, address, coordX, coordY, dateOfPurchase);
-			return purchaseR.save(p);
+			Purchase purchase = purchaseR.save(p);
+			return purchase;
 		}else {
 			throw new MLException("método de delivery no válido");
 		}

@@ -2,8 +2,10 @@ package ar.edu.unlp.info.bd2.repositories;
 import ar.edu.unlp.info.bd2.model.Product;
 import ar.edu.unlp.info.bd2.model.ProductOnSale;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Date;
+import ar.edu.unlp.info.bd2.model.Product;
+
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductOnSaleRepository extends CrudRepository<ProductOnSale, Long>{
+	
 
 	@Query("SELECT p " +
 		        "FROM ProductOnSale pos JOIN pos.product as p " +

@@ -38,7 +38,7 @@ public class Product {
 	@JoinColumn(name = "category_id",nullable = false)
 	private Category category;
 	
-	@OneToMany(mappedBy= "product", cascade = CascadeType.ALL ) /* o es CascadeType.DETACH */
+	@OneToMany(mappedBy= "product") /* o es CascadeType.DETACH */
 	private List<ProductOnSale> productsOnSale;
 	
 	public Product() {}

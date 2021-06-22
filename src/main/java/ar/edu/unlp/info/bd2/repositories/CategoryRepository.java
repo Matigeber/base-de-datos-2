@@ -6,6 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 /*import org.springframework.stereotype.Repository;*/
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+
 
 
 public interface CategoryRepository extends CrudRepository<Category, Long>{
@@ -14,8 +19,10 @@ public interface CategoryRepository extends CrudRepository<Category, Long>{
 	Category findByName(String name);
 	
 	@Query("select c"
-				+ " from Product p JOIN p.category as c"
-				+ " group by c"
-				+ " order by count(p) ASC")
-	public Category getCategoryWithLessProducts(Pageable p);
+			+ " from Product p JOIN p.category as c"
+			+ " group by c"
+			+ " order by count(p) ASC")
+	public List<Category> getCategoryWithLessProducts(Pageable p);
+	
+	
 }
