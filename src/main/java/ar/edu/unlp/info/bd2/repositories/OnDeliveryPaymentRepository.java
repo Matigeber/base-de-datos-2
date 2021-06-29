@@ -18,7 +18,6 @@ public interface OnDeliveryPaymentRepository extends CrudRepository<OnDeliveryPa
 	
 	@Query("select pm"
 			+ " from Purchase p JOIN p.paymentMethod as pm"
-			+ " where pm.class = OnDeliveryPayment"
 			+ " order by (pm.promisedAmount - p.amount) DESC")
 	public List<OnDeliveryPayment> getMoreChangeOnDeliveryMethod(Pageable p);
 }
