@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface PurchaseRepository extends CrudRepository<Purchase, Long>{
 	
+	List<Purchase> findByClient(User user);
+	
 	@Query("SELECT distinct cli "
 			+ "FROM Purchase p join p.client as cli "
 			+ "WHERE p.amount > :amount")

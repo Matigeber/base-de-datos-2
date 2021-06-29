@@ -16,6 +16,8 @@ public interface ProductRepository extends CrudRepository<Product, Long>{
 	Product findByName(String name);
 	boolean existsByName(String name);
 	
+	List<Product> findByCategory(Category category);
+	
 
 	@Query("SELECT p "+
 						"FROM Product p "+
@@ -35,7 +37,7 @@ public interface ProductRepository extends CrudRepository<Product, Long>{
 	public List<Product> getProductsOnePrice();
 	
 	@Query("SELECT prod "
-			+"FROM ProductOnSale pos JOIN pos.provider as prov JOIN pos.product as prod "
+			+"FROM ProductOnSale pos JOIN pos.provider JOIN pos.product as prod "
 			+"WHERE pos.finalDate = null "
 			+"GROUP BY prod "
 			+"HAVING ((max(pos.price) - min(pos.price)) / max(pos.price)) > 0.20")

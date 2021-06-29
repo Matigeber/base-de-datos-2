@@ -46,7 +46,7 @@ public class SpringDataMLService implements MLService{
 	public List<Purchase> getAllPurchasesMadeByUser(String username) {
 		User u = userR.findByEmail(username);
 		if (u != null) {
-			return userR.getAllPurchasesByUser(u.getId());
+			return purchaseR.findByClient(u);
 		}else {
 			System.out.println("User does not exist.");
 			return null;
@@ -90,7 +90,7 @@ public class SpringDataMLService implements MLService{
 
 	@Override
 	public List<Product> getProductForCategory(Category category) {
-		return productR.getProductForCategory(category);
+		return productR.findByCategory(category);
 	}
 
 	@Override
