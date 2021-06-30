@@ -19,10 +19,6 @@ public interface ProductRepository extends CrudRepository<Product, Long>{
 	List<Product> findByCategory(Category category);
 	
 
-	@Query("SELECT p "+
-						"FROM Product p "+
-						"WHERE p.category = :category")
-	public List<Product> getProductForCategory(@Param("category") Category category);
 	
 	@Query("SELECT prod "
 			+ "FROM Purchase p JOIN p.productOnSale as pos JOIN pos.product as prod "

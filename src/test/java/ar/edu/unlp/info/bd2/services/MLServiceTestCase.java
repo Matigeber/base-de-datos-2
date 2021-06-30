@@ -70,7 +70,7 @@ public class MLServiceTestCase {
         User user = us.get();
         assertNotNull (user.getId());
         assertEquals("Federico Orlando",user.getFullname());
-        assertEquals(dob, user.getBirth_date());
+        assertEquals(dob, user.getDayOfBirth());
         assertEquals("pas$w0rd", user.getPassword());
         MLException ex = assertThrows(MLException.class, () -> this.service.createUser("federico.orlando@info.unlp.edu.ar", "Federico Orlando", "pas$w0rd", dob));
         assertEquals("Constraint Violation",ex.getMessage());

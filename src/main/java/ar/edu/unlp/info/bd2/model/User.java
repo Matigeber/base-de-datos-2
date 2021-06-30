@@ -34,7 +34,7 @@ public class User {
 	private String fullname;
 	
 	@Column(nullable = false)
-	private Date birth_date;
+	private Date dayOfBirth;
 	
 	
 	public User() {}
@@ -45,7 +45,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.fullname = fullname;
-		this.birth_date = birth_date;
+		this.dayOfBirth = birth_date;
 	}
 	
 	public String getEmail() {
@@ -57,12 +57,12 @@ public class User {
 	}
 
 
-	public Date getBirth_date() {
-		return birth_date;
+	public Date getDayOfBirth() {
+		return dayOfBirth;
 	}
 
 	public void setBirth_date(Date birth_date) {
-		this.birth_date = birth_date;
+		this.dayOfBirth = birth_date;
 	}
 
 

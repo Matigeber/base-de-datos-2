@@ -16,9 +16,6 @@ public interface UserRepository extends CrudRepository<User, Long>{
 	User findByEmail(String email);
 	boolean existsByEmail(String email);
 	
-	@Query("FROM Purchase WHERE user_id = :user_id")
-	List<Purchase> getAllPurchasesByUser(@Param("user_id") long user_id);
-	
 	@Query("SELECT u " +
 	        "FROM Purchase p JOIN p.client as u " +
 	        "GROUP BY u "+ 
