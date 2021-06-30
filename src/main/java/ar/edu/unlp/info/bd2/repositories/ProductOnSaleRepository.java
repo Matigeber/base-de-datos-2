@@ -1,5 +1,7 @@
 package ar.edu.unlp.info.bd2.repositories;
 import ar.edu.unlp.info.bd2.model.ProductOnSale;
+import ar.edu.unlp.info.bd2.model.Provider;
+
 import java.util.List;
 import java.util.Date;
 import ar.edu.unlp.info.bd2.model.Product;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductOnSaleRepository extends CrudRepository<ProductOnSale, Long>{
 	
+	
 	@Query("SELECT p " +
 	        "FROM ProductOnSale pos JOIN pos.product as p " +
 			"WHERE pos.finalDate is null " +
@@ -27,5 +30,8 @@ public interface ProductOnSaleRepository extends CrudRepository<ProductOnSale, L
 			+ "from Purchase p JOIN p.productOnSale as pos "
 			+ "where p.dateOfPurchase = :day")
 	public List<ProductOnSale> getSoldProductsOn(@Param("day") Date day);
+	
+	@Query("SELECT pos FROM ProductOnSale pos WHERE product= :prod and provider = :prov and finalDate = null")
+	public ProductOnSale getLast(@Param("prov") Provider prov, @Param("prod") Product prod);
 
 }

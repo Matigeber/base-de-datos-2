@@ -7,12 +7,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+@Transactional
 public class SpringDataMLService implements MLService{
 	@Autowired
 	CategoryRepository categoryR;
@@ -228,9 +231,9 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate)
 			throws MLException {
-		List<ProductOnSale> productsOfProvider = product.getProductsOnSaleByProvider(provider);
-		if (productsOfProvider.size() > 0) {
-			ProductOnSale ps = productsOfProvider.get(productsOfProvider.size() - 1);
+		ProductOnSale ps = productOnSaleR.getLast(provider, product);
+		if (ps != null) {
+			//ProductOnSale ps = productsOfProvider.get(productsOfProvider.size() - 1);
 			if (ps.getInitialDate().after(initialDate)) {
 				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
 			}

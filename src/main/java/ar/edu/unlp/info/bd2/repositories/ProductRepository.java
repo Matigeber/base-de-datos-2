@@ -37,7 +37,7 @@ public interface ProductRepository extends CrudRepository<Product, Long>{
 	public List<Product> getProductsOnePrice();
 	
 	@Query("SELECT prod "
-			+"FROM ProductOnSale pos JOIN pos.provider JOIN pos.product as prod "
+			+"FROM ProductOnSale pos JOIN pos.product as prod "
 			+"WHERE pos.finalDate = null "
 			+"GROUP BY prod "
 			+"HAVING ((max(pos.price) - min(pos.price)) / max(pos.price)) > 0.20")

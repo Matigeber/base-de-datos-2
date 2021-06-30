@@ -1,4 +1,4 @@
-/*package ar.edu.unlp.info.bd2.services;
+package ar.edu.unlp.info.bd2.services;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ar.edu.unlp.info.bd2.config.SpringDataConfiguration;
@@ -258,4 +258,3 @@ public class MLServiceTestCase {
     }
 
 }
-*/
