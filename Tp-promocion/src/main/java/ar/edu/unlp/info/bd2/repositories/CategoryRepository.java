@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 
-
+@Repository
 public interface CategoryRepository extends ElasticsearchRepository<Category, Long>{
 	
 	

@@ -17,8 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class SpringDataMLService implements MLService{
+	
 	@Autowired
-	CategoryRepository categoryR;
+	CategoryRepository categoryR ;
+	
+	/*
+	@Autowired
+	public SpringDataMLService (final CategoryRepository categoryRe) {
+		super();
+		this.categoryR = categoryRe;
+	}
+	*/
 	/*
 	@Autowired
 	CreditCardPaymentRepository creditCardPaymentR;
