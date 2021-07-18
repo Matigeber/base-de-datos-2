@@ -11,23 +11,16 @@ import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 
-
-
+@Service
 public class SpringDataMLService implements MLService{
 	
 	@Autowired
 	CategoryRepository categoryR ;
 	
-	/*
-	@Autowired
-	public SpringDataMLService (final CategoryRepository categoryRe) {
-		super();
-		this.categoryR = categoryRe;
-	}
-	*/
 	/*
 	@Autowired
 	CreditCardPaymentRepository creditCardPaymentR;
@@ -183,14 +176,14 @@ public class SpringDataMLService implements MLService{
 		//return productR.getHeaviestProduct(p).get(0);
 		return null;
 	}
-	*/
+
 	@Override
 	public Category getCategoryWithLessProducts() {
 		Pageable p = PageRequest.of(0, 1);
 		//return categoryR.getCategoryWithLessProducts(p).get(0);
 		return null;
 	}
-
+	*/
 	@Override
 	public Category createCategory(String name) throws MLException {
 		Category cat = new Category(name);
@@ -300,13 +293,13 @@ public class SpringDataMLService implements MLService{
 		Optional<Provider> provider = Optional.ofNullable(providerR.findByCuit(cuit));
 		return provider;
 	}
-
+*/
 	@Override
 	public Optional<Category> getCategoryByName(String name) {
 		Optional<Category> cat = Optional.ofNullable(categoryR.findByName(name));
 		return cat;
 	}
-
+/*
 	@Override
 	public Optional<Product> getProductByName(String name) {
 		Optional<Product> prod = Optional.ofNullable(productR.findByName(name));

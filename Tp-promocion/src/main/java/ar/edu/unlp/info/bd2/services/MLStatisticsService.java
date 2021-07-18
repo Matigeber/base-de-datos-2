@@ -17,11 +17,8 @@ import ar.edu.unlp.info.bd2.model.User;
 
 public interface MLStatisticsService {
 	
-	/**
-	 *
-	 * @return la categoría con menor cantidad de productos
-	 */
+/*
 	Category getCategoryWithLessProducts();
-	
+*/
 	
 }
