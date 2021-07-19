@@ -19,9 +19,11 @@ public class CategoryController {
         this.service = service;
     }
 
-    @PostMapping
-    public void save(@RequestBody String category) throws MLException{
-        service.createCategory(category);
+    @PostMapping 
+    @ResponseBody
+    public Category save(@RequestBody String name) throws MLException{
+        Category cat = service.createCategory(name);
+        return cat;
     }
 
 

@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean;
 public class SpringDataMLService implements MLService{
 	
 	@Autowired
-	CategoryRepository categoryR ;
+	private CategoryRepository categoryR;
 	
 	/*
 	@Autowired

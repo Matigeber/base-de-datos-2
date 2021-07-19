@@ -17,7 +17,7 @@ public class Category {
 
 	@Id
 	@Field(type = Long)
-	private long id;
+	private Long id;
 	
 	@Field(type = Text)
 	private String name;
@@ -38,7 +38,7 @@ public class Category {
 	}
 
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	
