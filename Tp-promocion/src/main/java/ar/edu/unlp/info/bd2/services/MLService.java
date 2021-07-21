@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 public interface MLService extends MLStatisticsService{
 
 
-	Category createCategory(String name) throws MLException;
+	public Category createCategory(String name) throws MLException;
 
+	/*
 	Optional<Category> getCategoryByName(String name);
+	*/
 
 
 }

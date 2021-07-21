@@ -1,5 +1,5 @@
 package ar.edu.unlp.info.bd2.config;
-/*
+
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,30 +9,30 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import ar.edu.unlp.info.bd2.services.SpringDataMLService;
 
 @Configuration
-@ComponentScan(basePackages = {"ar.edu.unlp.info.bd2"})
-public class Config extends AbstractElasticsearchConfiguration {
+@EnableElasticsearchRepositories(basePackages = "ar.edu.unlp.info.bd2.repositories")
+public class Config {
 
-    public String elasticsearchUrl;
 
     @Bean
-    @Override
-    public RestHighLevelClient elasticsearchClient() {
-        final ClientConfiguration config = ClientConfiguration.builder()
+    public RestHighLevelClient client() {
+    			ClientConfiguration config = ClientConfiguration.builder()
                 .connectedTo("localhost:9200")
                 .build();
 
         return RestClients.create(config).rest();
     }
     
-    @Primary
     @Bean
-    public SpringDataMLService SpringDataMLService() {
-      return new SpringDataMLService();
+    public ElasticsearchOperations elasticsearchTemplate() {
+    	return new ElasticsearchRestTemplate(client());
     }
+    
+
 }
-*/

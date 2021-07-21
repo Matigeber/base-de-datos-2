@@ -6,30 +6,36 @@ import ar.edu.unlp.info.bd2.repositories.*;
 
 import java.util.Optional;
 
+import org.elasticsearch.common.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/category")
 public class CategoryController {
+	
+	@Inject
     private SpringDataMLService service;
 
     @Autowired
     public CategoryController(SpringDataMLService service) {
         this.service = service;
     }
+    
+    public SpringDataMLService getService () {
+    	return this.service;
+    }
 
-    @PostMapping 
-    @ResponseBody
-    public Category save(@RequestBody String name) throws MLException{
-        Category cat = service.createCategory(name);
-        return cat;
+    @PostMapping("/api/category/{name}")
+    public void createCategory(@PathVariable("name") String name) throws MLException{
+        this.getService().createCategory(name);
     }
 
 
+    /*
     @GetMapping("/{name}")
     public Optional<Category> findByName(@PathVariable final String name) throws MLException {
         return service.getCategoryByName(name);
     }
+    */
 
 }

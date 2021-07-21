@@ -12,13 +12,16 @@ import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.elasticsearch.common.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
 @Service
+@Transactional 
 public class SpringDataMLService implements MLService{
 	
-	@Autowired
+	@Inject
 	private CategoryRepository categoryR;
 	
 	/*
@@ -47,7 +50,24 @@ public class SpringDataMLService implements MLService{
 		calendar.add(Calendar.DAY_OF_YEAR, days);
 		return calendar.getTime();
 	}
+	
+	public CategoryRepository getCategoryRepository() {
+		return this.categoryR;
+	}
+	
+	@Override
+	public Category createCategory(String name) throws MLException {
+		Category cat = new Category(name);
+		return this.getCategoryRepository().save(cat);
+	}
+	
 	/*
+	@Override
+	public Optional<Category> getCategoryByName(String name) {
+		Optional<Category> cat = Optional.ofNullable(categoryR.findByName(name));
+		return cat;
+	}
+	
 	@Override
 	public List<Purchase> getAllPurchasesMadeByUser(String username) {
 		User u = userR.findByEmail(username);
@@ -184,11 +204,7 @@ public class SpringDataMLService implements MLService{
 		return null;
 	}
 	*/
-	@Override
-	public Category createCategory(String name) throws MLException {
-		Category cat = new Category(name);
-		return categoryR.save(cat);
-	}
+	
 	/*
 	@Override
 	public Product createProduct(String name, Float weight, Category category) throws MLException {
@@ -294,11 +310,7 @@ public class SpringDataMLService implements MLService{
 		return provider;
 	}
 */
-	@Override
-	public Optional<Category> getCategoryByName(String name) {
-		Optional<Category> cat = Optional.ofNullable(categoryR.findByName(name));
-		return cat;
-	}
+
 /*
 	@Override
 	public Optional<Product> getProductByName(String name) {
