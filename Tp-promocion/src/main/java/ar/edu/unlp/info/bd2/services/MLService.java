@@ -13,9 +13,9 @@ public interface MLService extends MLStatisticsService{
 
 	public Category createCategory(String name) throws MLException;
 
-	/*
+	
 	Optional<Category> getCategoryByName(String name);
-	*/
+	
 
 
 }

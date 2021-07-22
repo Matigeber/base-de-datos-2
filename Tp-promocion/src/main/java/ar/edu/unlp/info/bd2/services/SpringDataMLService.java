@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
+import javax.inject.Inject;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.elasticsearch.common.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
@@ -61,13 +61,13 @@ public class SpringDataMLService implements MLService{
 		return this.getCategoryRepository().save(cat);
 	}
 	
-	/*
+	
 	@Override
 	public Optional<Category> getCategoryByName(String name) {
 		Optional<Category> cat = Optional.ofNullable(categoryR.findByName(name));
 		return cat;
 	}
-	
+	/*
 	@Override
 	public List<Purchase> getAllPurchasesMadeByUser(String username) {
 		User u = userR.findByEmail(username);

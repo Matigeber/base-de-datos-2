@@ -6,7 +6,8 @@ import ar.edu.unlp.info.bd2.repositories.*;
 
 import java.util.Optional;
 
-import org.elasticsearch.common.inject.Inject;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +32,13 @@ public class CategoryController {
     }
 
 
-    /*
-    @GetMapping("/{name}")
+    
+    @GetMapping("api/category/{name}")
     public Optional<Category> findByName(@PathVariable final String name) throws MLException {
-        return service.getCategoryByName(name);
+    	Optional<Category> cat = service.getCategoryByName(name);
+    	System.out.println(cat);
+    	return cat;
     }
-    */
+    
 
 }

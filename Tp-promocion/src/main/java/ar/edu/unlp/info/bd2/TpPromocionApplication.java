@@ -10,10 +10,7 @@ import ar.edu.unlp.info.bd2.repositories.MLException;
 
 @SpringBootApplication
 public class TpPromocionApplication {
-	/*
-	@Autowired
-	static SpringDataMLService service;
-*/
+
 
 	public static void main(String[] args) throws MLException{
 		SpringApplication.run(TpPromocionApplication.class, args);
