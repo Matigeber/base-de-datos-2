@@ -16,6 +16,24 @@ public interface MLService extends MLStatisticsService{
 	
 	Optional<Category> getCategoryByName(String name);
 	
+	/**
+	 *
+	 * @param email email del usuario con el cual ingresa al sitio
+	 * @param fullname nombre y apellido del usuario
+	 * @param password clave con la que el usuario ingresa al sitio
+	 * @param dayOfBirth fecha de nacimiento del usuario
+	 * @return el usuario creado
+	 * @throws MLException
+	 */
+	User createUser(String email, String fullname, String password, Date dayOfBirth) throws MLException;
+	
+	/**
+	 *
+	 * @param email email del usuario
+	 * @return
+	 */
+	Optional<User> getUserByEmail(String email);
+	
 
 
 }

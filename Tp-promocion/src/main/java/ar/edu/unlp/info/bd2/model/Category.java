@@ -11,13 +11,12 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 import static org.springframework.data.elasticsearch.annotations.FieldType.Long;
 
-@Document(indexName = "bd2")
+@Document(indexName = "category")
 public class Category {
 
 
 	@Id
-	@Field(type = Long)
-	private Long id;
+	private long id;
 	
 	@Field(type = Text)
 	private String name;
@@ -38,7 +37,7 @@ public class Category {
 	}
 
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 	

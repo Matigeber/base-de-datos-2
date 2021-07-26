@@ -26,16 +26,16 @@ public class CategoryController {
     	return this.service;
     }
 
-    @PostMapping("/api/category/{name}")
-    public void createCategory(@PathVariable("name") String name) throws MLException{
+    @PostMapping("category/_doc")
+    public void createCategory(@RequestBody String name) throws MLException{
         this.getService().createCategory(name);
     }
 
 
     
-    @GetMapping("api/category/{name}")
-    public Optional<Category> findByName(@PathVariable final String name) throws MLException {
-    	Optional<Category> cat = service.getCategoryByName(name);
+    @GetMapping("category/{name}")
+    public Optional<Category> findByName(@PathVariable("name")final String aName) throws MLException {
+    	Optional<Category> cat = this.getService().getCategoryByName(aName);
     	System.out.println(cat);
     	return cat;
     }

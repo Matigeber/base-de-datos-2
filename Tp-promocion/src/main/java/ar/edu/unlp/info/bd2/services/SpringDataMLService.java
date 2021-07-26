@@ -18,11 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
 @Service
-@Transactional 
 public class SpringDataMLService implements MLService{
 	
 	@Inject
 	private CategoryRepository categoryR;
+	
+	@Inject
+	private UserRepository userR;
 	
 	/*
 	@Autowired
@@ -41,8 +43,7 @@ public class SpringDataMLService implements MLService{
 	ProviderRepository providerR;
 	@Autowired
 	PurchaseRepository purchaseR;
-	@Autowired
-	UserRepository userR;
+
 	*/
 	private Date addOrSubtractDays (Date date, int days) {
 		Calendar calendar = Calendar.getInstance();
@@ -66,6 +67,22 @@ public class SpringDataMLService implements MLService{
 	public Optional<Category> getCategoryByName(String name) {
 		Optional<Category> cat = Optional.ofNullable(categoryR.findByName(name));
 		return cat;
+	}
+	
+	@Override
+	public User createUser(String email, String fullname, String password, Date dayOfBirth) throws MLException {
+		if(userR.findByEmail(email) == null) {
+			User u = new User(email, password, fullname, dayOfBirth);
+			return userR.save(u);
+			}else {
+				throw new MLException("Constraint Violation");
+			}
+	}
+	
+	@Override
+	public Optional<User> getUserByEmail(String email) {
+		Optional<User> user = Optional.ofNullable(userR.findByEmail(email));
+		return user;
 	}
 	/*
 	@Override
@@ -216,15 +233,6 @@ public class SpringDataMLService implements MLService{
 		}
 	}
 
-	@Override
-	public User createUser(String email, String fullname, String password, Date dayOfBirth) throws MLException {
-		if(userR.existsByEmail(email) == false) {
-			User u = new User(email, password, fullname, dayOfBirth);
-			return userR.save(u);
-			}else {
-				throw new MLException("Constraint Violation");
-			}
-	}
 
 	@Override
 	public Provider createProvider(String name, Long cuit) throws MLException {
@@ -296,12 +304,6 @@ public class SpringDataMLService implements MLService{
 		}else {
 			throw new MLException("método de delivery no válido");
 		}
-	}
-
-	@Override
-	public Optional<User> getUserByEmail(String email) {
-		Optional<User> user = Optional.ofNullable(userR.findByEmail(email));
-		return user;
 	}
 
 	@Override
