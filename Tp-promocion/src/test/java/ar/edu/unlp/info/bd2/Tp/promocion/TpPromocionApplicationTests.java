@@ -85,7 +85,7 @@ public class TpPromocionApplicationTests {
         MLException ex = assertThrows(MLException.class, () -> this.service.createUser("federico.orlando@info.unlp.edu.ar", "Federico Orlando", "pas$w0rd", dob));
         assertEquals("Constraint Violation",ex.getMessage());
     }
-    */
+    
     @Test
     public void testCreateProvider() throws MLException {
         Provider p = this.service.createProvider("Philips",30715589634L);
@@ -102,4 +102,79 @@ public class TpPromocionApplicationTests {
         assertEquals("Constraint Violation",ex.getMessage());
     }
     
+    @Test
+    public void testCreateProduct() throws MLException {
+        Category cat = this.service.createCategory("Hogar");
+        assertNotNull(cat.getId());
+        Product prod = this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), cat);
+        assertNotNull(prod.getId());
+        assertEquals(40.5F, (float) prod.getWeight());
+        Optional<Product> p = this.service.getProductByName("Lamparita led 7w fria");
+        if (!p.isPresent()) {
+            throw new MLException("Product doesn't exists");
+        }
+        Product product = p.get();
+        assertNotNull(product.getId());
+        assertEquals(Float.valueOf(40.5F), product.getWeight());
+        assertEquals("Hogar",product.getCategory().getName());
+        MLException ex = assertThrows(MLException.class, () -> this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), cat));
+        assertEquals("Constraint Violation",ex.getMessage());
+    }
+    
+    @Test
+    public void testCreateDeliveryMethod() throws MLException {
+        DeliveryMethod dm = this.service.createDeliveryMethod("Moto menos 1kg", 250.0F, 0.01F, 0.9999F);
+        assertNotNull(dm.getId());
+        assertEquals(Float.valueOf(250.0F),dm.getCost());
+        assertEquals(Float.valueOf(0.9999F),dm.getEndWeight());
+        Optional<DeliveryMethod> del = this.service.getDeliveryMethodByName("Moto menos 1kg");
+        if (!del.isPresent()) {
+            throw new MLException("Delivery Method doesn't exists");
+        }
+        DeliveryMethod d = del.get();
+        assertNotNull(d.getId());
+        assertEquals(Float.valueOf(250.0F),d.getCost());
+        assertEquals(Float.valueOf(0.01F),d.getStartWeight());
+    }
+    
+    @Test
+    public void testCreateCreditCardPayment() throws MLException {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 1982);
+        cal.set(Calendar.MONTH, Calendar.MAY);
+        cal.set(Calendar.DAY_OF_MONTH, 17);
+        Date exp = cal.getTime();
+        CreditCardPayment cc = this.service.createCreditCardPayment("Visa Federico", "Visa", 4052698512476369L, exp, 452, "Federico Orlando");
+        assertNotNull(cc.getId());
+        assertEquals("Visa",cc.getBrand());
+        assertEquals(Long.valueOf(4052698512476369L), cc.getNumber());
+        assertEquals("Federico Orlando",cc.getOwner());
+        assertEquals(exp,cc.getExpiry());
+        Optional<CreditCardPayment> ccp = this.service.getCreditCardPaymentByName("Visa Federico");
+        if (!ccp.isPresent()) {
+            throw new MLException("Credit Card Payment doesn't exists");
+        }
+        CreditCardPayment c = ccp.get();
+        assertNotNull(c.getId());
+        assertEquals("Visa",c.getBrand());
+        assertEquals(Long.valueOf(4052698512476369L), c.getNumber());
+        assertEquals("Federico Orlando",c.getOwner());
+        assertEquals(exp,c.getExpiry());
+        assertEquals(Integer.valueOf(452),c.getCvv());
+    }
+    */
+    @Test
+    public void testOnDeliveryPayment() throws MLException {
+        OnDeliveryPayment od = this.service.createOnDeliveryPayment("Pago Efectivo Lampara", 100F);
+        assertNotNull(od.getId());
+        assertEquals(Float.valueOf(100F),od.getPromisedAmount());
+        Optional<OnDeliveryPayment> odp = this.service.getOnDeliveryPaymentByName("Pago Efectivo Lampara");
+        if (!odp.isPresent())
+        {
+            throw new MLException("On Delivery Payment doesn't exists");
+        }
+        OnDeliveryPayment dp = odp.get();
+        assertNotNull(dp.getId());
+        assertEquals(Float.valueOf(100F),dp.getPromisedAmount());
+    }
 }

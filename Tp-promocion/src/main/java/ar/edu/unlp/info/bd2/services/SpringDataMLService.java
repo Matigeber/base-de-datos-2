@@ -29,21 +29,22 @@ public class SpringDataMLService implements MLService{
 	@Inject
 	private ProviderRepository providerR;
 	
-	/*
-	@Autowired
-	CreditCardPaymentRepository creditCardPaymentR;
-	@Autowired
-	DeliveryMethodRepository deliveryMethodR;
-	@Autowired
+	@Inject
+	private ProductRepository productR;
+	
+	@Inject
+	private DeliveryMethodRepository deliveryMethodR;
+	
+	@Inject
+	private CreditCardPaymentRepository creditCardPaymentR;
+
+	@Inject
 	OnDeliveryPaymentRepository onDeliveryPaymentR;
+	/*
 	@Autowired
 	PaymentMethodRepository paymentMethodR;
 	@Autowired
-	ProductRepository productR;
-	@Autowired
 	ProductOnSaleRepository productOnSaleR;
-	@Autowired
-	ProviderRepository providerR;
 	@Autowired
 	PurchaseRepository purchaseR;
 
@@ -103,6 +104,65 @@ public class SpringDataMLService implements MLService{
 		Optional<Provider> provider = Optional.ofNullable(providerR.findByCuit(cuit));
 		return provider;
 	}
+	
+	@Override
+	public Product createProduct(String name, Float weight, Category category) throws MLException {
+		if(productR.findByName(name) == null) {
+		Product prod = new Product(weight, name, category);
+		return productR.save(prod);
+		}else {
+			throw new MLException("Constraint Violation");
+		}
+	}
+	
+	@Override
+	public Optional<Product> getProductByName(String name) {
+		Optional<Product> prod = Optional.ofNullable(productR.findByName(name));
+		return prod;
+	}
+	
+	@Override
+	public DeliveryMethod createDeliveryMethod(String name, Float cost, Float startWeight, Float endWeight)
+			throws MLException {
+		DeliveryMethod delM = new DeliveryMethod(name, cost, startWeight, endWeight);
+		return deliveryMethodR.save(delM);
+	}
+	
+	@Override
+	public Optional<DeliveryMethod> getDeliveryMethodByName(String name) {
+		return Optional.ofNullable(deliveryMethodR.findFirstByName(name));
+	}
+	
+	@Override
+	public CreditCardPayment createCreditCardPayment(String name, String brand, Long number, Date expiry, Integer cvv,
+			String owner) throws MLException {
+		if (creditCardPaymentR.findByName(name) == null) {
+			CreditCardPayment credCP = new CreditCardPayment(name, brand, number, expiry, cvv, owner);
+			CreditCardPayment returned = creditCardPaymentR.save(credCP);
+			System.out.println(returned);
+			
+			return returned;}
+		else {
+			throw new MLException("Constraint Violation");
+		}
+	}
+	
+	@Override
+	public Optional<CreditCardPayment> getCreditCardPaymentByName(String name) {
+		return Optional.ofNullable(creditCardPaymentR.findByName(name));
+	}
+	
+	@Override
+	public OnDeliveryPayment createOnDeliveryPayment(String name, Float promisedAmount) throws MLException {
+		OnDeliveryPayment ODP = new OnDeliveryPayment(name, promisedAmount);
+		return onDeliveryPaymentR.save(ODP);
+	}
+	
+	@Override
+	public Optional<OnDeliveryPayment> getOnDeliveryPaymentByName(String name) {
+		return Optional.ofNullable(onDeliveryPaymentR.findByName(name));
+	}
+	
 	/*
 	@Override
 	public List<Purchase> getAllPurchasesMadeByUser(String username) {
@@ -242,44 +302,6 @@ public class SpringDataMLService implements MLService{
 	*/
 	
 	/*
-	@Override
-	public Product createProduct(String name, Float weight, Category category) throws MLException {
-		if(productR.existsByName(name) == false) {
-		Product prod = new Product(weight, name, category);
-		return productR.save(prod);
-		}else {
-			throw new MLException("Constraint Violation");
-		}
-	}
-
-
-	@Override
-	public DeliveryMethod createDeliveryMethod(String name, Float cost, Float startWeight, Float endWeight)
-			throws MLException {
-		DeliveryMethod delM = new DeliveryMethod(name, cost, startWeight, endWeight);
-		return deliveryMethodR.save(delM);
-	}
-
-	@Override
-	public CreditCardPayment createCreditCardPayment(String name, String brand, Long number, Date expiry, Integer cvv,
-			String owner) throws MLException {
-		boolean cp = creditCardPaymentR.existsByName(name);
-		if (cp == false) {
-			CreditCardPayment credCP = new CreditCardPayment(name, brand, number, expiry, cvv, owner);
-			CreditCardPayment returned = creditCardPaymentR.save(credCP);
-			System.out.println(returned);
-			
-			return returned;}
-		else {
-			throw new MLException("Constraint Violation");
-		}
-	}
-
-	@Override
-	public OnDeliveryPayment createOnDeliveryPayment(String name, Float promisedAmount) throws MLException {
-		OnDeliveryPayment ODP = new OnDeliveryPayment(name, promisedAmount);
-		return onDeliveryPaymentR.save(ODP);
-	}
 
 	@Override
 	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate)
@@ -317,31 +339,13 @@ public class SpringDataMLService implements MLService{
 */
 
 /*
-	@Override
-	public Optional<Product> getProductByName(String name) {
-		Optional<Product> prod = Optional.ofNullable(productR.findByName(name));
-		return prod;
-	}
 
 	@Override
 	public ProductOnSale getProductOnSaleById(Long id) {
 		return productOnSaleR.findById(id).orElseGet(null);
 	}
 
-	@Override
-	public Optional<DeliveryMethod> getDeliveryMethodByName(String name) {
-		return Optional.ofNullable(deliveryMethodR.findFirstByName(name));
-	}
 
-	@Override
-	public Optional<CreditCardPayment> getCreditCardPaymentByName(String name) {
-		return Optional.ofNullable(creditCardPaymentR.findByName(name));
-	}
-
-	@Override
-	public Optional<OnDeliveryPayment> getOnDeliveryPaymentByName(String name) {
-		return Optional.ofNullable(onDeliveryPaymentR.findByName(name));
-	}
 
 	@Override
 	public Optional<Purchase> getPurchaseById(Long id) {
