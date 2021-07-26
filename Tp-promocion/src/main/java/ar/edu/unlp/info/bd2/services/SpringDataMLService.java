@@ -26,6 +26,9 @@ public class SpringDataMLService implements MLService{
 	@Inject
 	private UserRepository userR;
 	
+	@Inject
+	private ProviderRepository providerR;
+	
 	/*
 	@Autowired
 	CreditCardPaymentRepository creditCardPaymentR;
@@ -83,6 +86,22 @@ public class SpringDataMLService implements MLService{
 	public Optional<User> getUserByEmail(String email) {
 		Optional<User> user = Optional.ofNullable(userR.findByEmail(email));
 		return user;
+	}
+	
+	@Override
+	public Provider createProvider(String name, Long cuit) throws MLException {
+		if(providerR.findByCuit(cuit) == null) {
+			Provider prov = new Provider(name, cuit);
+			return providerR.save(prov);
+			}else {
+				throw new MLException("Constraint Violation");
+			}
+	}
+	
+	@Override
+	public Optional<Provider> getProviderByCuit(long cuit) {
+		Optional<Provider> provider = Optional.ofNullable(providerR.findByCuit(cuit));
+		return provider;
 	}
 	/*
 	@Override
@@ -235,16 +254,6 @@ public class SpringDataMLService implements MLService{
 
 
 	@Override
-	public Provider createProvider(String name, Long cuit) throws MLException {
-		if(providerR.existsByCuit(cuit) == false) {
-			Provider prov = new Provider(name, cuit);
-			return providerR.save(prov);
-			}else {
-				throw new MLException("Constraint Violation");
-			}
-	}
-
-	@Override
 	public DeliveryMethod createDeliveryMethod(String name, Float cost, Float startWeight, Float endWeight)
 			throws MLException {
 		DeliveryMethod delM = new DeliveryMethod(name, cost, startWeight, endWeight);
@@ -304,12 +313,6 @@ public class SpringDataMLService implements MLService{
 		}else {
 			throw new MLException("método de delivery no válido");
 		}
-	}
-
-	@Override
-	public Optional<Provider> getProviderByCuit(long cuit) {
-		Optional<Provider> provider = Optional.ofNullable(providerR.findByCuit(cuit));
-		return provider;
 	}
 */
 

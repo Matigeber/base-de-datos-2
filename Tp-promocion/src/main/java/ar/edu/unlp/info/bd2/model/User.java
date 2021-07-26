@@ -3,7 +3,6 @@ package ar.edu.unlp.info.bd2.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.Document;
-import static org.springframework.data.elasticsearch.annotations.FieldType.Long;
 
 import java.util.Date;
 

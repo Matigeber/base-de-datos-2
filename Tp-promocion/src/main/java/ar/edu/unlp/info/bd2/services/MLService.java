@@ -34,6 +34,22 @@ public interface MLService extends MLStatisticsService{
 	 */
 	Optional<User> getUserByEmail(String email);
 	
+	/**
+	 *
+	 * @param name nombre del proveedor
+	 * @param cuit cuil del proveedor
+	 * @return el proveedor creado
+	 * @throws MLException
+	 */
+	Provider createProvider(String name, Long cuit) throws MLException;
+	
+	/**
+	 *
+	 * @param cuit cuit del proveedor
+	 * @return
+	 */
+	Optional<Provider> getProviderByCuit(long cuit);
+	
 
 
 }

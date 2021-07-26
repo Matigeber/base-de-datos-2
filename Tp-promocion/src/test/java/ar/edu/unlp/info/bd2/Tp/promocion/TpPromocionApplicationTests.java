@@ -46,6 +46,7 @@ public class TpPromocionApplicationTests {
         this.service = this.getService();
     }
     
+    /*
     @Test
     public void testCreateCategory() throws MLException {
         Category c = this.service.createCategory("Hogar");
@@ -82,6 +83,22 @@ public class TpPromocionApplicationTests {
         assertEquals(dob, user.getDayOfBirth());
         assertEquals("pas$w0rd", user.getPassword());
         MLException ex = assertThrows(MLException.class, () -> this.service.createUser("federico.orlando@info.unlp.edu.ar", "Federico Orlando", "pas$w0rd", dob));
+        assertEquals("Constraint Violation",ex.getMessage());
+    }
+    */
+    @Test
+    public void testCreateProvider() throws MLException {
+        Provider p = this.service.createProvider("Philips",30715589634L);
+        assertNotNull (p.getId());
+        assertEquals("Philips", p.getName());
+        Optional<Provider> prov = this.service.getProviderByCuit(30715589634L);
+        if (!prov.isPresent()) {
+            throw new MLException("Provider doesn't exists");
+        }
+        Provider provider = prov.get();
+        assertNotNull (provider.getId());
+        assertEquals("Philips", provider.getName());
+        MLException ex = assertThrows(MLException.class, () -> this.service.createProvider("Philips",30715589634L));
         assertEquals("Constraint Violation",ex.getMessage());
     }
     
