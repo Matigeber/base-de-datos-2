@@ -46,7 +46,7 @@ public class TpPromocionApplicationTests {
         this.service = this.getService();
     }
     
-    /*
+
     @Test
     public void testCreateCategory() throws MLException {
         Category c = this.service.createCategory("Hogar");
@@ -162,7 +162,7 @@ public class TpPromocionApplicationTests {
         assertEquals(exp,c.getExpiry());
         assertEquals(Integer.valueOf(452),c.getCvv());
     }
-    */
+
     @Test
     public void testOnDeliveryPayment() throws MLException {
         OnDeliveryPayment od = this.service.createOnDeliveryPayment("Pago Efectivo Lampara", 100F);
