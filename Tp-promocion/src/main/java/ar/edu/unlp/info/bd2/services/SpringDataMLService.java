@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 @Service
+@Transactional
 public class SpringDataMLService implements MLService{
 	
 	@Inject

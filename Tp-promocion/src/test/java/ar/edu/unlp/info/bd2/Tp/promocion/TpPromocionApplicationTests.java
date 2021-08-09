@@ -46,11 +46,10 @@ public class TpPromocionApplicationTests {
         this.service = this.getService();
     }
     
-    /*
+
     @Test
     public void testCreateCategory() throws MLException {
         Category c = this.service.createCategory("Hogar");
-        System.out.println("PRINTTTTTTTTTTTTTTTTTTTTTTT");
         System.out.println(c.getId());
         assertNotNull(c.getId());
         assertEquals("Hogar",c.getName());
@@ -101,8 +100,8 @@ public class TpPromocionApplicationTests {
         MLException ex = assertThrows(MLException.class, () -> this.service.createProvider("Philips",30715589634L));
         assertEquals("Constraint Violation",ex.getMessage());
     }
-    */
-    /*
+
+    
     @Test
     public void testCreateProduct() throws MLException {
         Category cat = this.service.createCategory("Hogar");
@@ -163,7 +162,7 @@ public class TpPromocionApplicationTests {
         assertEquals(exp,c.getExpiry());
         assertEquals(Integer.valueOf(452),c.getCvv());
     }
-    
+
     @Test
     public void testOnDeliveryPayment() throws MLException {
         OnDeliveryPayment od = this.service.createOnDeliveryPayment("Pago Efectivo Lampara", 100F);
@@ -178,12 +177,12 @@ public class TpPromocionApplicationTests {
         assertNotNull(dp.getId());
         assertEquals(Float.valueOf(100F),dp.getPromisedAmount());
     }
-    */
+    
     @Test
     public void testCreateProductOnSale() throws MLException {
-        Provider p = this.service.createProvider("Philips",30715589634L);
-        Category c = this.service.createCategory("Hogar");
-        Product prod = this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), c);
+        Provider p = this.service.createProvider("Samsung",30715589635L);
+        Category c = this.service.createCategory("Luces");
+        Product prod = this.service.createProduct("Lampara", Float.valueOf(40.5F), c);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2020);
         cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -199,9 +198,9 @@ public class TpPromocionApplicationTests {
     /*
     @Test
     public void testUpdateProductOnSale() throws MLException {
-        Provider p = this.service.createProvider("Philips",30715589634L);
-        Category c = this.service.createCategory("Hogar");
-        Product prod = this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), c);
+        Provider p = this.service.createProvider("LG",30715589636L);
+        Category c = this.service.createCategory("Casa");
+        Product prod = this.service.createProduct("Lamparita led 10w fria", Float.valueOf(40.5F), c);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2020);
         cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -216,7 +215,7 @@ public class TpPromocionApplicationTests {
         ProductOnSale pos2 = this.service.createProductOnSale(prod, p, 175F, id2);
         assertNotNull(pos2.getId());
         assertEquals(Float.valueOf(175F),pos2.getPrice());
-        assertEquals(2,pos2.getProduct().getProductsOnSale().size());
+        assertEquals(2,prod.getProductsOnSale().size());
         assertEquals(null,pos2.getFinalDate());
         assertEquals(id2,pos2.getInitialDate());
         cal.set(Calendar.YEAR, 2020);

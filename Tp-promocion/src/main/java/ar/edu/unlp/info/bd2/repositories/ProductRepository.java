@@ -21,50 +21,6 @@ public interface ProductRepository extends ElasticsearchRepository<Product, Long
 	
 	List<Product> findByCategory(Category category);
 	
-	/*
-	@Query("{"
-			+ "\"query\": {"
-			+ 	"\"nested\": {"
-			+ 		"\"path\": \"productsOnSale\" ,"
-			+ 		"\"query\" : {"
-			+ 				"\"bool\" : {"
-			+ 						"\"must\": ["
-			+ 							"{ \"match\" : {\"productsOnSale.provider\": \"?0\"}, {\"productsOnSale.finalDate\": null} }"
-			+ 						"]"
-			+ 					"}"
-			+ 			"}"
-			+ "		} "
-			+ 	"}"
-			+ "}")
-	List<Product> getLastProductOnSaleByProvider (Provider prov, Long id);
-	*/
-	/*
-	@Query("{"
-		+ "\"query\": {"
-			  +"\"bool\": {"
-			    +"\"must\": ["
-			      +"{\"match\": {"
-			        +"\"id\": 0"
-			      +"}},"
-			      +"{\"nested\": {"
-					+"\"path\": \"productsOnSale\","
-					+"\"query\" : {"
-					  +"\"bool\" : {"
-					 		+"\"must\": ["
-					 				+"{ \"match\" : {\"productsOnSale.provider.id\": 0}}"
-					 		+"],"
-					 		+"\"must_not\": ["
-					 		  +"{ \"exists\": {\"field\": \"finalDate\"}}"
-					 		+"]"		
-					 +"}"
-					+"}"
-				+"}}"
-			   +"]"
-			 +"}"
-		+"}"
-		+"}")
-	List<Product> getLastProductOnSaleByProvider (Long prov, Long id);
-	*/
 	
 	@Query("{"
 				  +"\"bool\": {"
