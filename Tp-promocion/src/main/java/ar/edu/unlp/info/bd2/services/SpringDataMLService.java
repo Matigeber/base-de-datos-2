@@ -1,6 +1,7 @@
 package ar.edu.unlp.info.bd2.services;
 import ar.edu.unlp.info.bd2.model.*;
 import ar.edu.unlp.info.bd2.repositories.*;
+import ar.edu.unlp.info.bd2.config.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 @Service
 public class SpringDataMLService implements MLService{
@@ -39,12 +41,18 @@ public class SpringDataMLService implements MLService{
 	private CreditCardPaymentRepository creditCardPaymentR;
 
 	@Inject
-	OnDeliveryPaymentRepository onDeliveryPaymentR;
+	private OnDeliveryPaymentRepository onDeliveryPaymentR;
+	
+	@Inject
+	private ProductOnSaleRepository productOnSaleR;
+	
+	@Inject
+	private ElasticsearchOperations template;
 	/*
 	@Autowired
 	PaymentMethodRepository paymentMethodR;
 	@Autowired
-	ProductOnSaleRepository productOnSaleR;
+	
 	@Autowired
 	PurchaseRepository purchaseR;
 
@@ -161,6 +169,54 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public Optional<OnDeliveryPayment> getOnDeliveryPaymentByName(String name) {
 		return Optional.ofNullable(onDeliveryPaymentR.findByName(name));
+	}
+	
+	@Override
+	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate)
+			throws MLException {
+		
+		//ProductOnSale ps = productOnSaleR.getLast(provider, product);
+		//List<ProductOnSale> ps = productOnSaleR.findByProviderAndFinalDate(provider, null);
+		List<Product> prod = productR.getLastProductOnSaleByProvider(provider.getId(),product.getId());
+		if (prod.isEmpty() == false) {
+			List<ProductOnSale> ps = prod.get(0).getProductsOnSale();
+		
+		//Optional<Product> prod = productR.findById(product.getId());
+			if (ps.isEmpty() == false) {
+				if (ps.get(0).getInitialDate().after(initialDate)) {
+					throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
+				}
+				ps.get(0).setFinalDate(this.addOrSubtractDays(initialDate, -1));
+				productOnSaleR.save(ps.get(0));
+			}
+		}
+		
+		ProductOnSale productOnSale = new ProductOnSale(provider,price,initialDate);
+		product.addProductOnsale(productOnSale);
+		productR.save(product);
+		//return productOnSaleR.save(productOnSale);
+		return productOnSale;
+	}
+		
+	@Override
+	public ProductOnSale getProductOnSaleById(Long id) {
+			return productOnSaleR.findById(id).orElseGet(null);
+		}
+		
+		
+		
+		/*ProductOnSale ps = productOnSaleR.getLast(provider, product);
+		if (ps != null) {
+			if (ps.getInitialDate().after(initialDate)) {
+				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
+			}
+			ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
+			productOnSaleR.save(ps);
+		}
+		ProductOnSale productOnSale = new ProductOnSale(product,provider,price,initialDate);
+		product.addProductOnsale(productOnSale);
+		return productOnSaleR.save(productOnSale);
+		
 	}
 	
 	/*
@@ -303,26 +359,6 @@ public class SpringDataMLService implements MLService{
 	
 	/*
 
-	@Override
-	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate)
-			throws MLException {
-		return null;
-		
-		
-		
-		/*ProductOnSale ps = productOnSaleR.getLast(provider, product);
-		if (ps != null) {
-			if (ps.getInitialDate().after(initialDate)) {
-				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
-			}
-			ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
-			productOnSaleR.save(ps);
-		}
-		ProductOnSale productOnSale = new ProductOnSale(product,provider,price,initialDate);
-		product.addProductOnsale(productOnSale);
-		return productOnSaleR.save(productOnSale);
-		
-	}
 	
 	@Override
 	public Purchase createPurchase(ProductOnSale productOnSale, Integer quantity, User client,
@@ -340,10 +376,6 @@ public class SpringDataMLService implements MLService{
 
 /*
 
-	@Override
-	public ProductOnSale getProductOnSaleById(Long id) {
-		return productOnSaleR.findById(id).orElseGet(null);
-	}
 
 
 

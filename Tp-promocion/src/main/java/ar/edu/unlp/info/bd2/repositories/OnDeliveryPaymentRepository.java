@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import ar.edu.unlp.info.bd2.model.OnDeliveryPayment;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+@Repository
 public interface OnDeliveryPaymentRepository extends ElasticsearchRepository<OnDeliveryPayment, Long>{
 
 	OnDeliveryPayment findByName(String name);

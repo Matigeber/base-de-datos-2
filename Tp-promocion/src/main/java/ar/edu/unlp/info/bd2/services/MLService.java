@@ -120,4 +120,24 @@ public interface MLService extends MLStatisticsService{
 	 * @return
 	 */
 	Optional<OnDeliveryPayment> getOnDeliveryPaymentByName(String name);
+	
+	/**
+	 *
+	 * @param product producto al cual se le va a dar precio
+	 * @param provider proveedor del producto al cual se le va a dar precio
+	 * @param price precio del producto
+	 * @param initialDate fecha desde cuando el producto vale ese precio
+	 * @return el precio para el producto
+	 * @implNote si el producto ya tiene un precio para el proveedor se actualiza la fecha de fin en un día antes a la initialDate
+	 *  y se el crea el nuevo precio
+	 * @throws MLException si initialDate es anterior a la initialDate actual. 
+	 */
+	ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate) throws MLException;
+	
+	/**
+	 *
+	 * @param id del producto en venta a buscar
+	 * @return
+	 */
+	ProductOnSale getProductOnSaleById(Long id);
 }
