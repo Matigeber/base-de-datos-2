@@ -53,11 +53,11 @@ public class SpringDataMLService implements MLService{
 	@Autowired
 	PaymentMethodRepository paymentMethodR;
 	@Autowired
-	
+	*/
 	@Autowired
 	PurchaseRepository purchaseR;
 
-	*/
+	
 	private Date addOrSubtractDays (Date date, int days) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -201,6 +201,25 @@ public class SpringDataMLService implements MLService{
 	public ProductOnSale getProductOnSaleById(String id) {
 			return productOnSaleR.findById(id).orElseGet(null);
 		}
+	
+	@Override
+	public Purchase createPurchase(ProductOnSale productOnSale,Product product, Integer quantity, User client,
+			DeliveryMethod deliveryMethod, PaymentMethod paymentMethod, String address, Float coordX, Float coordY,
+			Date dateOfPurchase) throws MLException {
+		
+		if (deliveryMethod.checkShipping(product.getWeight() * quantity)) {
+			Purchase p = new Purchase(productOnSale, quantity, client, deliveryMethod, paymentMethod, address, coordX, coordY, dateOfPurchase);
+			Purchase purchase = purchaseR.save(p);
+			return purchase;
+		}else {
+			throw new MLException("método de delivery no válido");
+		}
+	}
+	
+	@Override
+	public Optional<Purchase> getPurchaseById(String id) {
+		return purchaseR.findById(id);
+	}
 		
 		
 		
@@ -359,18 +378,7 @@ public class SpringDataMLService implements MLService{
 	/*
 
 	
-	@Override
-	public Purchase createPurchase(ProductOnSale productOnSale, Integer quantity, User client,
-			DeliveryMethod deliveryMethod, PaymentMethod paymentMethod, String address, Float coordX, Float coordY,
-			Date dateOfPurchase) throws MLException {
-		if (deliveryMethod.checkShipping(productOnSale.getProduct().getWeight() * quantity)) {
-			Purchase p = new Purchase(productOnSale, quantity, client, deliveryMethod, paymentMethod, address, coordX, coordY, dateOfPurchase);
-			Purchase purchase = purchaseR.save(p);
-			return purchase;
-		}else {
-			throw new MLException("método de delivery no válido");
-		}
-	}
+
 */
 
 /*
@@ -378,9 +386,6 @@ public class SpringDataMLService implements MLService{
 
 
 
-	@Override
-	public Optional<Purchase> getPurchaseById(Long id) {
-		return purchaseR.findById(id);
-	}
+
 	*/
 }

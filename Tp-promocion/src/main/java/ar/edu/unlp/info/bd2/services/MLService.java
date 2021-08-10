@@ -140,4 +140,30 @@ public interface MLService extends MLStatisticsService{
 	 * @return
 	 */
 	ProductOnSale getProductOnSaleById(String id);
+	
+
+	/**
+	 * 
+	 * @param productOnSale producto que se compra
+	 * @param quantity cantidad de producto que compra
+	 * @param client usuario que realiza la compra
+	 * @param deliveryMethod método de delivery
+	 * @param paymentMethod método de pago
+	 * @param address dirección en la cual se debe entregar el pedido
+	 * @param coordX coordenada X de la dirección de entrega
+	 * @param coordY coordeada Y de la dirección de entrega
+	 * @param dateOfPurchase fecha de la compra
+	 * @return la compra creada
+	 * @throws MLException si el método de delivery enviado no se corresponde con el peso de la compra
+	 */
+	Purchase createPurchase(ProductOnSale productOnSale,Product product, Integer quantity, User client, DeliveryMethod deliveryMethod,
+			PaymentMethod paymentMethod, String address, Float coordX, Float coordY, Date dateOfPurchase) throws MLException;
+	
+	/**
+	 * 
+	 * @param id el id de la compra
+	 * @return
+	 */
+	Optional<Purchase> getPurchaseById(String id);
 }
+
