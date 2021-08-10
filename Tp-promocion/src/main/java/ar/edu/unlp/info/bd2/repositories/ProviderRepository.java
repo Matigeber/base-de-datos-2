@@ -5,7 +5,7 @@ import ar.edu.unlp.info.bd2.model.Provider;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 @Repository
-public interface ProviderRepository extends ElasticsearchRepository<Provider,Long>{
+public interface ProviderRepository extends ElasticsearchRepository<Provider,String>{
 	
 	Provider findByCuit(long cuit);
 	

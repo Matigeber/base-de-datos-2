@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class Provider {
 	
 	@Id
-	private long id;
+	private String id;
 	
 	private String name;
 	
@@ -39,7 +39,7 @@ public class Provider {
 		this.cuit = cuit;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 

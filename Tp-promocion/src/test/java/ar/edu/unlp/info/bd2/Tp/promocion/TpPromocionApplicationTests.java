@@ -46,7 +46,7 @@ public class TpPromocionApplicationTests {
         this.service = this.getService();
     }
     
-
+/*
     @Test
     public void testCreateCategory() throws MLException {
         Category c = this.service.createCategory("Hogar");
@@ -195,7 +195,8 @@ public class TpPromocionApplicationTests {
         assertEquals(id,pos.getInitialDate());
         assertEquals(p.getCuit(),pos.getProvider().getCuit());
     }
-    /*
+    */
+    
     @Test
     public void testUpdateProductOnSale() throws MLException {
         Provider p = this.service.createProvider("LG",30715589636L);
@@ -224,5 +225,6 @@ public class TpPromocionApplicationTests {
         Date id3 = cal.getTime();
         MLException ex = assertThrows(MLException.class, () -> this.service.createProductOnSale(prod, p, 200F, id3));
         assertEquals("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada" ,ex.getMessage());
-    }*/
+    	
+    }
 }

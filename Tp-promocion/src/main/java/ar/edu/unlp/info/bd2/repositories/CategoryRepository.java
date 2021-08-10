@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 
 @Repository
-public interface CategoryRepository extends ElasticsearchRepository<Category, Long>{
+public interface CategoryRepository extends ElasticsearchRepository<Category, String>{
 	
 	
 	Category findByName(String name);

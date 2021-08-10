@@ -139,5 +139,5 @@ public interface MLService extends MLStatisticsService{
 	 * @param id del producto en venta a buscar
 	 * @return
 	 */
-	ProductOnSale getProductOnSaleById(Long id);
+	ProductOnSale getProductOnSaleById(String id);
 }

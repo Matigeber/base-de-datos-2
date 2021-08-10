@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public abstract class PaymentMethod {
 	
 	@Id
-	private long id;
+	private String id;
 	
 	private String name;
 	
@@ -27,7 +27,7 @@ public abstract class PaymentMethod {
 		this.name = name;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 

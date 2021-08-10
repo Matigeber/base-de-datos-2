@@ -2,6 +2,8 @@ package ar.edu.unlp.info.bd2.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -12,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class Product {
 	
 	@Id
-	private long id;
+	private String id;
 	
 
 	private Float weight;
@@ -34,7 +36,7 @@ public class Product {
 		this.productsOnSale = new ArrayList<ProductOnSale>();
 	}
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -77,5 +79,21 @@ public class Product {
 	public void addProductOnsale(ProductOnSale ps) {
 		this.productsOnSale.add(ps);
 	}
+	
+	public void updateProductOnsale(ProductOnSale ps) {
+		for (int i = 0; i < this.productsOnSale.size(); i++) {
+			if (this.productsOnSale.get(i).getId().equals(ps.getId())) {
+				this.productsOnSale.set(i, ps);
+			}
+		}
+	}
+	
+	public void deleteProductOnSale(ProductOnSale ps) {
+		this.productsOnSale.remove(ps);
+	}
+	
+	public List<ProductOnSale> getLastProductsOnSaleByProvider(Provider provider){
+	    return this.productsOnSale.stream().filter(pos -> pos.getProvider().getId().equals(provider.getId()) && pos.getFinalDate() == null).collect(Collectors.toList());
+	  }
 
 }

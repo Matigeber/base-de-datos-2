@@ -4,7 +4,7 @@ import ar.edu.unlp.info.bd2.model.User;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 @Repository
-public interface UserRepository extends ElasticsearchRepository<User, Long> {
+public interface UserRepository extends ElasticsearchRepository<User, String> {
 	
 	User findByEmail(String email);
 	boolean existsByEmail(String email);

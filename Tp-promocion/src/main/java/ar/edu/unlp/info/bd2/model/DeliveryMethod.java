@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class DeliveryMethod {
 
 	@Id
-	private long id;
+	private String id;
 	
 	private String name;
 	
@@ -64,7 +64,7 @@ public class DeliveryMethod {
 		this.endWeight = endWeight;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 	

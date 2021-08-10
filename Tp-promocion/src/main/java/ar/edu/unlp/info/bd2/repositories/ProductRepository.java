@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.data.repository.query.Param;
 
 @Repository
-public interface ProductRepository extends ElasticsearchRepository<Product, Long>{
+public interface ProductRepository extends ElasticsearchRepository<Product, String>{
 	
 	Product findByName(String name);
 	boolean existsByName(String name);
@@ -36,7 +36,7 @@ public interface ProductRepository extends ElasticsearchRepository<Product, Long
 						 				+"{ \"match\" : {\"productsOnSale.provider.id\": \"?0\"}}"
 						 		+"],"
 						 		+"\"must_not\": ["
-						 		  +"{ \"exists\": {\"field\": \"finalDate\"}}"
+						 		  +"{ \"exists\": {\"field\": \"productsOnSale.finalDate\"}}"
 						 		+"]"		
 						 +"}"
 						+"}"
@@ -44,7 +44,7 @@ public interface ProductRepository extends ElasticsearchRepository<Product, Long
 				   +"]"
 				 +"}"
 			+"}")
-		List<Product> getLastProductOnSaleByProvider (Long prov, Long id);
+		List<Product> getLastProductOnSaleByProvider (String prov, String id);
 	
 
 }

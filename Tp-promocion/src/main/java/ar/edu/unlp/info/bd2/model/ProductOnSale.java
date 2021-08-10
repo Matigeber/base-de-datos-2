@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class ProductOnSale {
 
 	@Id
-	private long id;
+	private String id;
 	
 	private Provider provider;
 	
@@ -53,7 +53,7 @@ public class ProductOnSale {
 		this.initialDate = initialDate;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 	

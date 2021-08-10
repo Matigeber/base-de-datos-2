@@ -5,7 +5,7 @@ import ar.edu.unlp.info.bd2.model.OnDeliveryPayment;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 @Repository
-public interface OnDeliveryPaymentRepository extends ElasticsearchRepository<OnDeliveryPayment, Long>{
+public interface OnDeliveryPaymentRepository extends ElasticsearchRepository<OnDeliveryPayment, String>{
 
 	OnDeliveryPayment findByName(String name);
 }

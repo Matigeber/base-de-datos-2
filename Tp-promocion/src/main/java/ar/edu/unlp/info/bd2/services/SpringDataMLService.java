@@ -175,32 +175,30 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public ProductOnSale createProductOnSale(Product product, Provider provider, Float price, Date initialDate)
 			throws MLException {
-		
-		//ProductOnSale ps = productOnSaleR.getLast(provider, product);
-		//List<ProductOnSale> ps = productOnSaleR.findByProviderAndFinalDate(provider, null);
-		List<Product> prod = productR.getLastProductOnSaleByProvider(provider.getId(),product.getId());
-		if (prod.isEmpty() == false) {
-			List<ProductOnSale> ps = prod.get(0).getProductsOnSale();
-		
-		//Optional<Product> prod = productR.findById(product.getId());
-			if (ps.isEmpty() == false) {
-				if (ps.get(0).getInitialDate().after(initialDate)) {
+		Product producto = productR.findById(product.getId()).get();
+		List<ProductOnSale> listPs = producto.getLastProductsOnSaleByProvider(provider);
+		if (!listPs.isEmpty()) {
+			ProductOnSale ps = listPs.get(0);
+			if (ps != null) {
+				if (ps.getInitialDate().after(initialDate)) {
 					throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
 				}
-				ps.get(0).setFinalDate(this.addOrSubtractDays(initialDate, -1));
-				productOnSaleR.save(ps.get(0));
+				ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
+				producto.updateProductOnsale(ps);
+				productOnSaleR.save(ps);
 			}
 		}
-		
 		ProductOnSale productOnSale = new ProductOnSale(provider,price,initialDate);
-		product.addProductOnsale(productOnSale);
-		productR.save(product);
-		//return productOnSaleR.save(productOnSale);
+		productOnSaleR.save(productOnSale);
+		producto.addProductOnsale(productOnSale);
+		productR.save(producto);
+		product.setProductsOnSale(producto.getProductsOnSale());
 		return productOnSale;
 	}
+	
 		
 	@Override
-	public ProductOnSale getProductOnSaleById(Long id) {
+	public ProductOnSale getProductOnSaleById(String id) {
 			return productOnSaleR.findById(id).orElseGet(null);
 		}
 		

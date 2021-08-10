@@ -5,7 +5,7 @@ import ar.edu.unlp.info.bd2.model.CreditCardPayment;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 @Repository
-public interface CreditCardPaymentRepository extends ElasticsearchRepository<CreditCardPayment, Long>{
+public interface CreditCardPaymentRepository extends ElasticsearchRepository<CreditCardPayment, String>{
 
 	CreditCardPayment findByName(String name);
 }

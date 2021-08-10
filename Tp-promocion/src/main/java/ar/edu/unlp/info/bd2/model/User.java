@@ -12,7 +12,7 @@ import static org.springframework.data.elasticsearch.annotations.FieldType.Date;
 public class User {
 	
 	@Id
-	private long id;
+	private String id;
 	
 	private String email;
 	
@@ -60,7 +60,7 @@ public User() {}
 		this.fullname = fullname;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
