@@ -221,21 +221,7 @@ public class SpringDataMLService implements MLService{
 		return purchaseR.findById(id);
 	}
 		
-		
-		
-		/*ProductOnSale ps = productOnSaleR.getLast(provider, product);
-		if (ps != null) {
-			if (ps.getInitialDate().after(initialDate)) {
-				throw new MLException("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada");
-			}
-			ps.setFinalDate(this.addOrSubtractDays(initialDate, -1));
-			productOnSaleR.save(ps);
-		}
-		ProductOnSale productOnSale = new ProductOnSale(product,provider,price,initialDate);
-		product.addProductOnsale(productOnSale);
-		return productOnSaleR.save(productOnSale);
-		
-	}
+
 	
 	/*
 	@Override

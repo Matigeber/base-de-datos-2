@@ -1,7 +1,5 @@
 package ar.edu.unlp.info.bd2.Tp.promocion;
 
-//class TpPromocionApplicationTests {
-
 import ar.edu.unlp.info.bd2.model.*;
 import ar.edu.unlp.info.bd2.services.*;
 
@@ -195,7 +193,7 @@ public class TpPromocionApplicationTests {
         assertEquals(id,pos.getInitialDate());
         assertEquals(p.getCuit(),pos.getProvider().getCuit());
     }
-    */
+    
     
     @Test
     public void testUpdateProductOnSale() throws MLException {
@@ -227,7 +225,7 @@ public class TpPromocionApplicationTests {
         assertEquals("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada" ,ex.getMessage());
     	
     }
-    
+    */
     @Test
     public void testCreatePurchase() throws MLException {
         Provider p = this.service.createProvider("Philips",30715589634L);
