@@ -2,6 +2,7 @@ package ar.edu.unlp.info.bd2.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class User {
 	@Id
 	private String id;
 	
+	@Field (type = FieldType.Keyword)
 	private String email;
 	
 	private String password;

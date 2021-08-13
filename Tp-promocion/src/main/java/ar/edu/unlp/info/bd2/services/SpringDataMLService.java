@@ -54,7 +54,7 @@ public class SpringDataMLService implements MLService{
 	PaymentMethodRepository paymentMethodR;
 	@Autowired
 	*/
-	@Autowired
+	@Inject
 	PurchaseRepository purchaseR;
 
 	
@@ -117,8 +117,8 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public Product createProduct(String name, Float weight, Category category) throws MLException {
 		if(productR.findByName(name) == null) {
-		Product prod = new Product(weight, name, category);
-		return productR.save(prod);
+			Product prod = new Product(weight, name, category);
+			return productR.save(prod);
 		}else {
 			throw new MLException("Constraint Violation");
 		}
@@ -223,18 +223,20 @@ public class SpringDataMLService implements MLService{
 		
 
 	
-	/*
+	
 	@Override
 	public List<Purchase> getAllPurchasesMadeByUser(String username) {
 		User u = userR.findByEmail(username);
+		System.out.println("busucando email " + u.getEmail());
 		if (u != null) {
-			return purchaseR.findByClient(u);
+			System.out.println("ver compras" + purchaseR.findByClient(u));
+			return purchaseR.findByUser(u);
 		}else {
 			System.out.println("User does not exist.");
 			return null;
 		}
 	}
-
+	/*
 	@Override
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount) {
 		//return purchaseR.getUsersSpendingMoreThanInPurchase(amount);

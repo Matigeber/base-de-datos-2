@@ -8,11 +8,13 @@ import ar.edu.unlp.info.bd2.utils.DBInitializer;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -28,29 +30,36 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Transactional
-@Rollback(false)
+import javax.inject.Inject;
+
+@Rollback(true)
+@SpringBootTest(classes = SpringDataMLService.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
 		classes = {Config.class},
         loader = AnnotationConfigContextLoader.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
 public class MLStatisticsTestCase {
 
     @Autowired
-    DBInitializer initializer;
-
-    @Autowired
-    @Qualifier("springDataJpaService")
     MLService service;
+    
+    protected MLService getService() {
+        return service;
+    }
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    @BeforeAll
-    public void prepareDB() throws Exception {
-        this.initializer.prepareDB();
+    
+    @BeforeEach
+    public void setUp() throws Exception {
+    	this.service = this.getService();
+    	//DBInitializer initializer = new DBInitializer();
+        //initializer.prepareDB(this.getService());
     }
+    
+    
 
     private <T> void assertListEquality(List<T> list1, List<T> list2) {
         if (list1.size() != list2.size()) {
@@ -64,11 +73,12 @@ public class MLStatisticsTestCase {
         }
     }
 
-
+    
     @Test
     public void testGetAllPurchasesMadeByUser() {
         assertEquals(5,this.service.getAllPurchasesMadeByUser("silviasez428@gmail.com").size());
     }
+    
     
     /*
     @Test

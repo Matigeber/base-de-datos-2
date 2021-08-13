@@ -19,6 +19,7 @@ public class Product {
 
 	private Float weight;
 	
+	@Field (type = FieldType.Keyword)
 	private String name;
 	
 

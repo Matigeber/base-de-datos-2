@@ -2,19 +2,23 @@ package ar.edu.unlp.info.bd2.utils;
 
 import ar.edu.unlp.info.bd2.model.*;
 import ar.edu.unlp.info.bd2.services.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.inject.Inject;
+
+
 public class DBInitializer {
 
-    @Autowired
+    //@Inject
     MLService service;
 
-    public void prepareDB() throws Exception {
+    public void prepareDB(MLService service) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+        System.out.println("impresion del service" + service);
+        
+        this.service=service;
 
         User user001 = service.createUser("rubnnieto644@hotmail.com", "Rubén Nieto", "velidoo3530", sdf.parse("25/4/1941"));
         User user002 = service.createUser("silviamuoz449@yahoo.com", "Silvia Muñoz", "sdemoomdco3877", sdf.parse("3/8/1996"));

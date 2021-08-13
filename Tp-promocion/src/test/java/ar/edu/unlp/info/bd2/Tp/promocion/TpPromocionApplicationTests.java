@@ -225,12 +225,12 @@ public class TpPromocionApplicationTests {
         assertEquals("Ya existe un precio para el producto con fecha de inicio de vigencia posterior a la fecha de inicio dada" ,ex.getMessage());
     	
     }
-    */
+   
     @Test
     public void testCreatePurchase() throws MLException {
-        Provider p = this.service.createProvider("Philips",30715589634L);
+        Provider p = this.service.createProvider("Philips",30715589638L);
         Category c = this.service.createCategory("Hogar");
-        Product prod = this.service.createProduct("Lamparita led 7w fria", Float.valueOf(40.5F), c);
+        Product prod = this.service.createProduct("Batidora de mano", Float.valueOf(40.5F), c);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2020);
         cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -242,9 +242,9 @@ public class TpPromocionApplicationTests {
         cal.set(Calendar.MONTH, Calendar.MAY);
         cal.set(Calendar.DAY_OF_MONTH, 17);
         Date dob = cal.getTime();
-        User u = this.service.createUser("federico.orlando@info.unlp.edu.ar", "Federico Orlando", "pas$w0rd", dob);
-        OnDeliveryPayment dp =  this.service.createOnDeliveryPayment("Pago Efectivo Lampara", 800F);
-        DeliveryMethod d = this.service.createDeliveryMethod("Moto menos 1kg", 250.0F, 0.01F, 999F);
+        User u = this.service.createUser("matiasgeber@info.unlp.edu.ar", "Matias Geber", "pas$w0rd", dob);
+        OnDeliveryPayment dp =  this.service.createOnDeliveryPayment("Pago Efectivo Batidora", 800F);
+        DeliveryMethod d = this.service.createDeliveryMethod("Moto menos 5kg", 250.0F, 0.01F, 999F);
         cal.set(Calendar.YEAR, 2020);
         cal.set(Calendar.MONTH, Calendar.MAY);
         cal.set(Calendar.DAY_OF_MONTH, 10);
@@ -259,10 +259,10 @@ public class TpPromocionApplicationTests {
         assertEquals("Calle 12 432",pur.getAddress());
         assertEquals(Float.valueOf(-54.45F),pur.getCoordX());
         assertEquals(Float.valueOf(-62.22F),pur.getCoordY());
-        DeliveryMethod d2 = this.service.createDeliveryMethod("Moto menos 1kg", 250.0F, 0.01F, 200F);
+        DeliveryMethod d2 = this.service.createDeliveryMethod("Moto menos 5kg", 250.0F, 0.01F, 200F);
         MLException ex = assertThrows(MLException.class, () -> this.service.createPurchase(pos,prod, 5, u, d2, dp,"Calle 12 432",Float.valueOf(-54.45F), Float.valueOf(-62.22F), dop));
         assertEquals("método de delivery no válido",ex.getMessage());
     }
-    
-    
+
+    */
 }
