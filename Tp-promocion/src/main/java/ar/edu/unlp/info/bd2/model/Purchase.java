@@ -7,6 +7,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import static org.springframework.data.elasticsearch.annotations.FieldType.Date;
+
 import java.util.Date;
 
 
@@ -34,6 +36,7 @@ public class Purchase {
 	
 	private Float coordY;
 	
+	@Field(type = Date)
 	private Date dateOfPurchase;
 	
 	private Float amount;

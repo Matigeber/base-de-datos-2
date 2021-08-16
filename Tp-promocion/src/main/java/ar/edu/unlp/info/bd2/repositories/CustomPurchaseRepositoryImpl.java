@@ -1,9 +1,12 @@
 package ar.edu.unlp.info.bd2.repositories;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+
 
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -21,6 +24,7 @@ public class CustomPurchaseRepositoryImpl implements CustomPurchaseRepository{
 	
 	@Inject
 	private ElasticsearchOperations template;
+	
 	
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount){
 		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
@@ -41,5 +45,21 @@ public class CustomPurchaseRepositoryImpl implements CustomPurchaseRepository{
 		List<Purchase> listUsers = searchHits.getSearchHits().stream().map(hit -> hit.getContent()).collect(Collectors.toList());
 		return listUsers;
 	}
+	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
+		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+		QueryBuilder purchasesInPeriod = QueryBuilders.boolQuery().must(QueryBuilders.rangeQuery("dateOfPurchase").gte(startDate).lte(endDate));
+		queryBuilder.withQuery(purchasesInPeriod);
+		NativeSearchQuery query = queryBuilder.build();
+		SearchHits<Purchase> purchasesHits = this.template.search(query, Purchase.class);
+		List<Purchase> listPurchase = purchasesHits.getSearchHits().stream().map(hit -> hit.getContent()).collect(Collectors.toList());
+		return listPurchase;
+	}
+	
+	
 
 }
+
+
+
+
+

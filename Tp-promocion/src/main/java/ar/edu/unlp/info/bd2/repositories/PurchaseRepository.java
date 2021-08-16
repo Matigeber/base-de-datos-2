@@ -1,5 +1,6 @@
 package ar.edu.unlp.info.bd2.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.elasticsearch.annotations.Query;
@@ -14,6 +15,6 @@ import ar.edu.unlp.info.bd2.model.User;
 public interface PurchaseRepository extends ElasticsearchRepository<Purchase, String>, CustomPurchaseRepository{ 
 	
 	List<Purchase> findByClient(User user);
-
+	
 	
 }

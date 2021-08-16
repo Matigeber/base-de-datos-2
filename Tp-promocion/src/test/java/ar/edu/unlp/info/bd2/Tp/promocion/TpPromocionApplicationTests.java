@@ -44,7 +44,7 @@ public class TpPromocionApplicationTests {
         this.service = this.getService();
     }
     
-/*
+
     @Test
     public void testCreateCategory() throws MLException {
         Category c = this.service.createCategory("Hogar");
@@ -264,5 +264,5 @@ public class TpPromocionApplicationTests {
         assertEquals("método de delivery no válido",ex.getMessage());
     }
 
-    */
+    
 }

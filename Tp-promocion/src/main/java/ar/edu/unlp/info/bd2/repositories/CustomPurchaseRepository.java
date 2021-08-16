@@ -1,5 +1,6 @@
 package ar.edu.unlp.info.bd2.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,7 @@ public interface CustomPurchaseRepository {
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount);
 	
 	public List<Purchase> getAllPurchasesMadeByUser(String username);
+	
+	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate);
+	
 }

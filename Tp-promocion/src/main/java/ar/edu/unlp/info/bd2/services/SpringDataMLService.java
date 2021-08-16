@@ -241,27 +241,15 @@ public class SpringDataMLService implements MLService{
 		return purchaseR.getUsersSpendingMoreThanInPurchase(amount); 
 	}
 	
-	/*
+	
 	@Override
 	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
-		//return purchaseR.getPurchasesInPeriod(startDate, endDate);
-		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
-		QueryBuilder purchasesInPeriod = QueryBuilders.boolQuery().must(QueryBuilders.rangeQuery("dateOfPurchase").gte(startDate).lte(endDate));
-		queryBuilder.withQuery(purchasesInPeriod);
-		NativeSearchQuery query = queryBuilder.build();
-		SearchHits<Purchase> purchasesHits = this.template.search(query, Purchase.class);
-		System.out.println("ROMPE ACA???????????????????????");
-		List<Purchase> listPurchase = purchasesHits.getSearchHits().stream().map(hit -> hit.getContent()).collect(Collectors.toList());
-		return listPurchase;
+		return purchaseR.getPurchasesInPeriod(startDate, endDate);
 		
 	}
 	
-	@Override
-	public List<User> getUsersSpendingMoreThan(Float amount) {
-		//return purchaseR.getUsersSpendingMoreThan(amount.doubleValue());
-		return null;
-	}
 
+	/*
 	@Override
 	public List<Provider> getTopNProvidersInPurchases(int n) {
 		Pageable p = PageRequest.of(0,n);
