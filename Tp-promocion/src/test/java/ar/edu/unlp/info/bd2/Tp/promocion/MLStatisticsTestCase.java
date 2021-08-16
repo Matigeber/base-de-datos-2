@@ -80,14 +80,14 @@ public class MLStatisticsTestCase {
     }
     
     
-    /*
+    
     @Test
     public void testGetUsersSpendingMoreThanInPurchase() {
         List<User> users = this.service.getUsersSpendingMoreThanInPurchase(Float.valueOf(920000F));
         assertEquals(3,users.size());
         this.assertListEquality(users.stream().map(property -> property.getEmail()).collect(Collectors.toList()),Arrays.asList("carlospascual402@hotmail.com","matiasgarca37@hotmail.com","maracalvo55@yahoo.com"));
     }
-    
+    /*
     @Test
     public void testGetUsersSpendingMoreThan() {
         List<User> users = this.service.getUsersSpendingMoreThan(Float.valueOf(1900000.00F));
@@ -124,6 +124,7 @@ public class MLStatisticsTestCase {
         this.assertListEquality(purchases.stream().map(property -> property.getAddress()).collect(Collectors.toList()),Arrays.asList("Calle 56 Nº1582","Calle 51 Nº399","Calle 44 Nº812","Calle 52 Nº816"));
     }
 
+    /*
     @Test
     public void testGetProductForCategory() throws MLException {
         Optional<Category> oc = this.service.getCategoryByName("Calderas");

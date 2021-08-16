@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -14,10 +15,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
 @Service
 @Transactional
@@ -46,16 +51,10 @@ public class SpringDataMLService implements MLService{
 	
 	@Inject
 	private ProductOnSaleRepository productOnSaleR;
+		
+	@Inject
+	private PurchaseRepository purchaseR;
 	
-	@Inject
-	private ElasticsearchOperations template;
-	/*
-	@Autowired
-	PaymentMethodRepository paymentMethodR;
-	@Autowired
-	*/
-	@Inject
-	PurchaseRepository purchaseR;
 
 	
 	private Date addOrSubtractDays (Date date, int days) {
@@ -227,22 +226,36 @@ public class SpringDataMLService implements MLService{
 	@Override
 	public List<Purchase> getAllPurchasesMadeByUser(String username) {
 		User u = userR.findByEmail(username);
-		System.out.println("busucando email " + u.getEmail());
 		if (u != null) {
-			System.out.println("ver compras" + purchaseR.findByClient(u));
-			return purchaseR.findByUser(u);
+			return purchaseR.getAllPurchasesMadeByUser(username);
 		}else {
 			System.out.println("User does not exist.");
 			return null;
 		}
+		
+		
 	}
-	/*
+	
 	@Override
 	public List<User> getUsersSpendingMoreThanInPurchase(Float amount) {
-		//return purchaseR.getUsersSpendingMoreThanInPurchase(amount);
-		return null;
+		return purchaseR.getUsersSpendingMoreThanInPurchase(amount); 
 	}
-
+	
+	/*
+	@Override
+	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
+		//return purchaseR.getPurchasesInPeriod(startDate, endDate);
+		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+		QueryBuilder purchasesInPeriod = QueryBuilders.boolQuery().must(QueryBuilders.rangeQuery("dateOfPurchase").gte(startDate).lte(endDate));
+		queryBuilder.withQuery(purchasesInPeriod);
+		NativeSearchQuery query = queryBuilder.build();
+		SearchHits<Purchase> purchasesHits = this.template.search(query, Purchase.class);
+		System.out.println("ROMPE ACA???????????????????????");
+		List<Purchase> listPurchase = purchasesHits.getSearchHits().stream().map(hit -> hit.getContent()).collect(Collectors.toList());
+		return listPurchase;
+		
+	}
+	
 	@Override
 	public List<User> getUsersSpendingMoreThan(Float amount) {
 		//return purchaseR.getUsersSpendingMoreThan(amount.doubleValue());
@@ -270,12 +283,6 @@ public class SpringDataMLService implements MLService{
 		return null;
 	}
 
-	@Override
-	public List<Purchase> getPurchasesInPeriod(Date startDate, Date endDate) {
-		//return purchaseR.getPurchasesInPeriod(startDate, endDate);
-		return null;
-		
-	}
 
 	@Override
 	public List<Product> getProductForCategory(Category category) {
