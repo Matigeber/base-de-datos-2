@@ -38,6 +38,7 @@ import javax.inject.Inject;
 @ContextConfiguration(
 		classes = {Config.class},
         loader = AnnotationConfigContextLoader.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
 public class MLStatisticsTestCase {
 
@@ -49,13 +50,16 @@ public class MLStatisticsTestCase {
     }
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
+    @BeforeAll
+    public void prepareDB() throws Exception {
+        DBInitializer initializer= new DBInitializer();
+        initializer.prepareDB(this.service);
+    }
 
     
-    @BeforeEach
     public void setUp() throws Exception {
     	this.service = this.getService();
-//    	DBInitializer initializer = new DBInitializer();
-//        initializer.prepareDB(this.getService());
     }
     
     

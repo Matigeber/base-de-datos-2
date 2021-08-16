@@ -1,28 +1,20 @@
 package ar.edu.unlp.info.bd2.services;
 import ar.edu.unlp.info.bd2.model.*;
 import ar.edu.unlp.info.bd2.repositories.*;
-import ar.edu.unlp.info.bd2.config.*;
+
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 import javax.inject.Inject;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+
 
 @Service
 @Transactional
@@ -249,126 +241,5 @@ public class SpringDataMLService implements MLService{
 	}
 	
 
-	/*
-	@Override
-	public List<Provider> getTopNProvidersInPurchases(int n) {
-		Pageable p = PageRequest.of(0,n);
-		//return purchaseR.getTopNProvidersInPurchases(p);
-		return null;
-	}
-
-	@Override
-	public List<Product> getTop3MoreExpensiveProducts() {
-		Pageable p = PageRequest.of(0,3);
-		//return productOnSaleR.getTop3MoreExpensiveProducts(p);
-		return null;
-	}
-
-	@Override
-	public List<User> getTopNUsersMorePurchase(int n) {
-		Pageable p = PageRequest.of(0,n);
-		//return userR.getTopNUsersMorePurchase(p);
-		return null;
-	}
-
-
-	@Override
-	public List<Product> getProductForCategory(Category category) {
-		//return productR.findByCategory(category);
-		return null;
-	}
-
-	@Override
-	public List<Purchase> getPurchasesForProvider(Long cuit) {
-		//return purchaseR.getPurchasesForProvider(cuit);
-		return null;
-	}
-
-	@Override
-	public Product getBestSellingProduct() {
-		Pageable p = PageRequest.of(0, 1);
-		//return productR.getBestSellingProduct(p).get(0);
-		return null;
-		
-	}
-
-	@Override
-	public List<Product> getProductsOnePrice() {
-		//return productR.getProductsOnePrice();
-		return null;
-	}
-
-	@Override
-	public List<Product> getProductWithMoreThan20percentDiferenceInPrice() {
-		//return productR.getProductWithMoreThan20percentDiferenceInPrice();
-		return null;
-	}
-
-	@Override
-	public Provider getProviderLessExpensiveProduct() {
-		Pageable p = PageRequest.of(0, 1);
-		//return providerR.getProviderLessExpensiveProduct(p).get(0);
-		return null;
-	}
-
-	@Override
-	public List<Provider> getProvidersDoNotSellOn(Date day) {
-		//return providerR.getProvidersDoNotSellOn(day);
-		return null;
-	}
-
-	@Override
-	public List<ProductOnSale> getSoldProductsOn(Date day) {
-		//return productOnSaleR.getSoldProductsOn(day);
-		return null;
-	}
-
-	@Override
-	public List<Product> getProductsNotSold() {
-		//return productR.getProductsNotSold();
-		return null;
-	}
-
-	@Override
-	public DeliveryMethod getMostUsedDeliveryMethod() {
-		Pageable p = PageRequest.of(0,1);
-		//return deliveryMethodR.getMostUsedDeliveryMethod(p).get(0);
-		return null;
-	}
-
-	@Override
-	public OnDeliveryPayment getMoreChangeOnDeliveryMethod() {
-		Pageable p = PageRequest.of(0, 1);
-		//return onDeliveryPaymentR.getMoreChangeOnDeliveryMethod(p).get(0);
-		return null;
-	}
-
-	@Override
-	public Product getHeaviestProduct() {
-		Pageable p = PageRequest.of(0,1);
-		//return productR.getHeaviestProduct(p).get(0);
-		return null;
-	}
-
-	@Override
-	public Category getCategoryWithLessProducts() {
-		Pageable p = PageRequest.of(0, 1);
-		//return categoryR.getCategoryWithLessProducts(p).get(0);
-		return null;
-	}
-	*/
 	
-	/*
-
-	
-
-*/
-
-/*
-
-
-
-
-
-	*/
 }
